@@ -7,15 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B96BB64F1B38D96600F1C3AE /* GammaController.m in Sources */ = {isa = PBXBuildFile; fileRef = B96BB64E1B38D96600F1C3AE /* GammaController.m */; };
+		B96BB6511B38DAF500F1C3AE /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B96BB6501B38DAF500F1C3AE /* Launch Screen.xib */; };
+		B96BB6541B38DDA500F1C3AE /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B96BB6531B38DDA500F1C3AE /* IOKit.framework */; };
+		B96BB6561B38DDB600F1C3AE /* IOMobileFramebuffer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B96BB6551B38DDB600F1C3AE /* IOMobileFramebuffer.framework */; };
 		B9E5364B1B38D90D0097BF90 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E5364A1B38D90D0097BF90 /* main.m */; };
 		B9E5364E1B38D90D0097BF90 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E5364D1B38D90D0097BF90 /* AppDelegate.m */; };
 		B9E536511B38D90D0097BF90 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E536501B38D90D0097BF90 /* ViewController.m */; };
 		B9E536541B38D90D0097BF90 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9E536521B38D90D0097BF90 /* Main.storyboard */; };
 		B9E536561B38D90D0097BF90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9E536551B38D90D0097BF90 /* Assets.xcassets */; };
-		B9E536591B38D90D0097BF90 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9E536571B38D90D0097BF90 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B96BB64D1B38D96600F1C3AE /* GammaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GammaController.h; sourceTree = "<group>"; };
+		B96BB64E1B38D96600F1C3AE /* GammaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GammaController.m; sourceTree = "<group>"; };
+		B96BB6501B38DAF500F1C3AE /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
+		B96BB6531B38DDA500F1C3AE /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
+		B96BB6551B38DDB600F1C3AE /* IOMobileFramebuffer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOMobileFramebuffer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/PrivateFrameworks/IOMobileFramebuffer.framework; sourceTree = DEVELOPER_DIR; };
 		B9E536461B38D90D0097BF90 /* GammaTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GammaTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9E5364A1B38D90D0097BF90 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B9E5364C1B38D90D0097BF90 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -24,8 +32,33 @@
 		B9E536501B38D90D0097BF90 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		B9E536531B38D90D0097BF90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B9E536551B38D90D0097BF90 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		B9E536581B38D90D0097BF90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B9E5365A1B38D90D0097BF90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B9E536621B38D92C0097BF90 /* IOHIDDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDDisplay.h; sourceTree = "<group>"; };
+		B9E536631B38D92C0097BF90 /* IOHIDEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDEvent.h; sourceTree = "<group>"; };
+		B9E536641B38D92C0097BF90 /* IOHIDEventData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDEventData.h; sourceTree = "<group>"; };
+		B9E536651B38D92C0097BF90 /* IOHIDEventQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDEventQueue.h; sourceTree = "<group>"; };
+		B9E536661B38D92C0097BF90 /* IOHIDEventSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDEventSystem.h; sourceTree = "<group>"; };
+		B9E536671B38D92C0097BF90 /* IOHIDEventSystemClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDEventSystemClient.h; sourceTree = "<group>"; };
+		B9E536681B38D92C0097BF90 /* IOHIDEventTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDEventTypes.h; sourceTree = "<group>"; };
+		B9E536691B38D92C0097BF90 /* IOHIDNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDNotification.h; sourceTree = "<group>"; };
+		B9E5366A1B38D92C0097BF90 /* IOHIDService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDService.h; sourceTree = "<group>"; };
+		B9E5366B1B38D92C0097BF90 /* IOHIDSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDSession.h; sourceTree = "<group>"; };
+		B9E5366C1B38D92C0097BF90 /* IOHIDUserDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDUserDevice.h; sourceTree = "<group>"; };
+		B9E5366D1B38D92C0097BF90 /* IOKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKit.h; sourceTree = "<group>"; };
+		B9E5366E1B38D92C0097BF90 /* IOKitKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKitKeys.h; sourceTree = "<group>"; };
+		B9E5366F1B38D92C0097BF90 /* IOKitLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKitLib.h; sourceTree = "<group>"; };
+		B9E536701B38D92C0097BF90 /* IOMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOMessage.h; sourceTree = "<group>"; };
+		B9E536711B38D92C0097BF90 /* IOReturn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOReturn.h; sourceTree = "<group>"; };
+		B9E536721B38D92C0097BF90 /* IOTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOTypes.h; sourceTree = "<group>"; };
+		B9E536731B38D92C0097BF90 /* OSKext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSKext.h; sourceTree = "<group>"; };
+		B9E536741B38D92C0097BF90 /* OSMessageNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSMessageNotification.h; sourceTree = "<group>"; };
+		B9E536761B38D92C0097BF90 /* IOPowerSources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOPowerSources.h; sourceTree = "<group>"; };
+		B9E536771B38D92C0097BF90 /* IOPSKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOPSKeys.h; sourceTree = "<group>"; };
+		B9E536781B38D92C0097BF90 /* IOUPSPlugIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOUPSPlugIn.h; sourceTree = "<group>"; };
+		B9E5367A1B38D92C0097BF90 /* IOPM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOPM.h; sourceTree = "<group>"; };
+		B9E5367B1B38D92C0097BF90 /* IOPMKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOPMKeys.h; sourceTree = "<group>"; };
+		B9E5367C1B38D92C0097BF90 /* IOPMLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOPMLib.h; sourceTree = "<group>"; };
+		B9E5367D1B38D92C0097BF90 /* IOPMLibDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOPMLibDefs.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,15 +66,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B96BB6541B38DDA500F1C3AE /* IOKit.framework in Frameworks */,
+				B96BB6561B38DDB600F1C3AE /* IOMobileFramebuffer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B96BB6571B38DE2700F1C3AE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B96BB6551B38DDB600F1C3AE /* IOMobileFramebuffer.framework */,
+				B96BB6531B38DDA500F1C3AE /* IOKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B9E5363D1B38D90D0097BF90 = {
 			isa = PBXGroup;
 			children = (
+				B96BB6571B38DE2700F1C3AE /* Frameworks */,
+				B9E536601B38D92C0097BF90 /* IOKit Headers */,
 				B9E536481B38D90D0097BF90 /* GammaTest */,
 				B9E536471B38D90D0097BF90 /* Products */,
 			);
@@ -62,9 +108,11 @@
 				B9E5364D1B38D90D0097BF90 /* AppDelegate.m */,
 				B9E5364F1B38D90D0097BF90 /* ViewController.h */,
 				B9E536501B38D90D0097BF90 /* ViewController.m */,
+				B96BB64D1B38D96600F1C3AE /* GammaController.h */,
+				B96BB64E1B38D96600F1C3AE /* GammaController.m */,
 				B9E536521B38D90D0097BF90 /* Main.storyboard */,
+				B96BB6501B38DAF500F1C3AE /* Launch Screen.xib */,
 				B9E536551B38D90D0097BF90 /* Assets.xcassets */,
-				B9E536571B38D90D0097BF90 /* LaunchScreen.storyboard */,
 				B9E5365A1B38D90D0097BF90 /* Info.plist */,
 				B9E536491B38D90D0097BF90 /* Supporting Files */,
 			);
@@ -77,6 +125,63 @@
 				B9E5364A1B38D90D0097BF90 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B9E536601B38D92C0097BF90 /* IOKit Headers */ = {
+			isa = PBXGroup;
+			children = (
+				B9E536611B38D92C0097BF90 /* hid */,
+				B9E5366D1B38D92C0097BF90 /* IOKit.h */,
+				B9E5366E1B38D92C0097BF90 /* IOKitKeys.h */,
+				B9E5366F1B38D92C0097BF90 /* IOKitLib.h */,
+				B9E536701B38D92C0097BF90 /* IOMessage.h */,
+				B9E536711B38D92C0097BF90 /* IOReturn.h */,
+				B9E536721B38D92C0097BF90 /* IOTypes.h */,
+				B9E536731B38D92C0097BF90 /* OSKext.h */,
+				B9E536741B38D92C0097BF90 /* OSMessageNotification.h */,
+				B9E536751B38D92C0097BF90 /* ps */,
+				B9E536791B38D92C0097BF90 /* pwr_mgt */,
+			);
+			path = "IOKit Headers";
+			sourceTree = "<group>";
+		};
+		B9E536611B38D92C0097BF90 /* hid */ = {
+			isa = PBXGroup;
+			children = (
+				B9E536621B38D92C0097BF90 /* IOHIDDisplay.h */,
+				B9E536631B38D92C0097BF90 /* IOHIDEvent.h */,
+				B9E536641B38D92C0097BF90 /* IOHIDEventData.h */,
+				B9E536651B38D92C0097BF90 /* IOHIDEventQueue.h */,
+				B9E536661B38D92C0097BF90 /* IOHIDEventSystem.h */,
+				B9E536671B38D92C0097BF90 /* IOHIDEventSystemClient.h */,
+				B9E536681B38D92C0097BF90 /* IOHIDEventTypes.h */,
+				B9E536691B38D92C0097BF90 /* IOHIDNotification.h */,
+				B9E5366A1B38D92C0097BF90 /* IOHIDService.h */,
+				B9E5366B1B38D92C0097BF90 /* IOHIDSession.h */,
+				B9E5366C1B38D92C0097BF90 /* IOHIDUserDevice.h */,
+			);
+			path = hid;
+			sourceTree = "<group>";
+		};
+		B9E536751B38D92C0097BF90 /* ps */ = {
+			isa = PBXGroup;
+			children = (
+				B9E536761B38D92C0097BF90 /* IOPowerSources.h */,
+				B9E536771B38D92C0097BF90 /* IOPSKeys.h */,
+				B9E536781B38D92C0097BF90 /* IOUPSPlugIn.h */,
+			);
+			path = ps;
+			sourceTree = "<group>";
+		};
+		B9E536791B38D92C0097BF90 /* pwr_mgt */ = {
+			isa = PBXGroup;
+			children = (
+				B9E5367A1B38D92C0097BF90 /* IOPM.h */,
+				B9E5367B1B38D92C0097BF90 /* IOPMKeys.h */,
+				B9E5367C1B38D92C0097BF90 /* IOPMLib.h */,
+				B9E5367D1B38D92C0097BF90 /* IOPMLibDefs.h */,
+			);
+			path = pwr_mgt;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -136,9 +241,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9E536591B38D90D0097BF90 /* LaunchScreen.storyboard in Resources */,
 				B9E536561B38D90D0097BF90 /* Assets.xcassets in Resources */,
 				B9E536541B38D90D0097BF90 /* Main.storyboard in Resources */,
+				B96BB6511B38DAF500F1C3AE /* Launch Screen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,6 +257,7 @@
 				B9E536511B38D90D0097BF90 /* ViewController.m in Sources */,
 				B9E5364E1B38D90D0097BF90 /* AppDelegate.m in Sources */,
 				B9E5364B1B38D90D0097BF90 /* main.m in Sources */,
+				B96BB64F1B38D96600F1C3AE /* GammaController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,14 +270,6 @@
 				B9E536531B38D90D0097BF90 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		B9E536571B38D90D0097BF90 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B9E536581B38D90D0097BF90 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -261,7 +359,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/PrivateFrameworks",
+				);
 				INFOPLIST_FILE = GammaTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.thomasfinch.GammaTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -272,7 +376,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/PrivateFrameworks",
+				);
 				INFOPLIST_FILE = GammaTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.thomasfinch.GammaTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -298,6 +408,7 @@
 				B9E5365F1B38D90D0097BF90 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
