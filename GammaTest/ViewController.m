@@ -8,6 +8,9 @@
 
 #import "ViewController.h"
 #import "GammaController.h"
+#import <dlfcn.h>
+
+void (*setColor)(float, float, float);
 
 @interface ViewController ()
 
@@ -35,11 +38,13 @@
 }
 
 - (void)setGamma {
-    [GammaController setGammaWithRed:1.0 green:0.78 blue:0.64];
+    //Keeping red at 1.0 and green at 2 * blue works pretty well
+    [GammaController setGammaWithRed:1.0 green:0.6 blue:0.3];
 }
 
 - (void)resetGamma {
-    [GammaController setGammaWithRed:1.0 green:1.0 blue:1.0];
+    //Idk why but 1.0, 1.0, 1.0 didn't work, this does
+    [GammaController setGammaWithRed:0.95 green:0.95 blue:0.95];
 }
 
 - (void)didReceiveMemoryWarning {

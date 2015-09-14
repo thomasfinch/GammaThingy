@@ -14,9 +14,21 @@
 		B9E5364B1B38D90D0097BF90 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E5364A1B38D90D0097BF90 /* main.m */; };
 		B9E5364E1B38D90D0097BF90 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E5364D1B38D90D0097BF90 /* AppDelegate.m */; };
 		B9E536511B38D90D0097BF90 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E536501B38D90D0097BF90 /* ViewController.m */; };
-		B9E536541B38D90D0097BF90 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9E536521B38D90D0097BF90 /* Main.storyboard */; };
 		B9E536561B38D90D0097BF90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9E536551B38D90D0097BF90 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B9B6D3161BA636DA00A8E999 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		B96BB64D1B38D96600F1C3AE /* GammaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GammaController.h; sourceTree = "<group>"; };
@@ -24,13 +36,13 @@
 		B96BB6501B38DAF500F1C3AE /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		B96BB6531B38DDA500F1C3AE /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
 		B96BB6551B38DDB600F1C3AE /* IOMobileFramebuffer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOMobileFramebuffer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/PrivateFrameworks/IOMobileFramebuffer.framework; sourceTree = DEVELOPER_DIR; };
+		B9B6D30A1BA636DA00A8E999 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		B9E536461B38D90D0097BF90 /* GammaTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GammaTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9E5364A1B38D90D0097BF90 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B9E5364C1B38D90D0097BF90 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B9E5364D1B38D90D0097BF90 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		B9E5364F1B38D90D0097BF90 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		B9E536501B38D90D0097BF90 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		B9E536531B38D90D0097BF90 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B9E536551B38D90D0097BF90 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B9E5365A1B38D90D0097BF90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B9E536621B38D92C0097BF90 /* IOHIDDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDDisplay.h; sourceTree = "<group>"; };
@@ -79,15 +91,15 @@
 			children = (
 				B96BB6551B38DDB600F1C3AE /* IOMobileFramebuffer.framework */,
 				B96BB6531B38DDA500F1C3AE /* IOKit.framework */,
+				B9B6D30A1BA636DA00A8E999 /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		B9E5363D1B38D90D0097BF90 = {
 			isa = PBXGroup;
 			children = (
-				B96BB6571B38DE2700F1C3AE /* Frameworks */,
-				B9E536601B38D92C0097BF90 /* IOKit Headers */,
 				B9E536481B38D90D0097BF90 /* GammaTest */,
 				B9E536471B38D90D0097BF90 /* Products */,
 			);
@@ -110,10 +122,10 @@
 				B9E536501B38D90D0097BF90 /* ViewController.m */,
 				B96BB64D1B38D96600F1C3AE /* GammaController.h */,
 				B96BB64E1B38D96600F1C3AE /* GammaController.m */,
-				B9E536521B38D90D0097BF90 /* Main.storyboard */,
 				B96BB6501B38DAF500F1C3AE /* Launch Screen.xib */,
 				B9E536551B38D90D0097BF90 /* Assets.xcassets */,
 				B9E5365A1B38D90D0097BF90 /* Info.plist */,
+				B9E536601B38D92C0097BF90 /* IOKit Headers */,
 				B9E536491B38D90D0097BF90 /* Supporting Files */,
 			);
 			path = GammaTest;
@@ -122,6 +134,7 @@
 		B9E536491B38D90D0097BF90 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B96BB6571B38DE2700F1C3AE /* Frameworks */,
 				B9E5364A1B38D90D0097BF90 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -142,7 +155,8 @@
 				B9E536751B38D92C0097BF90 /* ps */,
 				B9E536791B38D92C0097BF90 /* pwr_mgt */,
 			);
-			path = "IOKit Headers";
+			name = "IOKit Headers";
+			path = "../IOKit Headers";
 			sourceTree = "<group>";
 		};
 		B9E536611B38D92C0097BF90 /* hid */ = {
@@ -194,6 +208,7 @@
 				B9E536421B38D90D0097BF90 /* Sources */,
 				B9E536431B38D90D0097BF90 /* Frameworks */,
 				B9E536441B38D90D0097BF90 /* Resources */,
+				B9B6D3161BA636DA00A8E999 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -215,6 +230,7 @@
 				TargetAttributes = {
 					B9E536451B38D90D0097BF90 = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = 323K5AM3T4;
 					};
 				};
 			};
@@ -242,7 +258,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9E536561B38D90D0097BF90 /* Assets.xcassets in Resources */,
-				B9E536541B38D90D0097BF90 /* Main.storyboard in Resources */,
 				B96BB6511B38DAF500F1C3AE /* Launch Screen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,17 +277,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		B9E536521B38D90D0097BF90 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B9E536531B38D90D0097BF90 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B9E5365B1B38D90D0097BF90 /* Debug */ = {
@@ -311,7 +315,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -348,7 +352,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -358,34 +362,50 @@
 		B9E5365E1B38D90D0097BF90 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv7,
+					armv6,
+				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks",
 					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/PrivateFrameworks",
 				);
 				INFOPLIST_FILE = GammaTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.thomasfinch.GammaTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		B9E5365F1B38D90D0097BF90 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					armv7,
+					armv6,
+				);
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks",
 					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/PrivateFrameworks",
 				);
 				INFOPLIST_FILE = GammaTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.thomasfinch.GammaTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

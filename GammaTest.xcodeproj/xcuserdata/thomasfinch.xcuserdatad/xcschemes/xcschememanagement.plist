@@ -9,9 +9,19 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>GammaWidget.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>B9B6D3081BA636DA00A8E999</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>B9E536451B38D90D0097BF90</key>
 		<dict>
 			<key>primary</key>
