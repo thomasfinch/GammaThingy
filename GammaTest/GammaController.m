@@ -91,13 +91,9 @@ kern_return_t (*IOMobileFramebufferGetGammaTable)(IOMobileFramebufferRef, void *
     
     assert(service != 0);
     
-    NSLog(@"Have service: %d", service);
-    
     IOMobileFramebufferRef fb;
     error = IOMobileFramebufferOpen(service, selfPort, 0, &fb);
     assert(error == 0);
-    
-    NSLog(@"Have framebuffer: %@", fb);
     
     uint32_t data[0xc00 / sizeof(uint32_t)];
     memset(data, 0, sizeof(data));
@@ -143,7 +139,21 @@ kern_return_t (*IOMobileFramebufferGetGammaTable)(IOMobileFramebufferRef, void *
     
     error = IOMobileFramebufferSetGammaTable(fb, data);
     assert(error == 0);
+}
+
++ (void)setGammaWithOrangeness:(float)percentOrange {
+    if (percentOrange > 1 || percentOrange < 0)
+        return;
     
+    float red = 1.0;
+    float blue = 1 - percentOrange;
+    float green = (red + blue)/2.0;
+    
+    if (percentOrange == 0) {
+        red = blue = green = 0.95;
+    }
+    
+    [self setGammaWithRed:red green:green blue:blue];
 }
 
 @end

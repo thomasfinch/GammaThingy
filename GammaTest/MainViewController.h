@@ -8,10 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController {
-    void *fluxBinary;
-}
-
+@interface MainViewController : UITableViewController
 
 @end
 
