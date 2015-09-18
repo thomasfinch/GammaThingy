@@ -150,7 +150,7 @@ kern_return_t (*IOMobileFramebufferGetGammaTable)(IOMobileFramebufferRef, void *
     float green = (red + blue)/2.0;
     
     if (percentOrange == 0) {
-        red = blue = green = 0.95;
+        red = blue = green = 0.99;
     }
     
     [self setGammaWithRed:red green:green blue:blue];
