@@ -105,7 +105,7 @@ kern_return_t (*IOMobileFramebufferGetGammaTable)(IOMobileFramebufferRef, void *
     FILE *file = fopen([filePath UTF8String], "rb");
     
     if (file == NULL) {
-        IOMobileFramebufferGetGammaTable = dlsym(RTLD_DEFAULT, "IOMobileFramebufferGetGammaTable");
+        kern_return_t (*IOMobileFramebufferGetGammaTable)(IOMobileFramebufferRef, void *) = (kern_return_t (*)(IOMobileFramebufferRef, void *)) dlsym(RTLD_DEFAULT, "IOMobileFramebufferGetGammaTable");
         assert(IOMobileFramebufferGetGammaTable != NULL);
         error = IOMobileFramebufferGetGammaTable(fb, data);
         assert(error == 0);
