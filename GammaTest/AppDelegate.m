@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
+#import "GammaController.h"
 
 @interface AppDelegate ()
 
@@ -24,8 +25,24 @@
 }
 
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
+    NSLog(@"App woke with fetch request");
+    
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSHourCalendarUnit fromDate:[NSDate date]];
+    NSInteger turnOnHour = 20; //8 pm
+    NSInteger turnOffHour = 7; //7 am;
+    
+    NSLog(@"Current hour: %d", components.hour);
     
     completionHandler(UIBackgroundFetchResultNewData);
+    
+    if (components.hour >= turnOnHour || components.hour < turnOffHour) {
+        NSLog(@"Setting color orange");
+        [GammaController setGammaWithOrangeness:[[NSUserDefaults standardUserDefaults] floatForKey:@"maxOrange"]];
+    }
+    else {
+        NSLog(@"Setting color normal");
+        [GammaController setGammaWithOrangeness:0];
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
