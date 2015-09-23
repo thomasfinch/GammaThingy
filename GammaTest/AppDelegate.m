@@ -9,9 +9,22 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import "GammaController.h"
+#import <objc/runtime.h>
 
 @interface AppDelegate ()
 
+@end
+
+@interface UIApplication (Private)
+- (BOOL)isLocked;
+- (void)requestDeviceUnlock;
+- (BOOL)isSuspended;
+- (BOOL)isSuspendedUnderLock;
+@end
+
+@interface UIScreen (Private)
+- (id)_snapshotExcludingWindows:(id)arg1 withRect:(struct CGRect)arg2;
+- (id)snapshot;
 @end
 
 @implementation AppDelegate
@@ -24,8 +37,13 @@
     return YES;
 }
 
--(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
+- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
     NSLog(@"App woke with fetch request");
+    
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"colorChangingEnabled"]) {
+        completionHandler(UIBackgroundFetchResultNewData);
+        return;
+    }
     
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSHourCalendarUnit fromDate:[NSDate date]];
     NSInteger turnOnHour = 20; //8 pm
@@ -33,8 +51,9 @@
     
     NSLog(@"Current hour: %d", components.hour);
     
-    completionHandler(UIBackgroundFetchResultNewData);
-    
+    //Wakes up the screen so the gamma can be changed, not the best way to do this by any means
+    [application requestDeviceUnlock];
+
     if (components.hour >= turnOnHour || components.hour < turnOffHour) {
         NSLog(@"Setting color orange");
         [GammaController setGammaWithOrangeness:[[NSUserDefaults standardUserDefaults] floatForKey:@"maxOrange"]];
@@ -43,6 +62,8 @@
         NSLog(@"Setting color normal");
         [GammaController setGammaWithOrangeness:0];
     }
+    
+    completionHandler(UIBackgroundFetchResultNewData);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

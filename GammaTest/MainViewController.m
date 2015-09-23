@@ -12,6 +12,7 @@
 @interface MainViewController ()
 @property (weak, nonatomic) IBOutlet UISwitch *enabledSwitch;
 @property (weak, nonatomic) IBOutlet UISlider *orangeSlider;
+@property (weak, nonatomic) IBOutlet UISwitch *colorChangingEnabledSwitch;
 
 @end
 
@@ -19,18 +20,21 @@
 
 @synthesize enabledSwitch;
 @synthesize orangeSlider;
+@synthesize colorChangingEnabledSwitch;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{
         @"enabled": @NO,
-        @"maxOrange": [NSNumber numberWithFloat:0.7]
+        @"maxOrange": [NSNumber numberWithFloat:0.7],
+        @"colorChangingEnabled": @YES
     }];
 
     self.tableView.alwaysBounceVertical = NO;
+    //    enabledSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"enabled"];
     orangeSlider.value = [[NSUserDefaults standardUserDefaults] floatForKey:@"maxOrange"];
-//    enabledSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"enabled"];
+    colorChangingEnabledSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"colorChangingEnabled"];
 }
 
 - (IBAction)enabledSwitchChanged:(UISwitch *)sender {
@@ -39,7 +43,7 @@
     else
         [GammaController setGammaWithOrangeness:0];
     
-//    [[NSUserDefaults standardUserDefaults] setBool:on forKey:@"enabled"];
+//    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"enabled"];
 }
 
 - (IBAction)maxOrangeSliderChanged:(UISlider *)sender {
@@ -47,6 +51,11 @@
     
     if (enabledSwitch.on)
         [GammaController setGammaWithOrangeness:sender.value];
+}
+
+- (IBAction)colorChangingEnabledSwitchChanged:(UISwitch *)sender {
+    NSLog(@"color changing switch changed");
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"colorChangingEnabled"];
 }
 
 - (void)didReceiveMemoryWarning {
