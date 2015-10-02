@@ -36,7 +36,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define IOHID_SERVICE_H
 
 #include <CoreFoundation/CoreFoundation.h>
-#include <IOKit/IOKitLib.h>
+#include "IOKitLib.h"
 #include "IOHIDEvent.h"
 #include "IOHIDNotification.h"
 

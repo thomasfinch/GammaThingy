@@ -10,29 +10,30 @@
 #import "MainViewController.h"
 #import "GammaController.h"
 #import <objc/runtime.h>
+#import "IOKitLib.h"
 
 @interface AppDelegate ()
 
 @end
 
 @interface UIApplication (Private)
-- (BOOL)isLocked;
 - (void)requestDeviceUnlock;
-- (BOOL)isSuspended;
-- (BOOL)isSuspendedUnderLock;
-@end
-
-@interface UIScreen (Private)
-- (id)_snapshotExcludingWindows:(id)arg1 withRect:(struct CGRect)arg2;
-- (id)snapshot;
 @end
 
 @implementation AppDelegate
 
+extern mach_port_t SBSSpringBoardServerPort();
+extern void SBGetScreenLockStatus(mach_port_t port, BOOL *lockStatus, BOOL *passcodeEnabled);
+extern void SBLockDevice(mach_port_t port, BOOL locked);
+
+typedef void *IOMobileFramebufferRef;
+kern_return_t IOMobileFramebufferOpen(io_service_t, mach_port_t, void *, IOMobileFramebufferRef *);
+kern_return_t IOMobileFramebufferRequestPowerChange(IOMobileFramebufferRef, uint32_t value);
+kern_return_t IOMobileFramebufferSetBrightnessCorrection(mach_port_t, uint32_t correction);
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    [application setMinimumBackgroundFetchInterval:1800]; //Wake up every half hour at minimum
+    [application setMinimumBackgroundFetchInterval:900]; //Wake up every 15 minutes at minimum
     
     return YES;
 }
@@ -44,16 +45,21 @@
         completionHandler(UIBackgroundFetchResultNewData);
         return;
     }
-    
+
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSHourCalendarUnit fromDate:[NSDate date]];
-    NSInteger turnOnHour = 20; //8 pm
+    NSInteger turnOnHour = 19; //7 pm
     NSInteger turnOffHour = 7; //7 am;
     
     NSLog(@"Current hour: %d", components.hour);
     
-    //Wakes up the screen so the gamma can be changed, not the best way to do this by any means
-    [application requestDeviceUnlock];
-
+    //Wakes up the screen so the gamma can be changed, not the best way to do this really but it works
+    mach_port_t sbsMachPort = SBSSpringBoardServerPort();
+    BOOL isLocked, passcodeEnabled;
+    SBGetScreenLockStatus(sbsMachPort, &isLocked, &passcodeEnabled);
+    NSLog(@"Lock status: %d", isLocked);
+    if (isLocked)
+        [application requestDeviceUnlock];
+    
     if (components.hour >= turnOnHour || components.hour < turnOffHour) {
         NSLog(@"Setting color orange");
         [GammaController setGammaWithOrangeness:[[NSUserDefaults standardUserDefaults] floatForKey:@"maxOrange"]];

@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B92DD5F91BB33DD700DC6E8F /* BackBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B92DD5F81BB33DD700DC6E8F /* BackBoardServices.framework */; };
 		B96BB64F1B38D96600F1C3AE /* GammaController.m in Sources */ = {isa = PBXBuildFile; fileRef = B96BB64E1B38D96600F1C3AE /* GammaController.m */; };
 		B96BB6511B38DAF500F1C3AE /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B96BB6501B38DAF500F1C3AE /* Launch Screen.xib */; };
 		B96BB6541B38DDA500F1C3AE /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B96BB6531B38DDA500F1C3AE /* IOKit.framework */; };
 		B96BB6561B38DDB600F1C3AE /* IOMobileFramebuffer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B96BB6551B38DDB600F1C3AE /* IOMobileFramebuffer.framework */; };
 		B9B2BD3A1BA7B86000514B7A /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B2BD391BA7B86000514B7A /* Storyboard.storyboard */; settings = {ASSET_TAGS = (); }; };
+		B9DCA8881BBDF65900C449B0 /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9DCA8871BBDF65900C449B0 /* SpringBoardServices.framework */; };
 		B9E5364B1B38D90D0097BF90 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E5364A1B38D90D0097BF90 /* main.m */; };
 		B9E5364E1B38D90D0097BF90 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E5364D1B38D90D0097BF90 /* AppDelegate.m */; };
 		B9E536511B38D90D0097BF90 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E536501B38D90D0097BF90 /* MainViewController.m */; };
@@ -32,6 +34,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B92DD5F81BB33DD700DC6E8F /* BackBoardServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BackBoardServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/PrivateFrameworks/BackBoardServices.framework; sourceTree = DEVELOPER_DIR; };
 		B96BB64D1B38D96600F1C3AE /* GammaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GammaController.h; sourceTree = "<group>"; };
 		B96BB64E1B38D96600F1C3AE /* GammaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GammaController.m; sourceTree = "<group>"; };
 		B96BB6501B38DAF500F1C3AE /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
@@ -39,6 +42,7 @@
 		B96BB6551B38DDB600F1C3AE /* IOMobileFramebuffer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOMobileFramebuffer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/PrivateFrameworks/IOMobileFramebuffer.framework; sourceTree = DEVELOPER_DIR; };
 		B9B2BD391BA7B86000514B7A /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		B9B6D30A1BA636DA00A8E999 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		B9DCA8871BBDF65900C449B0 /* SpringBoardServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpringBoardServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/PrivateFrameworks/SpringBoardServices.framework; sourceTree = DEVELOPER_DIR; };
 		B9E536461B38D90D0097BF90 /* GammaTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GammaTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9E5364A1B38D90D0097BF90 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B9E5364C1B38D90D0097BF90 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -80,6 +84,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9DCA8881BBDF65900C449B0 /* SpringBoardServices.framework in Frameworks */,
+				B92DD5F91BB33DD700DC6E8F /* BackBoardServices.framework in Frameworks */,
 				B96BB6541B38DDA500F1C3AE /* IOKit.framework in Frameworks */,
 				B96BB6561B38DDB600F1C3AE /* IOMobileFramebuffer.framework in Frameworks */,
 			);
@@ -91,6 +97,8 @@
 		B96BB6571B38DE2700F1C3AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B9DCA8871BBDF65900C449B0 /* SpringBoardServices.framework */,
+				B92DD5F81BB33DD700DC6E8F /* BackBoardServices.framework */,
 				B96BB6551B38DDB600F1C3AE /* IOMobileFramebuffer.framework */,
 				B96BB6531B38DDA500F1C3AE /* IOKit.framework */,
 				B9B6D30A1BA636DA00A8E999 /* NotificationCenter.framework */,
