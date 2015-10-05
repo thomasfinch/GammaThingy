@@ -35,6 +35,14 @@ kern_return_t IOMobileFramebufferSetBrightnessCorrection(mach_port_t, uint32_t c
     
     [application setMinimumBackgroundFetchInterval:900]; //Wake up every 15 minutes at minimum
     
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{
+        @"enabled": @NO,
+        @"maxOrange": [NSNumber numberWithFloat:0.7],
+        @"colorChangingEnabled": @YES,
+        @"lastOnDate": [NSDate distantPast],
+        @"lastOffDate": [NSDate distantPast]
+    }];
+    
     return YES;
 }
 
@@ -47,29 +55,42 @@ kern_return_t IOMobileFramebufferSetBrightnessCorrection(mach_port_t, uint32_t c
     }
 
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSHourCalendarUnit fromDate:[NSDate date]];
-    NSInteger turnOnHour = 19; //7 pm
-    NSInteger turnOffHour = 7; //7 am;
+    const NSInteger turnOnHour = 19; //7 pm
+    const NSInteger turnOffHour = 7; //7 am
+    const NSInteger minCheckTimeHours = 12;
+    const NSTimeInterval minCheckTime = minCheckTimeHours * 60 * 60;
     
-    NSLog(@"Current hour: %d", components.hour);
+    NSLog(@"Current hour: %ld", (long)components.hour);
     
+    //Turns on or off the orange-ness
+    if (components.hour >= turnOnHour || components.hour < turnOffHour) {
+        if ([[NSDate date] timeIntervalSinceDate:[[NSUserDefaults standardUserDefaults] objectForKey:@"lastOnDate"]] >= minCheckTime) {
+            NSLog(@"Setting color orange");
+            [self wakeUpScreenIfNeeded];
+            [GammaController setGammaWithOrangeness:[[NSUserDefaults standardUserDefaults] floatForKey:@"maxOrange"]];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastOnDate"];
+        }
+    }
+    else {
+        if ([[NSDate date] timeIntervalSinceDate:[[NSUserDefaults standardUserDefaults] objectForKey:@"lastOnDate"]] >= minCheckTime) {
+            NSLog(@"Setting color normal");
+            [self wakeUpScreenIfNeeded];
+            [GammaController setGammaWithOrangeness:0];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastOffDate"];
+        }
+    }
+    
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+- (void)wakeUpScreenIfNeeded {
     //Wakes up the screen so the gamma can be changed, not the best way to do this really but it works
     mach_port_t sbsMachPort = SBSSpringBoardServerPort();
     BOOL isLocked, passcodeEnabled;
     SBGetScreenLockStatus(sbsMachPort, &isLocked, &passcodeEnabled);
     NSLog(@"Lock status: %d", isLocked);
     if (isLocked)
-        [application requestDeviceUnlock];
-    
-    if (components.hour >= turnOnHour || components.hour < turnOffHour) {
-        NSLog(@"Setting color orange");
-        [GammaController setGammaWithOrangeness:[[NSUserDefaults standardUserDefaults] floatForKey:@"maxOrange"]];
-    }
-    else {
-        NSLog(@"Setting color normal");
-        [GammaController setGammaWithOrangeness:0];
-    }
-    
-    completionHandler(UIBackgroundFetchResultNewData);
+        [[UIApplication sharedApplication] requestDeviceUnlock];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

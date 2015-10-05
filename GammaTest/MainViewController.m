@@ -24,12 +24,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-        @"enabled": @NO,
-        @"maxOrange": [NSNumber numberWithFloat:0.7],
-        @"colorChangingEnabled": @YES
-    }];
 
     self.tableView.alwaysBounceVertical = NO;
     //    enabledSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"enabled"];
