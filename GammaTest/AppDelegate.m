@@ -16,15 +16,12 @@
 
 @end
 
-@interface UIApplication (Private)
-- (void)requestDeviceUnlock;
-@end
-
 @implementation AppDelegate
 
 extern mach_port_t SBSSpringBoardServerPort();
 extern void SBGetScreenLockStatus(mach_port_t port, BOOL *lockStatus, BOOL *passcodeEnabled);
 extern void SBLockDevice(mach_port_t port, BOOL locked);
+extern void SBSUndimScreen();
 
 typedef void *IOMobileFramebufferRef;
 kern_return_t IOMobileFramebufferOpen(io_service_t, mach_port_t, void *, IOMobileFramebufferRef *);
@@ -90,7 +87,7 @@ kern_return_t IOMobileFramebufferSetBrightnessCorrection(mach_port_t, uint32_t c
     SBGetScreenLockStatus(sbsMachPort, &isLocked, &passcodeEnabled);
     NSLog(@"Lock status: %d", isLocked);
     if (isLocked)
-        [[UIApplication sharedApplication] requestDeviceUnlock];
+        SBSUndimScreen();
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
