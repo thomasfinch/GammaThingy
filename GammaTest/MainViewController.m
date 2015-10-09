@@ -26,7 +26,7 @@
     [super viewDidLoad];
 
     self.tableView.alwaysBounceVertical = NO;
-    //    enabledSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"enabled"];
+    enabledSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"enabled"];
     orangeSlider.value = [[NSUserDefaults standardUserDefaults] floatForKey:@"maxOrange"];
     colorChangingEnabledSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"colorChangingEnabled"];
 }
@@ -37,7 +37,7 @@
     else
         [GammaController setGammaWithOrangeness:0];
     
-//    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"enabled"];
+	[[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"enabled"];
 }
 
 - (IBAction)maxOrangeSliderChanged:(UISlider *)sender {

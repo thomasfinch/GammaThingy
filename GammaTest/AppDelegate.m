@@ -55,22 +55,26 @@ kern_return_t IOMobileFramebufferOpen(io_service_t, mach_port_t, void *, IOMobil
     const NSTimeInterval minCheckTime = minCheckTimeHours * 60 * 60;
     
     NSLog(@"Current hour: %ld", (long)components.hour);
+	
+	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     
     //Turns on or off the orange-ness
     if (components.hour >= turnOnHour || components.hour < turnOffHour) {
-        if ([[NSDate date] timeIntervalSinceDate:[[NSUserDefaults standardUserDefaults] objectForKey:@"lastOnDate"]] >= minCheckTime) {
+        if ([[NSDate date] timeIntervalSinceDate:[defaults objectForKey:@"lastOnDate"]] >= minCheckTime) {
             NSLog(@"Setting color orange");
             [self wakeUpScreenIfNeeded];
-            [GammaController setGammaWithOrangeness:[[NSUserDefaults standardUserDefaults] floatForKey:@"maxOrange"]];
-            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastOnDate"];
+            [GammaController setGammaWithOrangeness:[defaults floatForKey:@"maxOrange"]];
+            [defaults setObject:[NSDate date] forKey:@"lastOnDate"];
+			[defaults setBool:YES forKey:@"enabled"];
         }
     }
     else {
-        if ([[NSDate date] timeIntervalSinceDate:[[NSUserDefaults standardUserDefaults] objectForKey:@"lastOnDate"]] >= minCheckTime) {
+        if ([[NSDate date] timeIntervalSinceDate:[defaults objectForKey:@"lastOnDate"]] >= minCheckTime) {
             NSLog(@"Setting color normal");
             [self wakeUpScreenIfNeeded];
             [GammaController setGammaWithOrangeness:0];
-            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastOffDate"];
+			[defaults setObject:[NSDate date] forKey:@"lastOffDate"];
+			[defaults setBool:NO forKey:@"enabled"];
         }
     }
     
