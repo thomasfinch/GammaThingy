@@ -241,7 +241,7 @@
 				TargetAttributes = {
 					B9E536451B38D90D0097BF90 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = 45BADQ7L9R;
+						DevelopmentTeam = 323K5AM3T4;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -391,7 +391,7 @@
 				INFOPLIST_FILE = GammaTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = de.nautigg.me.thomasfinch.GammaTest;
+				PRODUCT_BUNDLE_IDENTIFIER = me.thomasfinch.GammaTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -413,7 +413,7 @@
 				INFOPLIST_FILE = GammaTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = de.nautigg.me.thomasfinch.GammaTest;
+				PRODUCT_BUNDLE_IDENTIFIER = me.thomasfinch.GammaTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
