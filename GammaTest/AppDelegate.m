@@ -18,13 +18,6 @@
 
 @implementation AppDelegate
 
-extern mach_port_t SBSSpringBoardServerPort();
-extern void SBGetScreenLockStatus(mach_port_t port, BOOL *lockStatus, BOOL *passcodeEnabled);
-extern void SBSUndimScreen();
-
-typedef void *IOMobileFramebufferRef;
-kern_return_t IOMobileFramebufferOpen(io_service_t, mach_port_t, void *, IOMobileFramebufferRef *);
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [application setMinimumBackgroundFetchInterval:900]; //Wake up every 15 minutes at minimum
@@ -34,7 +27,11 @@ kern_return_t IOMobileFramebufferOpen(io_service_t, mach_port_t, void *, IOMobil
         @"maxOrange": [NSNumber numberWithFloat:0.7],
         @"colorChangingEnabled": @YES,
         @"lastOnDate": [NSDate distantPast],
-        @"lastOffDate": [NSDate distantPast]
+        @"lastOffDate": [NSDate distantPast],
+        @"autoStartHour": @19,
+        @"autoStartMinute": @0,
+        @"autoEndHour": @7,
+        @"autoEndMinute": @0
     }];
     
     return YES;
@@ -42,15 +39,16 @@ kern_return_t IOMobileFramebufferOpen(io_service_t, mach_port_t, void *, IOMobil
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
     NSLog(@"App woke with fetch request");
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"colorChangingEnabled"]) {
+    if (![defaults boolForKey:@"colorChangingEnabled"]) {
         completionHandler(UIBackgroundFetchResultNewData);
         return;
     }
 
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSHourCalendarUnit fromDate:[NSDate date]];
-    const NSInteger turnOnHour = 19; //7 pm
-    const NSInteger turnOffHour = 7; //7 am
+    const NSInteger turnOnHour = [defaults integerForKey:@"autoStartHour"];
+    const NSInteger turnOffHour = [defaults integerForKey:@"autoEndHour"];
     const NSInteger minCheckTimeHours = 12;
     const NSTimeInterval minCheckTime = minCheckTimeHours * 60 * 60;
     
@@ -58,33 +56,19 @@ kern_return_t IOMobileFramebufferOpen(io_service_t, mach_port_t, void *, IOMobil
     
     //Turns on or off the orange-ness
     if (components.hour >= turnOnHour || components.hour < turnOffHour) {
-        if ([[NSDate date] timeIntervalSinceDate:[[NSUserDefaults standardUserDefaults] objectForKey:@"lastOnDate"]] >= minCheckTime) {
+        if ([[NSDate date] timeIntervalSinceDate:[defaults objectForKey:@"lastOnDate"]] >= minCheckTime) {
             NSLog(@"Setting color orange");
-            [self wakeUpScreenIfNeeded];
-            [GammaController setGammaWithOrangeness:[[NSUserDefaults standardUserDefaults] floatForKey:@"maxOrange"]];
-            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastOnDate"];
+            [GammaController enableOrangeness];
         }
     }
     else {
-        if ([[NSDate date] timeIntervalSinceDate:[[NSUserDefaults standardUserDefaults] objectForKey:@"lastOnDate"]] >= minCheckTime) {
+        if ([[NSDate date] timeIntervalSinceDate:[defaults objectForKey:@"lastOnDate"]] >= minCheckTime) {
             NSLog(@"Setting color normal");
-            [self wakeUpScreenIfNeeded];
-            [GammaController setGammaWithOrangeness:0];
-            [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"lastOffDate"];
+            [GammaController disableOrangeness];
         }
     }
     
     completionHandler(UIBackgroundFetchResultNewData);
-}
-
-- (void)wakeUpScreenIfNeeded {
-    //Wakes up the screen so the gamma can be changed
-    mach_port_t sbsMachPort = SBSSpringBoardServerPort();
-    BOOL isLocked, passcodeEnabled;
-    SBGetScreenLockStatus(sbsMachPort, &isLocked, &passcodeEnabled);
-    NSLog(@"Lock status: %d", isLocked);
-    if (isLocked)
-        SBSUndimScreen();
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

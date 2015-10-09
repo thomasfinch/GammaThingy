@@ -22,6 +22,10 @@ kern_return_t IOMobileFramebufferOpen(io_service_t, mach_port_t, void *, IOMobil
 kern_return_t IOMobileFramebufferSetGammaTable(IOMobileFramebufferRef, void *);
 kern_return_t (*IOMobileFramebufferGetGammaTable)(IOMobileFramebufferRef, void *);
 
+extern mach_port_t SBSSpringBoardServerPort();
+extern void SBGetScreenLockStatus(mach_port_t port, BOOL *lockStatus, BOOL *passcodeEnabled);
+extern void SBSUndimScreen();
+
 @implementation GammaController
 
 //This function is largely the same as the one in iomfsetgamma.c from Saurik's UIKitTools package. The license is pasted below.
@@ -156,6 +160,32 @@ kern_return_t (*IOMobileFramebufferGetGammaTable)(IOMobileFramebufferRef, void *
     }
     
     [self setGammaWithRed:red green:green blue:blue];
+}
+
++ (void)enableOrangeness {
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    [self wakeUpScreenIfNeeded];
+    [GammaController setGammaWithOrangeness:[defaults floatForKey:@"maxOrange"]];
+    [defaults setObject:[NSDate date] forKey:@"lastOnDate"];
+    [defaults setBool:YES forKey:@"enabled"];
+}
+
++ (void)disableOrangeness {
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    [self wakeUpScreenIfNeeded];
+    [GammaController setGammaWithOrangeness:0];
+    [defaults setObject:[NSDate date] forKey:@"lastOffDate"];
+    [defaults setBool:NO forKey:@"enabled"];
+}
+
++ (void)wakeUpScreenIfNeeded {
+    //Wakes up the screen so the gamma can be changed
+    mach_port_t sbsMachPort = SBSSpringBoardServerPort();
+    BOOL isLocked, passcodeEnabled;
+    SBGetScreenLockStatus(sbsMachPort, &isLocked, &passcodeEnabled);
+    NSLog(@"Lock status: %d", isLocked);
+    if (isLocked)
+        SBSUndimScreen();
 }
 
 @end
