@@ -26,16 +26,49 @@
 @synthesize startTimeTextField;
 @synthesize endTimeTextField;
 
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super initWithCoder:aDecoder]) {
+        timeFormatter = [[NSDateFormatter alloc] init];
+        timeFormatter.timeStyle = NSDateFormatterShortStyle;
+        timeFormatter.dateStyle = NSDateFormatterNoStyle;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    timeFormatter = [[NSDateFormatter alloc] init];
-    timeFormatter.timeStyle = NSDateFormatterShortStyle;
-    timeFormatter.dateStyle = NSDateFormatterNoStyle;
+    self.tableView.alwaysBounceVertical = NO;
     
+    timePicker = [[UIDatePicker alloc] init];
+    timePicker.datePickerMode = UIDatePickerModeTime;
+    timePicker.backgroundColor = [UIColor whiteColor];
+    [timePicker addTarget:self action:@selector(timePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
+    
+    endTimeTextField.inputView = timePicker;
+    startTimeTextField.inputView = timePicker;
+    
+    timePickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 0, 44)];
+    UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(toolbarDoneButtonClicked:)];
+    [timePickerToolbar setItems:@[doneButton]];
+    
+    endTimeTextField.inputAccessoryView = timePickerToolbar;
+    startTimeTextField.inputAccessoryView = timePickerToolbar;
+    
+    endTimeTextField.delegate = self;
+    startTimeTextField.delegate = self;
+    
+    [self updateUI];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userDefaultsChanged:)
+                                                 name:NSUserDefaultsDidChangeNotification
+                                               object:nil];
+}
+
+- (void)updateUI {
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     
-    self.tableView.alwaysBounceVertical = NO;
     enabledSwitch.on = [defaults boolForKey:@"enabled"];
     orangeSlider.value = [defaults floatForKey:@"maxOrange"];
     colorChangingEnabledSwitch.on = [defaults boolForKey:@"colorChangingEnabled"];
@@ -44,21 +77,6 @@
     startTimeTextField.text = [timeFormatter stringFromDate:date];
     date = [self dateForHour:[defaults integerForKey:@"autoEndHour"] andMinute:[defaults integerForKey:@"autoEndMinute"]];
     endTimeTextField.text = [timeFormatter stringFromDate:date];
-    
-    timePicker = [[UIDatePicker alloc] init];
-    timePicker.datePickerMode = UIDatePickerModeTime;
-    [timePicker addTarget:self action:@selector(timePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
-    endTimeTextField.inputView = timePicker;
-    startTimeTextField.inputView = timePicker;
-    
-    timePickerToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 0, 44)];
-    UIBarButtonItem* doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(toolbarDoneButtonClicked:)];
-    [timePickerToolbar setItems:@[doneButton]];
-    endTimeTextField.inputAccessoryView = timePickerToolbar;
-    startTimeTextField.inputAccessoryView = timePickerToolbar;
-    
-    endTimeTextField.delegate = self;
-    startTimeTextField.delegate = self;
 }
 
 - (IBAction)enabledSwitchChanged:(UISwitch *)sender {
@@ -80,6 +98,8 @@
 - (IBAction)colorChangingEnabledSwitchChanged:(UISwitch *)sender {
     NSLog(@"color changing switch changed");
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"colorChangingEnabled"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate distantPast] forKey:@"lastAutoChangeDate"];
+    [GammaController autoChangeOrangenessIfNeeded];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -116,6 +136,9 @@
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     [defaults setInteger:components.hour forKey:[defaultsKeyPrefix stringByAppendingString:@"Hour"]];
     [defaults setInteger:components.minute forKey:[defaultsKeyPrefix stringByAppendingString:@"Minute"]];
+    
+    [defaults setObject:[NSDate distantPast] forKey:@"lastAutoChangeDate"];
+    [GammaController autoChangeOrangenessIfNeeded];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
@@ -128,7 +151,7 @@
     } else {
         return;
     }
-    [(UIDatePicker*)textField.inputView setDate:date animated:YES];
+    [(UIDatePicker*)textField.inputView setDate:date animated:NO];
 }
 
 - (NSDate*)dateForHour:(NSInteger)hour andMinute:(NSInteger)minute{
@@ -138,9 +161,8 @@
     return [[NSCalendar currentCalendar] dateFromComponents:comps];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)userDefaultsChanged:(NSNotification *)notification {
+    [self updateUI];
 }
 
 @end
