@@ -84,11 +84,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 2 && indexPath.row == 1) { //Start time cell
-        NSLog(@"start time cell selected");
         [self.startTimeTextField becomeFirstResponder];
     }
     else if (indexPath.section == 2 && indexPath.row == 2) { //end time cell
-        NSLog(@"end time cell selected");
         [self.endTimeTextField becomeFirstResponder];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -113,7 +111,7 @@
     }
     
     NSDateComponents *components = [[NSCalendar currentCalendar] components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:picker.date];
-    currentField.text = [NSString stringWithFormat:@"%02ld:%02ld", (long)components.hour, (long)components.minute];
+    currentField.text = [timeFormatter stringFromDate:picker.date];
     
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     [defaults setInteger:components.hour forKey:[defaultsKeyPrefix stringByAppendingString:@"Hour"]];
