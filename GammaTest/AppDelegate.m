@@ -18,13 +18,6 @@
 
 @implementation AppDelegate
 
-extern mach_port_t SBSSpringBoardServerPort();
-extern void SBGetScreenLockStatus(mach_port_t port, BOOL *lockStatus, BOOL *passcodeEnabled);
-extern void SBSUndimScreen();
-
-typedef void *IOMobileFramebufferRef;
-kern_return_t IOMobileFramebufferOpen(io_service_t, mach_port_t, void *, IOMobileFramebufferRef *);
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [application setMinimumBackgroundFetchInterval:900]; //Wake up every 15 minutes at minimum
@@ -60,39 +53,22 @@ kern_return_t IOMobileFramebufferOpen(io_service_t, mach_port_t, void *, IOMobil
     const NSTimeInterval minCheckTime = minCheckTimeHours * 60 * 60;
     
     NSLog(@"Current hour: %ld", (long)components.hour);
-	
     
     //Turns on or off the orange-ness
     if (components.hour >= turnOnHour || components.hour < turnOffHour) {
         if ([[NSDate date] timeIntervalSinceDate:[defaults objectForKey:@"lastOnDate"]] >= minCheckTime) {
             NSLog(@"Setting color orange");
-            [self wakeUpScreenIfNeeded];
-            [GammaController setGammaWithOrangeness:[defaults floatForKey:@"maxOrange"]];
-            [defaults setObject:[NSDate date] forKey:@"lastOnDate"];
-			[defaults setBool:YES forKey:@"enabled"];
+			[GammaController enableOrangeness];
         }
     }
     else {
         if ([[NSDate date] timeIntervalSinceDate:[defaults objectForKey:@"lastOnDate"]] >= minCheckTime) {
             NSLog(@"Setting color normal");
-            [self wakeUpScreenIfNeeded];
-            [GammaController setGammaWithOrangeness:0];
-			[defaults setObject:[NSDate date] forKey:@"lastOffDate"];
-			[defaults setBool:NO forKey:@"enabled"];
+			[GammaController disableOrangeness];
         }
     }
     
     completionHandler(UIBackgroundFetchResultNewData);
-}
-
-- (void)wakeUpScreenIfNeeded {
-    //Wakes up the screen so the gamma can be changed
-    mach_port_t sbsMachPort = SBSSpringBoardServerPort();
-    BOOL isLocked, passcodeEnabled;
-    SBGetScreenLockStatus(sbsMachPort, &isLocked, &passcodeEnabled);
-    NSLog(@"Lock status: %d", isLocked);
-    if (isLocked)
-        SBSUndimScreen();
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
