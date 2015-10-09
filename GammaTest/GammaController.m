@@ -163,29 +163,29 @@ extern void SBSUndimScreen();
 }
 
 + (void)enableOrangeness {
-	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-	[self wakeUpScreenIfNeeded];
-	[GammaController setGammaWithOrangeness:[defaults floatForKey:@"maxOrange"]];
-	[defaults setObject:[NSDate date] forKey:@"lastOnDate"];
-	[defaults setBool:YES forKey:@"enabled"];
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    [self wakeUpScreenIfNeeded];
+    [GammaController setGammaWithOrangeness:[defaults floatForKey:@"maxOrange"]];
+    [defaults setObject:[NSDate date] forKey:@"lastOnDate"];
+    [defaults setBool:YES forKey:@"enabled"];
 }
 
 + (void)disableOrangeness {
-	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-	[self wakeUpScreenIfNeeded];
-	[GammaController setGammaWithOrangeness:0];
-	[defaults setObject:[NSDate date] forKey:@"lastOffDate"];
-	[defaults setBool:NO forKey:@"enabled"];
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    [self wakeUpScreenIfNeeded];
+    [GammaController setGammaWithOrangeness:0];
+    [defaults setObject:[NSDate date] forKey:@"lastOffDate"];
+    [defaults setBool:NO forKey:@"enabled"];
 }
 
 + (void)wakeUpScreenIfNeeded {
-	//Wakes up the screen so the gamma can be changed
-	mach_port_t sbsMachPort = SBSSpringBoardServerPort();
-	BOOL isLocked, passcodeEnabled;
-	SBGetScreenLockStatus(sbsMachPort, &isLocked, &passcodeEnabled);
-	NSLog(@"Lock status: %d", isLocked);
-	if (isLocked)
-		SBSUndimScreen();
+    //Wakes up the screen so the gamma can be changed
+    mach_port_t sbsMachPort = SBSSpringBoardServerPort();
+    BOOL isLocked, passcodeEnabled;
+    SBGetScreenLockStatus(sbsMachPort, &isLocked, &passcodeEnabled);
+    NSLog(@"Lock status: %d", isLocked);
+    if (isLocked)
+        SBSUndimScreen();
 }
 
 @end

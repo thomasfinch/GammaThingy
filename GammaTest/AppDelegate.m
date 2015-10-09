@@ -28,19 +28,19 @@
         @"colorChangingEnabled": @YES,
         @"lastOnDate": [NSDate distantPast],
         @"lastOffDate": [NSDate distantPast],
-		@"autoStartHour": @19,
-		@"autoStartMinute": @0,
-		@"autoEndHour": @7,
-		@"autoEndMinute": @0
+        @"autoStartHour": @19,
+        @"autoStartMinute": @0,
+        @"autoEndHour": @7,
+        @"autoEndMinute": @0
     }];
     
     return YES;
 }
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
-	NSLog(@"App woke with fetch request");
-	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-	
+    NSLog(@"App woke with fetch request");
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    
     if (![defaults boolForKey:@"colorChangingEnabled"]) {
         completionHandler(UIBackgroundFetchResultNewData);
         return;
@@ -48,7 +48,7 @@
 
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSHourCalendarUnit fromDate:[NSDate date]];
     const NSInteger turnOnHour = [defaults integerForKey:@"autoStartHour"];
-	const NSInteger turnOffHour = [defaults integerForKey:@"autoEndHour"];
+    const NSInteger turnOffHour = [defaults integerForKey:@"autoEndHour"];
     const NSInteger minCheckTimeHours = 12;
     const NSTimeInterval minCheckTime = minCheckTimeHours * 60 * 60;
     
@@ -58,13 +58,13 @@
     if (components.hour >= turnOnHour || components.hour < turnOffHour) {
         if ([[NSDate date] timeIntervalSinceDate:[defaults objectForKey:@"lastOnDate"]] >= minCheckTime) {
             NSLog(@"Setting color orange");
-			[GammaController enableOrangeness];
+            [GammaController enableOrangeness];
         }
     }
     else {
         if ([[NSDate date] timeIntervalSinceDate:[defaults objectForKey:@"lastOnDate"]] >= minCheckTime) {
             NSLog(@"Setting color normal");
-			[GammaController disableOrangeness];
+            [GammaController disableOrangeness];
         }
     }
     
