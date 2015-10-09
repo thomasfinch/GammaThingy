@@ -14,5 +14,6 @@
 + (void)setGammaWithOrangeness:(float)percentOrange;
 + (void)enableOrangeness;
 + (void)disableOrangeness;
++ (void)autoChangeOrangenessIfNeeded;
 
 @end
