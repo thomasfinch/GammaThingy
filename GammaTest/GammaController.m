@@ -194,32 +194,32 @@ extern void SBSUndimScreen();
     if (![defaults boolForKey:@"colorChangingEnabled"]) {
         return;
     }
-	
-	NSDateComponents *autoOnOffComponents = [[NSCalendar currentCalendar] components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:[NSDate date]];
-	
-	autoOnOffComponents.hour = [defaults integerForKey:@"autoStartHour"];
-	autoOnOffComponents.minute = [defaults integerForKey:@"autoStartMinute"];
-	NSDate* turnOnDateToday = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
-	
-	autoOnOffComponents.hour = [defaults integerForKey:@"autoEndHour"];
-	autoOnOffComponents.minute = [defaults integerForKey:@"autoEndMinute"];
-	NSDate *turnOffDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
-	
-	//If the "turn off" time is earlier than the "turn on" time, set the turnOffDate's day to tomorrow
-	if ([turnOffDate earlierDate:turnOnDateToday] == turnOffDate) {
-		NSLog(@"turnOffDate is earlier than turnOnDateToday, setting turnOffDate's day to tomorrow");
-		autoOnOffComponents.day = autoOnOffComponents.day+1;
-		turnOffDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
-	}
-	
+    
+    NSDateComponents *autoOnOffComponents = [[NSCalendar currentCalendar] components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:[NSDate date]];
+    
+    autoOnOffComponents.hour = [defaults integerForKey:@"autoStartHour"];
+    autoOnOffComponents.minute = [defaults integerForKey:@"autoStartMinute"];
+    NSDate* turnOnDateToday = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
+    
+    autoOnOffComponents.hour = [defaults integerForKey:@"autoEndHour"];
+    autoOnOffComponents.minute = [defaults integerForKey:@"autoEndMinute"];
+    NSDate *turnOffDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
+    
+    //If the "turn off" time is earlier than the "turn on" time, set the turnOffDate's day to tomorrow
+    if ([turnOffDate earlierDate:turnOnDateToday] == turnOffDate) {
+        NSLog(@"turnOffDate is earlier than turnOnDateToday, setting turnOffDate's day to tomorrow");
+        autoOnOffComponents.day = autoOnOffComponents.day+1;
+        turnOffDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
+    }
+    
     NSLog(@"Last auto-change date: %@", [defaults objectForKey:@"lastAutoChangeDate"]);
     
     //Turns on or off the orange-ness
     //Checks to make sure that the last auto-change was before the auto change time so it doesn't wake up the screen excessively
-	
-	//If the "turn on" date for today is in the past
-	//AND if the "turn off" date is in the future
-	//we're in the period the screen is supposed to be orange (whoa! crazy conclusions, ikr)
+    
+    //If the "turn on" date for today is in the past
+    //AND if the "turn off" date is in the future
+    //we're in the period the screen is supposed to be orange (whoa! crazy conclusions, ikr)
     if ([turnOnDateToday timeIntervalSinceNow] <= 0 && [turnOffDate timeIntervalSinceNow] > 0) {
         NSLog(@"We're in the orange interval, considering switch to orange");
         if ([turnOnDateToday timeIntervalSinceDate:[defaults objectForKey:@"lastAutoChangeDate"]] > 0) { //If the last auto-change date was before the turn on time today, then change colors
