@@ -26,6 +26,11 @@ extern mach_port_t SBSSpringBoardServerPort();
 extern void SBGetScreenLockStatus(mach_port_t port, BOOL *lockStatus, BOOL *passcodeEnabled);
 extern void SBSUndimScreen();
 
+@interface NSDate (e)
+- (BOOL)isEarlierThan:(NSDate*)b;
+- (BOOL)isLaterThan:(NSDate*)b;
+@end
+
 @implementation GammaController
 
 //This function is largely the same as the one in iomfsetgamma.c from Saurik's UIKitTools package. The license is pasted below.
@@ -194,23 +199,37 @@ extern void SBSUndimScreen();
     if (![defaults boolForKey:@"colorChangingEnabled"]) {
         return;
     }
-    
+	
+	NSDate* now = [NSDate date];
+	
     NSDateComponents *autoOnOffComponents = [[NSCalendar currentCalendar] components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:[NSDate date]];
     
     autoOnOffComponents.hour = [defaults integerForKey:@"autoStartHour"];
     autoOnOffComponents.minute = [defaults integerForKey:@"autoStartMinute"];
-    NSDate* turnOnDateToday = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
-    
-    autoOnOffComponents.hour = [defaults integerForKey:@"autoEndHour"];
-    autoOnOffComponents.minute = [defaults integerForKey:@"autoEndMinute"];
-    NSDate *turnOffDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
-    
-    //If the "turn off" time is earlier than the "turn on" time, set the turnOffDate's day to tomorrow
-    if ([turnOffDate earlierDate:turnOnDateToday] == turnOffDate) {
-        NSLog(@"turnOffDate is earlier than turnOnDateToday, setting turnOffDate's day to tomorrow");
-        autoOnOffComponents.day = autoOnOffComponents.day+1;
-        turnOffDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
-    }
+    NSDate* turnOnDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
+	
+	autoOnOffComponents.hour = [defaults integerForKey:@"autoEndHour"];
+	autoOnOffComponents.minute = [defaults integerForKey:@"autoEndMinute"];
+	NSDate *turnOffDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
+	
+	//special treatment for intervals wrapping around midnight needed
+	if ([turnOnDate isLaterThan:turnOffDate]) {
+		if ([now isEarlierThan:turnOnDate] && [now isEarlierThan:turnOffDate]) {
+			//Handles the case when we're in the early morning after midnight (before turnOffDate)
+			//__|______!__________I....................I________________|__//
+			//00:00   now    turnOffDate           turnOnDate         24:00//
+			//thus, we need to set the on date to yesterday to be able to correctly figure out stuff
+			autoOnOffComponents.day = autoOnOffComponents.day - 1;
+			turnOnDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
+		}else if ([turnOnDate isEarlierThan:now] && [turnOffDate isEarlierThan:now]) {
+			//Handles the case when we're in the night before midnight (after turnOnDate)
+			//__|_________________I....................I_________!______|__//
+			//00:00          turnOffDate           turnOnDate   now   24:00//
+			//thus, we need to set the off date to tomorrow to be able to correctly figure out stuff
+			autoOnOffComponents.day = autoOnOffComponents.day + 1;
+			turnOffDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
+		}
+	}
     
     NSLog(@"Last auto-change date: %@", [defaults objectForKey:@"lastAutoChangeDate"]);
     
@@ -219,16 +238,16 @@ extern void SBSUndimScreen();
     
     //If the "turn on" date for today is in the past
     //AND if the "turn off" date is in the future
-    //we're in the period the screen is supposed to be orange (whoa! crazy conclusions, ikr)
-    if ([turnOnDateToday timeIntervalSinceNow] <= 0 && [turnOffDate timeIntervalSinceNow] > 0) {
+    //we're in the period the screen is supposed to be orange (whoa! inhuman conclusions!)
+    if ([turnOnDate isEarlierThan:now] && [turnOffDate isLaterThan:now]) {
         NSLog(@"We're in the orange interval, considering switch to orange");
-        if ([turnOnDateToday timeIntervalSinceDate:[defaults objectForKey:@"lastAutoChangeDate"]] > 0) { //If the last auto-change date was before the turn on time today, then change colors
+        if ([turnOnDate isLaterThan:[defaults objectForKey:@"lastAutoChangeDate"]]) { //If the last auto-change date was before the turn on time today, then change colors
             NSLog(@"Setting color orange");
             [GammaController enableOrangeness];
         }
     } else {
         NSLog(@"Orange times have either passed or are not quite here just yet, considering switch to normal");
-        if ([turnOffDate timeIntervalSinceDate:[defaults objectForKey:@"lastAutoChangeDate"]] > 0) {
+        if ([turnOffDate isLaterThan:[defaults objectForKey:@"lastAutoChangeDate"]]) {
             NSLog(@"Setting color normal");
             [GammaController disableOrangeness];
         }
@@ -237,4 +256,15 @@ extern void SBSUndimScreen();
     [defaults setObject:[NSDate date] forKey:@"lastAutoChangeDate"];
 }
 
+@end
+
+
+@implementation NSDate (e)
+- (BOOL)isEarlierThan:(NSDate*)b{
+	return [self earlierDate:b] == self;
+}
+
+- (BOOL)isLaterThan:(NSDate*)b{
+	return [self laterDate:b] == self;
+}
 @end
