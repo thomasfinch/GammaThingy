@@ -26,12 +26,11 @@
         @"enabled": @NO,
         @"maxOrange": [NSNumber numberWithFloat:0.7],
         @"colorChangingEnabled": @YES,
-        @"lastOnDate": [NSDate distantPast],
-        @"lastOffDate": [NSDate distantPast],
+        @"lastAutoChangeDate": [NSDate distantPast],
         @"autoStartHour": @19,
         @"autoStartMinute": @0,
         @"autoEndHour": @7,
-        @"autoEndMinute": @0
+        @"autoEndMinute": @0,
     }];
     
     return YES;
@@ -46,27 +45,37 @@
         return;
     }
 
-    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSHourCalendarUnit fromDate:[NSDate date]];
+    NSDateComponents *curTimeComponents = [[NSCalendar currentCalendar] components:NSHourCalendarUnit fromDate:[NSDate date]];
     const NSInteger turnOnHour = [defaults integerForKey:@"autoStartHour"];
     const NSInteger turnOffHour = [defaults integerForKey:@"autoEndHour"];
-    const NSInteger minCheckTimeHours = 12;
-    const NSTimeInterval minCheckTime = minCheckTimeHours * 60 * 60;
+    NSDateComponents *autoOnOffComponents = [[NSCalendar currentCalendar] components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:[NSDate date]];
+    autoOnOffComponents.hour = turnOnHour;
+    const NSDate *turnOnDateToday = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
+    autoOnOffComponents.hour = turnOffHour;
+    const NSDate *turnOffDateToday = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
     
-    NSLog(@"Current hour: %ld", (long)components.hour);
+    NSLog(@"Current hour: %ld", (long)curTimeComponents.hour);
+    NSLog(@"Last auto-change date: %@", [defaults objectForKey:@"lastAutoChangeDate"]);
+    
+    //Want to change if last change date is before the turn on/off hour of today
     
     //Turns on or off the orange-ness
-    if (components.hour >= turnOnHour || components.hour < turnOffHour) {
-        if ([[NSDate date] timeIntervalSinceDate:[defaults objectForKey:@"lastOnDate"]] >= minCheckTime) {
+    //Checks to make sure that the last auto-change was before the auto change time so it doesn't wake up the screen excessively
+    //Doing stuff with dates is not fun
+    if (curTimeComponents.hour >= turnOnHour || curTimeComponents.hour < turnOffHour) {
+        if ([turnOnDateToday timeIntervalSinceDate:[defaults objectForKey:@"lastAutoChangeDate"]] > 0) { //If the last auto-change date was before the turn on time today, then change colors
             NSLog(@"Setting color orange");
             [GammaController enableOrangeness];
         }
     }
     else {
-        if ([[NSDate date] timeIntervalSinceDate:[defaults objectForKey:@"lastOnDate"]] >= minCheckTime) {
+        if ([turnOffDateToday timeIntervalSinceDate:[defaults objectForKey:@"lastAutoChangeDate"]] > 0) {
             NSLog(@"Setting color normal");
             [GammaController disableOrangeness];
         }
     }
+    
+    [defaults setObject:[NSDate date] forKey:@"lastAutoChangeDate"];
     
     completionHandler(UIBackgroundFetchResultNewData);
 }
