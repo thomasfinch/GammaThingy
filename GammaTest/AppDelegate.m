@@ -20,13 +20,10 @@
 
 extern mach_port_t SBSSpringBoardServerPort();
 extern void SBGetScreenLockStatus(mach_port_t port, BOOL *lockStatus, BOOL *passcodeEnabled);
-extern void SBLockDevice(mach_port_t port, BOOL locked);
 extern void SBSUndimScreen();
 
 typedef void *IOMobileFramebufferRef;
 kern_return_t IOMobileFramebufferOpen(io_service_t, mach_port_t, void *, IOMobileFramebufferRef *);
-kern_return_t IOMobileFramebufferRequestPowerChange(IOMobileFramebufferRef, uint32_t value);
-kern_return_t IOMobileFramebufferSetBrightnessCorrection(mach_port_t, uint32_t correction);
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
@@ -81,7 +78,7 @@ kern_return_t IOMobileFramebufferSetBrightnessCorrection(mach_port_t, uint32_t c
 }
 
 - (void)wakeUpScreenIfNeeded {
-    //Wakes up the screen so the gamma can be changed, not the best way to do this really but it works
+    //Wakes up the screen so the gamma can be changed
     mach_port_t sbsMachPort = SBSSpringBoardServerPort();
     BOOL isLocked, passcodeEnabled;
     SBGetScreenLockStatus(sbsMachPort, &isLocked, &passcodeEnabled);

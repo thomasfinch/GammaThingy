@@ -142,8 +142,10 @@ kern_return_t (*IOMobileFramebufferGetGammaTable)(IOMobileFramebufferRef, void *
 }
 
 + (void)setGammaWithOrangeness:(float)percentOrange {
-    if (percentOrange > 1 || percentOrange < 0)
-        return;
+    if (percentOrange > 1)
+        percentOrange = 1;
+    else if (percentOrange < 0)
+        percentOrange = 0;
     
     float red = 1.0;
     float blue = 1 - percentOrange;

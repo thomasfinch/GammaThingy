@@ -52,6 +52,15 @@
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"colorChangingEnabled"];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 2 && indexPath.row == 1) { //Start time cell
+        NSLog(@"start time cell selected");
+    }
+    else if (indexPath.section == 2 && indexPath.row == 2) { //end time cell
+        NSLog(@"end time cell selected");
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
