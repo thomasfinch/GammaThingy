@@ -12,10 +12,6 @@
 #import <objc/runtime.h>
 #import "IOKitLib.h"
 
-@interface AppDelegate ()
-
-@end
-
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -38,10 +34,10 @@
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
     NSLog(@"App woke with fetch request");
-    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     if (![defaults boolForKey:@"colorChangingEnabled"]) {
-        completionHandler(UIBackgroundFetchResultNewData);
+        completionHandler(UIBackgroundFetchResultNoData);
         return;
     }
 
