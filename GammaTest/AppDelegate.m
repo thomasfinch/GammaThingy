@@ -37,7 +37,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     if (![defaults boolForKey:@"colorChangingEnabled"]) {
-        completionHandler(UIBackgroundFetchResultNoData);
+        completionHandler(UIBackgroundFetchResultNewData);
         return;
     }
 
