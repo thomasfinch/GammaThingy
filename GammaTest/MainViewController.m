@@ -13,8 +13,11 @@
 @property (weak, nonatomic) IBOutlet UISwitch *enabledSwitch;
 @property (weak, nonatomic) IBOutlet UISlider *orangeSlider;
 @property (weak, nonatomic) IBOutlet UISwitch *colorChangingEnabledSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *colorChangingLocationBasedSwitch;
 @property (weak, nonatomic) IBOutlet UITextField *startTimeTextField;
 @property (weak, nonatomic) IBOutlet UITextField *endTimeTextField;
+
+@property CLLocationManager * locationManager;
 
 @end
 
@@ -23,6 +26,7 @@
 @synthesize enabledSwitch;
 @synthesize orangeSlider;
 @synthesize colorChangingEnabledSwitch;
+@synthesize colorChangingLocationBasedSwitch;
 @synthesize startTimeTextField;
 @synthesize endTimeTextField;
 
@@ -57,6 +61,8 @@
     endTimeTextField.inputAccessoryView = timePickerToolbar;
     startTimeTextField.inputAccessoryView = timePickerToolbar;
     
+    self.locationManager = [[CLLocationManager alloc] init];
+    
     endTimeTextField.delegate = self;
     startTimeTextField.delegate = self;
 }
@@ -79,7 +85,42 @@
 
 - (IBAction)colorChangingEnabledSwitchChanged:(UISwitch *)sender {
     NSLog(@"color changing switch changed");
-    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"colorChangingEnabled"];
+    
+    if(colorChangingLocationBasedSwitch.on) {
+        [colorChangingLocationBasedSwitch setOn:NO animated:YES];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingLocationEnabled"];
+        [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"colorChangingEnabled"];
+    }
+}
+
+- (IBAction)colorChangingLocationSwitchValueChanged:(UISwitch *)sender {
+    
+    if(colorChangingEnabledSwitch.on) {
+        BOOL requestedLocationAuthorization = NO;
+        if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
+            if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+                [self.locationManager requestAlwaysAuthorization];
+                requestedLocationAuthorization = YES;
+            }
+        }
+        
+        if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways) {
+            [colorChangingEnabledSwitch setOn:NO animated:YES];
+            [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"colorChangingLocationEnabled"];
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingEnabled"];
+        } else {
+            [sender setOn:NO animated:YES];
+            
+            if(!requestedLocationAuthorization) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No access to location"
+                                                                message:@"You must enable location services in settings."
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+        }
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

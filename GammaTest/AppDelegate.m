@@ -11,12 +11,16 @@
 #import "GammaController.h"
 #import <objc/runtime.h>
 #import "IOKitLib.h"
+#import <CoreLocation/CoreLocation.h>
+#import "solar.h"
 
 @interface AppDelegate ()
 
 @end
 
 @implementation AppDelegate
+
+CLLocationManager *locationManager;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
@@ -40,11 +44,44 @@
     NSLog(@"App woke with fetch request");
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     
-    if (![defaults boolForKey:@"colorChangingEnabled"]) {
+    if (![defaults boolForKey:@"colorChangingEnabled"] && ![defaults boolForKey:@"colorChangingLocationEnabled"]) {
         completionHandler(UIBackgroundFetchResultNewData);
         return;
     }
+    
+    if ([defaults boolForKey:@"colorChangingLocationEnabled"]) {
+        [self switchScreenTemperatureBasedOnLocation: defaults];
+    } else if ([defaults boolForKey:@"colorChangingEnabled"]){
+        [self switchScreenTemperatureBasedOnTime: defaults];
+    }
+    
+    completionHandler(UIBackgroundFetchResultNewData);
+}
 
+- (void)switchScreenTemperatureBasedOnLocation:(NSUserDefaults*)defaults {
+    if(locationManager == nil) {
+        locationManager = [[CLLocationManager alloc] init];
+        locationManager.distanceFilter = kCLDistanceFilterNone;
+        locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+    }
+    
+    [locationManager startUpdatingLocation];
+//    
+    float latitude = locationManager.location.coordinate.latitude;
+    float longitude = locationManager.location.coordinate.longitude;
+    
+    
+    double solarAngularElevation = solar_elevation([[NSDate date] timeIntervalSince1970], latitude, longitude);
+//
+//
+    printf("latitude %f\n", latitude);
+    printf("longitude %f\n", longitude);
+    printf("current date: %f\n", [[NSDate date] timeIntervalSince1970]);
+    printf("timeOfSolarElevation %f\n", solarAngularElevation);
+    
+}
+
+- (void)switchScreenTemperatureBasedOnTime:(NSUserDefaults*)defaults {
     NSDateComponents *curTimeComponents = [[NSCalendar currentCalendar] components:NSHourCalendarUnit fromDate:[NSDate date]];
     const NSInteger turnOnHour = [defaults integerForKey:@"autoStartHour"];
     const NSInteger turnOffHour = [defaults integerForKey:@"autoEndHour"];
@@ -76,8 +113,6 @@
     }
     
     [defaults setObject:[NSDate date] forKey:@"lastAutoChangeDate"];
-    
-    completionHandler(UIBackgroundFetchResultNewData);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
