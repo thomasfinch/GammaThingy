@@ -70,8 +70,6 @@ extern void SBSUndimScreen();
 /* }}} */
 
 + (void)setGammaWithRed:(float)red green:(float)green blue:(float)blue {
-    
-    
     unsigned rs = red * 0x100;
     assert(rs <= 0x100);
     
@@ -86,13 +84,16 @@ extern void SBSUndimScreen();
     
     io_service_t service = 0;
     
-    if (service == 0)
+    if (service == 0) {
         service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleCLCD"));
-    if (service == 0)
+    }
+    if (service == 0) {
         service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleH1CLCD"));
-    if (service == 0)
+    }
+    if (service == 0) {
         service = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleM2CLCD"));
-    
+    }
+
     assert(service != 0);
     
     IOMobileFramebufferRef fb;
@@ -184,8 +185,9 @@ extern void SBSUndimScreen();
     BOOL isLocked, passcodeEnabled;
     SBGetScreenLockStatus(sbsMachPort, &isLocked, &passcodeEnabled);
     NSLog(@"Lock status: %d", isLocked);
-    if (isLocked)
+    if (isLocked) {
         SBSUndimScreen();
+    }
 }
 
 @end

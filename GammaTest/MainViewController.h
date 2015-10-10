@@ -8,11 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainViewController : UITableViewController <UITextFieldDelegate> {
-    UIDatePicker *timePicker;
-    UIToolbar *timePickerToolbar;
-	NSDateFormatter *timeFormatter;
-}
+@interface MainViewController : UITableViewController
 
 @end
 
