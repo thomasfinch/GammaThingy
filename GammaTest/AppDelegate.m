@@ -42,6 +42,45 @@
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    NSDictionary *dict = [self parseQueryString:[url query]];
+    if ([[url host] isEqualToString:@"switch_orangeness"]) {
+        id temp = nil;
+        if ((temp = [dict objectForKey:@"enable"])) {
+            if ([temp boolValue]) {
+                //gammathingy://switch_orangeness?enable=1
+                [GammaController enableOrangeness];
+            } else {
+                //gammathingy://switch_orangeness?enable=0
+                [GammaController disableOrangeness];
+            }
+        } else {
+            //gammathingy://switch_orangeness
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"enabled"]) {
+                [GammaController disableOrangeness];
+            } else {
+                [GammaController enableOrangeness];
+            }
+        }
+    }
+    return YES;
+}
+
+- (NSDictionary *)parseQueryString:(NSString *)query {
+    //Found on http://www.idev101.com/code/Objective-C/custom_url_schemes.html
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:6];
+    NSArray *pairs = [query componentsSeparatedByString:@"&"];
+    
+    for (NSString *pair in pairs) {
+        NSArray *elements = [pair componentsSeparatedByString:@"="];
+        NSString *key = [[elements objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *val = [[elements objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        [dict setObject:val forKey:key];
+    }
+    return dict;
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
