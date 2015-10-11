@@ -28,6 +28,9 @@ extern void SBSUndimScreen();
 
 @implementation GammaController
 
+float dimCap = 0.85; //only allows you to dim to this percent to prevent completetely blacking out the screen
+
+
 //This function is largely the same as the one in iomfsetgamma.c from Saurik's UIKitTools package. The license is pasted below.
 
 /* UIKit Tools - command-line utilities for UIKit
@@ -162,10 +165,39 @@ extern void SBSUndimScreen();
     [self setGammaWithRed:red green:green blue:blue];
 }
 
++ (void)setGammaWithOrangenessAndDim:(float)percentOrange percentDim:(float)percentDim {
+    if (percentOrange > 1)
+        percentOrange = 1;
+    else if (percentOrange < 0)
+        percentOrange = 0;
+    
+    if (percentDim > 1)
+        percentDim = 1;
+    else if (percentDim < 0)
+        percentDim = 0;
+    percentDim = 1-percentDim * dimCap;
+    
+//    float red = 0.3;
+//    float blue = 0.3;
+//    float green = 0.3;
+    
+    float red = (1.0);
+    float blue = (1 - percentOrange);
+    float green = (red + blue)/2.0*percentDim;
+    red *= percentDim;
+    blue *= percentDim;
+    
+    if (percentOrange == 0) {
+        red = blue = green = 0.99*percentDim;
+    }
+    
+    [self setGammaWithRed:red green:green blue:blue];
+}
+
 + (void)enableOrangeness {
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     [self wakeUpScreenIfNeeded];
-    [GammaController setGammaWithOrangeness:[defaults floatForKey:@"maxOrange"]];
+    [GammaController setGammaWithOrangenessAndDim:[defaults floatForKey:@"maxOrange"] percentDim:[defaults floatForKey:@"dim"]];
     [defaults setObject:[NSDate date] forKey:@"lastOnDate"];
     [defaults setBool:YES forKey:@"enabled"];
 }
