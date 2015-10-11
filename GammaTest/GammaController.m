@@ -168,6 +168,7 @@ extern void SBSUndimScreen();
     [GammaController setGammaWithOrangeness:[defaults floatForKey:@"maxOrange"]];
     [defaults setObject:[NSDate date] forKey:@"lastOnDate"];
     [defaults setBool:YES forKey:@"enabled"];
+    [defaults synchronize];
 }
 
 + (void)disableOrangeness {
@@ -176,6 +177,7 @@ extern void SBSUndimScreen();
     [GammaController setGammaWithOrangeness:0];
     [defaults setObject:[NSDate date] forKey:@"lastOffDate"];
     [defaults setBool:NO forKey:@"enabled"];
+    [defaults synchronize];
 }
 
 + (void)wakeUpScreenIfNeeded {
@@ -186,6 +188,11 @@ extern void SBSUndimScreen();
     NSLog(@"Lock status: %d", isLocked);
     if (isLocked)
         SBSUndimScreen();
+}
+
++ (BOOL)enabled {
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults boolForKey:@"enabled"];
 }
 
 @end
