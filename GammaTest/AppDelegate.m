@@ -16,6 +16,12 @@ typedef NS_ENUM(NSInteger, GammaAction) {
     GammaActionDisable
 };
 
+@interface UIApplication ()
+
+-(void)suspend;
+
+@end
+
 @interface AppDelegate ()
 
 @property (nonatomic, assign) GammaAction action;
@@ -27,11 +33,6 @@ static NSString * const ShortcutEnable = @"Enable";
 static NSString * const ShortcutDisable = @"Disable";
 
 @implementation AppDelegate
-
-- (void)suspend {
-    UIApplication *app = [UIApplication sharedApplication];
-    [app performSelector:@selector(suspend)];
-}
 
 - (BOOL)handleShortcutItem:(UIApplicationShortcutItem *)shortcutItem {
     if ([shortcutItem.type isEqualToString:ShortcutType]) {
@@ -138,20 +139,20 @@ static NSString * const ShortcutDisable = @"Disable";
             [GammaController enableOrangeness];
             self.action = GammaActionNone;
             [self updateShortCutItem];
-            [self suspend];
+            [[UIApplication sharedApplication] suspend];
             break;
             
         case GammaActionDisable:
             [GammaController disableOrangeness];
             self.action = GammaActionNone;
             [self updateShortCutItem];
-            [self suspend];
+            [[UIApplication sharedApplication] suspend];
             break;
             
         default:
+            [GammaController autoChangeOrangenessIfNeeded];
             break;
     }
-    [GammaController autoChangeOrangenessIfNeeded];
 }
 
 - (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
