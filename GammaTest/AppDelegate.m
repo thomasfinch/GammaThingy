@@ -9,8 +9,6 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import "GammaController.h"
-#import <objc/runtime.h>
-#import "IOKitLib.h"
 
 typedef NS_ENUM(NSInteger, GammaAction) {
     GammaActionNone,
