@@ -33,6 +33,9 @@
         @"autoStartMinute": @0,
         @"autoEndHour": @7,
         @"autoEndMinute": @0,
+        @"colorChangingLocationLatitude": @0,
+        @"colorChangingLocationLongitude": @0,
+        @"colorChangingLocationEnabled": @NO
     }];
     
     return YES;

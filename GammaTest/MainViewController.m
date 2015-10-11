@@ -8,6 +8,7 @@
 
 #import "MainViewController.h"
 #import "GammaController.h"
+#import "BackgroundFetchController.h"
 
 @interface MainViewController ()
 @property (weak, nonatomic) IBOutlet UISwitch *enabledSwitch;
@@ -130,6 +131,7 @@
         // Only one auto temperature change can be activated
         if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
             [colorChangingEnabledSwitch setOn:NO animated:YES];
+            [BackgroundFetchController switchScreenTemperatureBasedOnLocation: [NSUserDefaults standardUserDefaults]];
             
             for(UITableViewCell *cell in timeBasedInputCells) 
                 [[cell contentView] setAlpha: .6];
