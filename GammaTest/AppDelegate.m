@@ -12,11 +12,52 @@
 #import <objc/runtime.h>
 #import "IOKitLib.h"
 
+typedef NS_ENUM(NSInteger, GammaAction) {
+    GammaActionNone,
+    GammaActionEnable,
+    GammaActionDisable
+};
+
 @interface AppDelegate ()
+
+@property (nonatomic, assign) GammaAction action;
 
 @end
 
+static NSString * const ShortcutType = @"ShortcutTypeToggleEnable";
+static NSString * const ShortcutEnable = @"Enable";
+static NSString * const ShortcutDisable = @"Disable";
+
 @implementation AppDelegate
+
+- (void)suspend {
+    UIApplication *app = [UIApplication sharedApplication];
+    [app performSelector:@selector(suspend)];
+}
+
+- (BOOL)handleShortcutItem:(UIApplicationShortcutItem *)shortcutItem {
+    if ([shortcutItem.type isEqualToString:ShortcutType]) {
+        if ([GammaController enabled]) {
+            self.action = GammaActionDisable;
+        } else {
+            self.action = GammaActionEnable;
+        }
+        return YES;
+    }
+    return NO;
+}
+
+- (UIApplicationShortcutItem *)shortcutItemForCurrentState {
+    NSString *title = [GammaController enabled] ? ShortcutDisable : ShortcutEnable;
+    UIMutableApplicationShortcutItem *shortcut = [[UIMutableApplicationShortcutItem alloc] initWithType:ShortcutType localizedTitle:title localizedSubtitle:nil icon:nil userInfo:nil];
+    return shortcut;
+}
+
+- (void)updateShortCutItem {
+    UIApplication *application = [UIApplication sharedApplication];
+    UIApplicationShortcutItem *shortcut = [self shortcutItemForCurrentState];
+    application.shortcutItems = @[shortcut];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [application setMinimumBackgroundFetchInterval:900]; //Wake up every 15 minutes at minimum
@@ -31,6 +72,10 @@
         @"autoEndHour": @7,
         @"autoEndMinute": @0,
     }];
+    
+    if (!application.shortcutItems.count) {
+        [self updateShortCutItem];
+    }
     
     return YES;
 }
@@ -108,6 +153,33 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    // Calling enableOrangeness/disableOrangeness in -application:performActionForShortcutItem:... causes the app to crash, don't know why..
+    switch (self.action) {
+        case GammaActionEnable:
+            [GammaController enableOrangeness];
+            self.action = GammaActionNone;
+            [self updateShortCutItem];
+            [self suspend];
+            break;
+            
+        case GammaActionDisable:
+            [GammaController disableOrangeness];
+            self.action = GammaActionNone;
+            [self updateShortCutItem];
+            [self suspend];
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
+    BOOL handledShortCutItem = [self handleShortcutItem:shortcutItem];
+    completionHandler(handledShortCutItem);
 }
 
 @end

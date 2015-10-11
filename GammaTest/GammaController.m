@@ -176,6 +176,7 @@ extern void SBSUndimScreen();
     [GammaController setGammaWithOrangeness:[defaults floatForKey:@"maxOrange"]];
     [defaults setObject:[NSDate date] forKey:@"lastAutoChangeDate"];
     [defaults setBool:YES forKey:@"enabled"];
+    [defaults synchronize];
 }
 
 + (void)disableOrangeness {
@@ -184,6 +185,7 @@ extern void SBSUndimScreen();
     [GammaController setGammaWithOrangeness:0];
     [defaults setObject:[NSDate date] forKey:@"lastAutoChangeDate"];
     [defaults setBool:NO forKey:@"enabled"];
+    [defaults synchronize];
 }
 
 + (void)wakeUpScreenIfNeeded {
