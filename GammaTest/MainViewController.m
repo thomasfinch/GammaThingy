@@ -86,8 +86,10 @@
 - (IBAction)colorChangingEnabledSwitchChanged:(UISwitch *)sender {
     NSLog(@"color changing switch changed");
     
-    if(colorChangingLocationBasedSwitch.on) {
-        [colorChangingLocationBasedSwitch setOn:NO animated:YES];
+    if(sender.on) {
+        if (colorChangingLocationBasedSwitch.on) {
+            [colorChangingLocationBasedSwitch setOn:NO animated:YES];
+        }
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingLocationEnabled"];
         [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"colorChangingEnabled"];
     }
@@ -95,32 +97,41 @@
 
 - (IBAction)colorChangingLocationSwitchValueChanged:(UISwitch *)sender {
     
-    if(colorChangingEnabledSwitch.on) {
+    if(sender.on) {
         BOOL requestedLocationAuthorization = NO;
+
         if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
             if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
-                [self.locationManager requestAlwaysAuthorization];
+                [self.locationManager requestWhenInUseAuthorization];
+                
                 requestedLocationAuthorization = YES;
             }
         }
+        // Search for location
+        [self.locationManager startUpdatingLocation];
         
-        if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways) {
+        // Update the user location everytime this is switched on
+        // This is only here, instead of in every background refresh, in order to prolong battery life.
+        CGFloat latitude = self.locationManager.location.coordinate.latitude;
+        CGFloat longitude = self.locationManager.location.coordinate.longitude;
+        [[NSUserDefaults standardUserDefaults] setFloat:latitude forKey:@"colorChangingLocationLatitude"];
+        [[NSUserDefaults standardUserDefaults] setFloat:longitude forKey:@"colorChangingLocationLongitude"];
+        
+        if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
             [colorChangingEnabledSwitch setOn:NO animated:YES];
             [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"colorChangingLocationEnabled"];
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingEnabled"];
-        } else {
-            [sender setOn:NO animated:YES];
-            
-            if(!requestedLocationAuthorization) {
+        } else if(!requestedLocationAuthorization) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No access to location"
                                                                 message:@"You must enable location services in settings."
                                                                delegate:nil
                                                       cancelButtonTitle:@"OK"
                                                       otherButtonTitles:nil];
                 [alert show];
-            }
+                [sender setOn:NO animated:YES];
         }
     }
+    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

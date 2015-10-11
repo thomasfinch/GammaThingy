@@ -13,6 +13,7 @@
 #import "IOKitLib.h"
 #import <CoreLocation/CoreLocation.h>
 #import "solar.h"
+#import "brightness.h"
 
 @interface AppDelegate ()
 
@@ -65,21 +66,24 @@ CLLocationManager *locationManager;
         locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
     }
     
-    [locationManager startUpdatingLocation];
-//    
-    float latitude = locationManager.location.coordinate.latitude;
-    float longitude = locationManager.location.coordinate.longitude;
-    
+    CGFloat latitude = [defaults floatForKey:@"colorChangingLocationLatitude"];
+    CGFloat longitude = [defaults floatForKey:@"colorChangingLocationLongitude"];
     
     double solarAngularElevation = solar_elevation([[NSDate date] timeIntervalSince1970], latitude, longitude);
-//
-//
-    printf("latitude %f\n", latitude);
-    printf("longitude %f\n", longitude);
+    
+    printf("latitude: %f\n", latitude);
+    printf("longitude: %f\n", longitude);
     printf("current date: %f\n", [[NSDate date] timeIntervalSince1970]);
-    printf("timeOfSolarElevation %f\n", solarAngularElevation);
+    printf("solarAngularElevation %f\n", solarAngularElevation);
+    
+    CGFloat maxOrangePercentage = [defaults floatForKey:@"maxOrange"] * 100;
+    CGFloat orangeness = 1 - (calculate_interpolated_value(solarAngularElevation, 100, maxOrangePercentage) / 100);
+    printf("orangeness %f\n", orangeness);
+
+    [GammaController setGammaWithOrangeness: orangeness];
     
 }
+
 
 - (void)switchScreenTemperatureBasedOnTime:(NSUserDefaults*)defaults {
     NSDateComponents *curTimeComponents = [[NSCalendar currentCalendar] components:NSHourCalendarUnit fromDate:[NSDate date]];
