@@ -20,11 +20,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    [application setMinimumBackgroundFetchInterval:900]; //Wake up every 15 minutes at minimum
+    [application setMinimumBackgroundFetchInterval:30]; //Wake up every 15 minutes at minimum
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{
         @"enabled": @NO,
         @"maxOrange": @0.7,
+        @"dim": @0,
         @"colorChangingEnabled": @YES,
         @"lastAutoChangeDate": [NSDate distantPast],
         @"autoStartHour": @19,
