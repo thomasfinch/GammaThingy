@@ -113,13 +113,13 @@
     NSDateComponents *components = [[NSCalendar currentCalendar] components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:picker.date];
     currentField.text = [timeFormatter stringFromDate:picker.date];
     
-    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setInteger:components.hour forKey:[defaultsKeyPrefix stringByAppendingString:@"Hour"]];
     [defaults setInteger:components.minute forKey:[defaultsKeyPrefix stringByAppendingString:@"Minute"]];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    NSUserDefaults* defaults = [[NSUserDefaults alloc] init];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDate *date = nil;
     if (textField == startTimeTextField) {
         date = [self dateForHour:[defaults integerForKey:@"autoStartHour"] andMinute:[defaults integerForKey:@"autoStartMinute"]];
@@ -136,11 +136,6 @@
     comps.hour = hour;
     comps.minute = minute;
     return [[NSCalendar currentCalendar] dateFromComponents:comps];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end
