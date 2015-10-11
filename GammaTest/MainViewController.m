@@ -43,6 +43,7 @@
     enabledSwitch.on = [defaults boolForKey:@"enabled"];
     orangeSlider.value = [defaults floatForKey:@"maxOrange"];
     colorChangingEnabledSwitch.on = [defaults boolForKey:@"colorChangingEnabled"];
+    colorChangingLocationBasedSwitch.on = [defaults boolForKey:@"colorChangingLocationEnabled"];
     
     NSDate *date = [self dateForHour:[defaults integerForKey:@"autoStartHour"] andMinute:[defaults integerForKey:@"autoStartMinute"]];
     startTimeTextField.text = [timeFormatter stringFromDate:date];
@@ -87,6 +88,7 @@
     NSLog(@"color changing switch changed");
     
     if(sender.on) {
+        // Only one auto temperature change can be activated
         if (colorChangingLocationBasedSwitch.on) {
             [colorChangingLocationBasedSwitch setOn:NO animated:YES];
         }
@@ -117,6 +119,7 @@
         [[NSUserDefaults standardUserDefaults] setFloat:latitude forKey:@"colorChangingLocationLatitude"];
         [[NSUserDefaults standardUserDefaults] setFloat:longitude forKey:@"colorChangingLocationLongitude"];
         
+        // Only one auto temperature change can be activated
         if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
             [colorChangingEnabledSwitch setOn:NO animated:YES];
             [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"colorChangingLocationEnabled"];
