@@ -7,10 +7,11 @@
 //
 
 #import "AppDelegate.h"
-#import "MainViewController.h"
 #import "GammaController.h"
-#import <objc/runtime.h>
-#import "IOKitLib.h"
+
+@interface UIApplication ()
+- (void)suspend;
+@end
 
 @interface AppDelegate ()
 
@@ -22,15 +23,15 @@
     [application setMinimumBackgroundFetchInterval:900]; //Wake up every 15 minutes at minimum
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-        @"enabled": @NO,
-        @"maxOrange": [NSNumber numberWithFloat:0.7],
-        @"colorChangingEnabled": @YES,
-        @"lastAutoChangeDate": [NSDate distantPast],
-        @"autoStartHour": @19,
-        @"autoStartMinute": @0,
-        @"autoEndHour": @7,
-        @"autoEndMinute": @0,
-    }];
+                                                              @"enabled": @NO,
+                                                              @"maxOrange": [NSNumber numberWithFloat:0.7],
+                                                              @"colorChangingEnabled": @YES,
+                                                              @"lastAutoChangeDate": [NSDate distantPast],
+                                                              @"autoStartHour": @19,
+                                                              @"autoStartMinute": @0,
+                                                              @"autoEndHour": @7,
+                                                              @"autoEndMinute": @0,
+                                                              }];
     
     return YES;
 }
@@ -90,6 +91,25 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [GammaController autoChangeOrangenessIfNeeded];
+}
+
+- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
+    BOOL itemHandled = NO;
+    NSString* type = shortcutItem.type;
+    
+    if ([type rangeOfString:[[NSBundle mainBundle] bundleIdentifier]].location != NSNotFound) {
+        if ([type rangeOfString:@".enable_orangeness"].location != NSNotFound) {
+            [GammaController enableOrangeness];
+            itemHandled = YES;
+        } else if ([type rangeOfString:@".disable_orangeness"].location != NSNotFound) {
+            [GammaController disableOrangeness];
+            itemHandled = YES;
+        }
+    }
+    
+    completionHandler(itemHandled);
+    
+    [[UIApplication sharedApplication] suspend];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
