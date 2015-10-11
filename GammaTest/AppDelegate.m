@@ -70,7 +70,7 @@
         NSURL *sourceURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://", source]];
         [[UIApplication sharedApplication] openURL:sourceURL];
     }
-    return NO;
+    return YES;
 }
 
 - (NSDictionary *)parseQueryString:(NSString *)query {
