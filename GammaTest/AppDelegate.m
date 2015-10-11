@@ -41,20 +41,21 @@
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
+    NSLog(@"handling url");
     NSDictionary *dict = [self parseQueryString:[url query]];
-    if ([[url host] isEqualToString:@"switch_orangeness"]) {
-        id temp = nil;
-        if ((temp = [dict objectForKey:@"enable"])) {
-            if ([temp boolValue]) {
-                //gammathingy://switch_orangeness?enable=1
+    if ([[url host] isEqualToString:@"orangeness"] && [[url path] isEqualToString:@"/switch"]) {
+        id enable = nil;
+        if ((enable = [dict objectForKey:@"enable"])) {
+            if ([enable boolValue]) {
+                //gammathingy://orangeness/switch?enable=1
                 [GammaController enableOrangeness];
             } else {
-                //gammathingy://switch_orangeness?enable=0
+                //gammathingy://orangeness/switch?enable=0
                 [GammaController disableOrangeness];
             }
         } else {
-            //gammathingy://switch_orangeness
+            //gammathingy://orangeness/switch
             if ([[NSUserDefaults standardUserDefaults] boolForKey:@"enabled"]) {
                 [GammaController disableOrangeness];
             } else {
@@ -62,7 +63,14 @@
             }
         }
     }
-    return YES;
+    NSString *source = [dict objectForKey:@"x-source"];
+    if (source) {
+        //gammathingy://orangeness/switch?x-source=prefs
+        //always switching back to source app if it's provided
+        NSURL *sourceURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://", source]];
+        [[UIApplication sharedApplication] openURL:sourceURL];
+    }
+    return NO;
 }
 
 - (NSDictionary *)parseQueryString:(NSString *)query {
