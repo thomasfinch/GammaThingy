@@ -15,5 +15,6 @@
 + (void)enableOrangeness;
 + (void)disableOrangeness;
 + (void)autoChangeOrangenessIfNeeded;
++ (BOOL)enabled;
 
 @end

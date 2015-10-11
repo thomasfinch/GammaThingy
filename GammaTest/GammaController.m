@@ -260,6 +260,11 @@ extern void SBSUndimScreen();
     
     [defaults setObject:[NSDate date] forKey:@"lastAutoChangeDate"];
 }
+	
++ (BOOL)enabled {
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults boolForKey:@"enabled"];
+}
 
 @end
 
