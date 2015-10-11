@@ -29,7 +29,7 @@
     printf("solarAngularElevation %f\n", solarAngularElevation);
     
     float maxOrangePercentage = [defaults floatForKey:@"maxOrange"] * 100;
-    float orangeness = 1 - (calculate_interpolated_value(solarAngularElevation, 100, maxOrangePercentage) / 100);
+    float orangeness = (calculate_interpolated_value(solarAngularElevation, 100, maxOrangePercentage) / 100);
     printf("orangeness %f\n", orangeness);
     
     [GammaController setGammaWithOrangeness: orangeness];
