@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *colorChangingLocationBasedSwitch;
 @property (weak, nonatomic) IBOutlet UITextField *startTimeTextField;
 @property (weak, nonatomic) IBOutlet UITextField *endTimeTextField;
+@property (strong, nonatomic) IBOutletCollection(UITableViewCell) NSArray *timeBasedInputCells;
 
 @property CLLocationManager * locationManager;
 
@@ -29,6 +30,7 @@
 @synthesize colorChangingLocationBasedSwitch;
 @synthesize startTimeTextField;
 @synthesize endTimeTextField;
+@synthesize timeBasedInputCells;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -63,6 +65,9 @@
     startTimeTextField.inputAccessoryView = timePickerToolbar;
     
     self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    self.locationManager.distanceFilter = kCLDistanceFilterNone;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
     
     endTimeTextField.delegate = self;
     startTimeTextField.delegate = self;
@@ -92,6 +97,9 @@
         if (colorChangingLocationBasedSwitch.on) {
             [colorChangingLocationBasedSwitch setOn:NO animated:YES];
         }
+        // Make the time fields full opacity.
+        for(UITableViewCell *cell in timeBasedInputCells)
+            [[cell contentView] setAlpha: 1];
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingLocationEnabled"];
         [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"colorChangingEnabled"];
     }
@@ -105,8 +113,8 @@
         if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
             if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
                 [self.locationManager requestWhenInUseAuthorization];
-                
-                requestedLocationAuthorization = YES;
+                // Let the location manager delegate take it from here.
+                return;
             }
         }
         // Search for location
@@ -122,20 +130,36 @@
         // Only one auto temperature change can be activated
         if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
             [colorChangingEnabledSwitch setOn:NO animated:YES];
+            
+            for(UITableViewCell *cell in timeBasedInputCells) 
+                [[cell contentView] setAlpha: .6];
+            
             [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"colorChangingLocationEnabled"];
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingEnabled"];
         } else if(!requestedLocationAuthorization) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No access to location"
-                                                                message:@"You must enable location services in settings."
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"OK"
-                                                      otherButtonTitles:nil];
-                [alert show];
-                [sender setOn:NO animated:YES];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No access to location"
+                                                            message:@"You must enable location services in settings."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            [sender setOn:NO animated:YES];
         }
     }
     
 }
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    if (status == kCLAuthorizationStatusDenied) {
+        [colorChangingLocationBasedSwitch setOn:NO animated:YES];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingLocationEnabled"];
+    } else if (status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        // revaluate the UISwitch status
+        [self colorChangingLocationSwitchValueChanged: colorChangingLocationBasedSwitch];
+    }
+}
+
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 2 && indexPath.row == 1) { //Start time cell

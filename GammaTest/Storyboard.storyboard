@@ -265,6 +265,8 @@
                         <outlet property="endTimeTextField" destination="Jf8-p3-7EZ" id="Uah-71-Kpk"/>
                         <outlet property="orangeSlider" destination="5MF-0c-fvX" id="QnL-pJ-jaJ"/>
                         <outlet property="startTimeTextField" destination="vom-iW-Ik8" id="vZ1-MA-yMA"/>
+                        <outletCollection property="timeBasedInputCells" destination="N2R-yZ-Fb9" id="bjd-S8-Sxt"/>
+                        <outletCollection property="timeBasedInputCells" destination="DS7-wR-Dzo" id="6gr-SL-2N7"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bkc-zf-EOu" userLabel="First Responder" sceneMemberID="firstResponder"/>

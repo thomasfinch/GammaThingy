@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface MainViewController : UITableViewController <UITextFieldDelegate> {
+@interface MainViewController : UITableViewController <UITextFieldDelegate, CLLocationManagerDelegate> {
     UIDatePicker *timePicker;
     UIToolbar *timePickerToolbar;
 	NSDateFormatter *timeFormatter;
