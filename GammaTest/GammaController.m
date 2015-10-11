@@ -103,8 +103,11 @@ extern void SBSUndimScreen();
     IOMobileFramebufferRef fb;
     error = IOMobileFramebufferOpen(service, selfPort, 0, &fb);
     assert(error == 0);
-    
+#ifdef __arm64__
+    uint32_t data[0xc0c / sizeof(uint32_t)];
+#else
     uint32_t data[0xc00 / sizeof(uint32_t)];
+#endif
     memset(data, 0, sizeof(data));
     
     //Create the path string pointing to the temporary gamma table file
@@ -199,37 +202,37 @@ extern void SBSUndimScreen();
     if (![defaults boolForKey:@"colorChangingEnabled"]) {
         return;
     }
-	
-	NSDate* now = [NSDate date];
-	
+    
+    NSDate* now = [NSDate date];
+    
     NSDateComponents *autoOnOffComponents = [[NSCalendar currentCalendar] components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:[NSDate date]];
     
     autoOnOffComponents.hour = [defaults integerForKey:@"autoStartHour"];
     autoOnOffComponents.minute = [defaults integerForKey:@"autoStartMinute"];
     NSDate* turnOnDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
-	
-	autoOnOffComponents.hour = [defaults integerForKey:@"autoEndHour"];
-	autoOnOffComponents.minute = [defaults integerForKey:@"autoEndMinute"];
-	NSDate *turnOffDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
-	
-	//special treatment for intervals wrapping around midnight needed
-	if ([turnOnDate isLaterThan:turnOffDate]) {
-		if ([now isEarlierThan:turnOnDate] && [now isEarlierThan:turnOffDate]) {
-			//Handles the case when we're in the early morning after midnight (before turnOffDate)
-			//__|______!__________I....................I________________|__//
-			//00:00   now    turnOffDate           turnOnDate         24:00//
-			//thus, we need to set the on date to yesterday to be able to correctly figure out stuff
-			autoOnOffComponents.day = autoOnOffComponents.day - 1;
-			turnOnDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
-		}else if ([turnOnDate isEarlierThan:now] && [turnOffDate isEarlierThan:now]) {
-			//Handles the case when we're in the night before midnight (after turnOnDate)
-			//__|_________________I....................I_________!______|__//
-			//00:00          turnOffDate           turnOnDate   now   24:00//
-			//thus, we need to set the off date to tomorrow to be able to correctly figure out stuff
-			autoOnOffComponents.day = autoOnOffComponents.day + 1;
-			turnOffDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
-		}
-	}
+    
+    autoOnOffComponents.hour = [defaults integerForKey:@"autoEndHour"];
+    autoOnOffComponents.minute = [defaults integerForKey:@"autoEndMinute"];
+    NSDate *turnOffDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
+    
+    //special treatment for intervals wrapping around midnight needed
+    if ([turnOnDate isLaterThan:turnOffDate]) {
+        if ([now isEarlierThan:turnOnDate] && [now isEarlierThan:turnOffDate]) {
+            //Handles the case when we're in the early morning after midnight (before turnOffDate)
+            //__|______!__________I....................I________________|__//
+            //00:00   now    turnOffDate           turnOnDate         24:00//
+            //thus, we need to set the on date to yesterday to be able to correctly figure out stuff
+            autoOnOffComponents.day = autoOnOffComponents.day - 1;
+            turnOnDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
+        }else if ([turnOnDate isEarlierThan:now] && [turnOffDate isEarlierThan:now]) {
+            //Handles the case when we're in the night before midnight (after turnOnDate)
+            //__|_________________I....................I_________!______|__//
+            //00:00          turnOffDate           turnOnDate   now   24:00//
+            //thus, we need to set the off date to tomorrow to be able to correctly figure out stuff
+            autoOnOffComponents.day = autoOnOffComponents.day + 1;
+            turnOffDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
+        }
+    }
     
     NSLog(@"Last auto-change date: %@", [defaults objectForKey:@"lastAutoChangeDate"]);
     
@@ -261,10 +264,10 @@ extern void SBSUndimScreen();
 
 @implementation NSDate (e)
 - (BOOL)isEarlierThan:(NSDate*)b{
-	return [self earlierDate:b] == self;
+    return [self earlierDate:b] == self;
 }
 
 - (BOOL)isLaterThan:(NSDate*)b{
-	return [self laterDate:b] == self;
+    return [self laterDate:b] == self;
 }
 @end
