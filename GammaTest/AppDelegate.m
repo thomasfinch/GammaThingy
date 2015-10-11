@@ -25,7 +25,6 @@
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{
         @"enabled": @NO,
         @"maxOrange": @0.7,
-        @"dim": @0,
         @"colorChangingEnabled": @YES,
         @"lastAutoChangeDate": [NSDate distantPast],
         @"autoStartHour": @19,

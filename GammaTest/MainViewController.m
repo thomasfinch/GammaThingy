@@ -15,7 +15,6 @@
 @property (weak, nonatomic) IBOutlet UISwitch *colorChangingEnabledSwitch;
 @property (weak, nonatomic) IBOutlet UITextField *startTimeTextField;
 @property (weak, nonatomic) IBOutlet UITextField *endTimeTextField;
-@property (weak, nonatomic) IBOutlet UISlider *dimSlider;
 
 @end
 
@@ -23,13 +22,9 @@
 
 @synthesize enabledSwitch;
 @synthesize orangeSlider;
-@synthesize dimSlider;
 @synthesize colorChangingEnabledSwitch;
 @synthesize startTimeTextField;
 @synthesize endTimeTextField;
-
-float orange;
-float dim;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -43,9 +38,6 @@ float dim;
     self.tableView.alwaysBounceVertical = NO;
     enabledSwitch.on = [defaults boolForKey:@"enabled"];
     orangeSlider.value = [defaults floatForKey:@"maxOrange"];
-    dimSlider.value = [defaults floatForKey:@"dim"];
-    orange = [defaults floatForKey:@"maxOrange"];
-    dim = [defaults floatForKey:@"dim"];
     colorChangingEnabledSwitch.on = [defaults boolForKey:@"colorChangingEnabled"];
     
     NSDate *date = [self dateForHour:[defaults integerForKey:@"autoStartHour"] andMinute:[defaults integerForKey:@"autoStartMinute"]];
@@ -71,27 +63,18 @@ float dim;
 
 - (IBAction)enabledSwitchChanged:(UISwitch *)sender {
     if (sender.on)
-        [GammaController setGammaWithOrangenessAndDim:[[NSUserDefaults standardUserDefaults] floatForKey:@"maxOrange"] percentDim:[[NSUserDefaults standardUserDefaults] floatForKey:@"dim"]];
+        [GammaController setGammaWithOrangeness:[[NSUserDefaults standardUserDefaults] floatForKey:@"maxOrange"]];
     else
         [GammaController setGammaWithOrangeness:0];
     
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"enabled"];
 }
 
-
 - (IBAction)maxOrangeSliderChanged:(UISlider *)sender {
     [[NSUserDefaults standardUserDefaults] setFloat:sender.value forKey:@"maxOrange"];
-    orange = sender.value;
     
     if (enabledSwitch.on)
-        [GammaController setGammaWithOrangenessAndDim:orange percentDim:dim];
-}
-- (IBAction)dimSliderChanged:(UISlider *)sender {
-    [[NSUserDefaults standardUserDefaults] setFloat:sender.value forKey:@"dim"];
-    dim = sender.value;
-    
-    if (enabledSwitch.on)
-        [GammaController setGammaWithOrangenessAndDim:orange percentDim:dim];
+        [GammaController setGammaWithOrangeness:sender.value];
 }
 
 - (IBAction)colorChangingEnabledSwitchChanged:(UISwitch *)sender {
