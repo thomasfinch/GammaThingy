@@ -10,3 +10,7 @@ Besides all that, this is not nearly as complex or well-designed as the actual f
 
 ## Compiling
 This can't be compiled for or run in the simulator so don't try it, it won't work. If you get errors make sure all frameworks are linked correctly, especially IOKit and IOMobileFramebuffer.
+
+## Troubleshooting
+
+If you find the display glitching while GammaThingy is enabled, ensure that you have disabled ```Reduce White Point``` in iOS ```Settings / General / Accessibility / Increase Contracts```

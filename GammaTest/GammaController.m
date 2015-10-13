@@ -26,6 +26,11 @@ extern mach_port_t SBSSpringBoardServerPort();
 extern void SBGetScreenLockStatus(mach_port_t port, BOOL *lockStatus, BOOL *passcodeEnabled);
 extern void SBSUndimScreen();
 
+@interface NSDate (e)
+- (BOOL)isEarlierThan:(NSDate*)b;
+- (BOOL)isLaterThan:(NSDate*)b;
+@end
+
 @implementation GammaController
 
 //This function is largely the same as the one in iomfsetgamma.c from Saurik's UIKitTools package. The license is pasted below.
@@ -98,8 +103,11 @@ extern void SBSUndimScreen();
     IOMobileFramebufferRef fb;
     error = IOMobileFramebufferOpen(service, selfPort, 0, &fb);
     assert(error == 0);
-    
+#ifdef __arm64__
+    uint32_t data[0xc0c / sizeof(uint32_t)];
+#else
     uint32_t data[0xc00 / sizeof(uint32_t)];
+#endif
     memset(data, 0, sizeof(data));
     
     //Create the path string pointing to the temporary gamma table file
@@ -163,19 +171,19 @@ extern void SBSUndimScreen();
 }
 
 + (void)enableOrangeness {
-    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [self wakeUpScreenIfNeeded];
     [GammaController setGammaWithOrangeness:[defaults floatForKey:@"maxOrange"]];
-    [defaults setObject:[NSDate date] forKey:@"lastOnDate"];
+    [defaults setObject:[NSDate date] forKey:@"lastAutoChangeDate"];
     [defaults setBool:YES forKey:@"enabled"];
     [defaults synchronize];
 }
 
 + (void)disableOrangeness {
-    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [self wakeUpScreenIfNeeded];
     [GammaController setGammaWithOrangeness:0];
-    [defaults setObject:[NSDate date] forKey:@"lastOffDate"];
+    [defaults setObject:[NSDate date] forKey:@"lastAutoChangeDate"];
     [defaults setBool:NO forKey:@"enabled"];
     [defaults synchronize];
 }
@@ -190,9 +198,83 @@ extern void SBSUndimScreen();
         SBSUndimScreen();
 }
 
++ (void)autoChangeOrangenessIfNeeded {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if (![defaults boolForKey:@"colorChangingEnabled"]) {
+        return;
+    }
+    
+    NSDate* now = [NSDate date];
+    
+    NSDateComponents *autoOnOffComponents = [[NSCalendar currentCalendar] components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:[NSDate date]];
+    
+    autoOnOffComponents.hour = [defaults integerForKey:@"autoStartHour"];
+    autoOnOffComponents.minute = [defaults integerForKey:@"autoStartMinute"];
+    NSDate* turnOnDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
+    
+    autoOnOffComponents.hour = [defaults integerForKey:@"autoEndHour"];
+    autoOnOffComponents.minute = [defaults integerForKey:@"autoEndMinute"];
+    NSDate *turnOffDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
+    
+    //special treatment for intervals wrapping around midnight needed
+    if ([turnOnDate isLaterThan:turnOffDate]) {
+        if ([now isEarlierThan:turnOnDate] && [now isEarlierThan:turnOffDate]) {
+            //Handles the case when we're in the early morning after midnight (before turnOffDate)
+            //__|______!__________I....................I________________|__//
+            //00:00   now    turnOffDate           turnOnDate         24:00//
+            //thus, we need to set the on date to yesterday to be able to correctly figure out stuff
+            autoOnOffComponents.day = autoOnOffComponents.day - 1;
+            turnOnDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
+        }else if ([turnOnDate isEarlierThan:now] && [turnOffDate isEarlierThan:now]) {
+            //Handles the case when we're in the night before midnight (after turnOnDate)
+            //__|_________________I....................I_________!______|__//
+            //00:00          turnOffDate           turnOnDate   now   24:00//
+            //thus, we need to set the off date to tomorrow to be able to correctly figure out stuff
+            autoOnOffComponents.day = autoOnOffComponents.day + 1;
+            turnOffDate = [[NSCalendar currentCalendar] dateFromComponents:autoOnOffComponents];
+        }
+    }
+    
+    NSLog(@"Last auto-change date: %@", [defaults objectForKey:@"lastAutoChangeDate"]);
+    
+    //Turns on or off the orange-ness
+    //Checks to make sure that the last auto-change was before the auto change time so it doesn't wake up the screen excessively
+    
+    //If the "turn on" date for today is in the past
+    //AND if the "turn off" date is in the future
+    //we're in the period the screen is supposed to be orange (whoa! inhuman conclusions!)
+    if ([turnOnDate isEarlierThan:now] && [turnOffDate isLaterThan:now]) {
+        NSLog(@"We're in the orange interval, considering switch to orange");
+        if ([turnOnDate isLaterThan:[defaults objectForKey:@"lastAutoChangeDate"]]) { //If the last auto-change date was before the turn on time today, then change colors
+            NSLog(@"Setting color orange");
+            [GammaController enableOrangeness];
+        }
+    } else {
+        NSLog(@"Orange times have either passed or are not quite here just yet, considering switch to normal");
+        if ([turnOffDate isLaterThan:[defaults objectForKey:@"lastAutoChangeDate"]]) {
+            NSLog(@"Setting color normal");
+            [GammaController disableOrangeness];
+        }
+    }
+    
+    [defaults setObject:[NSDate date] forKey:@"lastAutoChangeDate"];
+}
+	
 + (BOOL)enabled {
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
     return [defaults boolForKey:@"enabled"];
 }
 
+@end
+
+
+@implementation NSDate (e)
+- (BOOL)isEarlierThan:(NSDate*)b{
+    return [self earlierDate:b] == self;
+}
+
+- (BOOL)isLaterThan:(NSDate*)b{
+    return [self laterDate:b] == self;
+}
 @end
