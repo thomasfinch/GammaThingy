@@ -111,7 +111,11 @@ static NSString * const ShortcutDisable = @"Disable";
         //always switching back to source app if it's provided
         NSURL *sourceURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://", source]];
         [[UIApplication sharedApplication] openURL:sourceURL];
+    } else if ([[dict objectForKey:@"close"] boolValue]) {
+        //gammathingy://orangeness/switch?close=1
+        [[UIApplication sharedApplication] suspend];
     }
+    
     return YES;
 }
 
