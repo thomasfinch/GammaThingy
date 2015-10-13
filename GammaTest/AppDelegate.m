@@ -24,8 +24,6 @@ typedef NS_ENUM(NSInteger, GammaAction) {
 
 @interface AppDelegate ()
 
-@property (nonatomic, assign) GammaAction action;
-
 @end
 
 static NSString * const ShortcutType = @"ShortcutTypeToggleEnable";
@@ -37,11 +35,10 @@ static NSString * const ShortcutDisable = @"Disable";
 - (BOOL)handleShortcutItem:(UIApplicationShortcutItem *)shortcutItem {
     if ([shortcutItem.type isEqualToString:ShortcutType]) {
         if ([GammaController enabled]) {
-            self.action = GammaActionDisable;
+            [GammaController disableOrangeness];
         } else {
-            self.action = GammaActionEnable;
+            [GammaController enableOrangeness];
         }
-        return YES;
     }
     return NO;
 }
@@ -72,7 +69,8 @@ static NSString * const ShortcutDisable = @"Disable";
         @"autoEndMinute": @0,
     }];
     
-    if (!application.shortcutItems.count) {
+    if ([application respondsToSelector:@selector(shortcutItems)] &&
+        !application.shortcutItems.count) {
         [self updateShortCutItem];
     }
     
@@ -132,31 +130,10 @@ static NSString * const ShortcutDisable = @"Disable";
     return dict;
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Calling enableOrangeness/disableOrangeness in -application:performActionForShortcutItem:... causes the app to crash, don't know why..
-    switch (self.action) {
-        case GammaActionEnable:
-            [GammaController enableOrangeness];
-            self.action = GammaActionNone;
-            [self updateShortCutItem];
-            [[UIApplication sharedApplication] suspend];
-            break;
-            
-        case GammaActionDisable:
-            [GammaController disableOrangeness];
-            self.action = GammaActionNone;
-            [self updateShortCutItem];
-            [[UIApplication sharedApplication] suspend];
-            break;
-            
-        default:
-            [GammaController autoChangeOrangenessIfNeeded];
-            break;
-    }
-}
-
 - (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
     BOOL handledShortCutItem = [self handleShortcutItem:shortcutItem];
+    [[UIApplication sharedApplication] suspend];
+    [self updateShortCutItem];
     completionHandler(handledShortCutItem);
 }
 
