@@ -155,15 +155,18 @@ static NSString * const ShortcutDisable = @"Disable";
     }
 }
 
-static int counter;
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-//    //Minimun keepAliveTimeout is 600 seconds
-//    [[UIApplication sharedApplication] setKeepAliveTimeout:605 handler:^{
-//        //do your background task
-//        counter ++;
-//        NSLog(@"Counter # %d", counter);
-//    }];
+    NSLog(@"applicationDidEnterBackground");
+    
+    // Timeout is set to 10 minutes this is the minimum
+    [[UIApplication sharedApplication] setKeepAliveTimeout:600 handler:^{
+        NSLog(@"App woke with keep alive timeout");
+        [GammaController autoChangeOrangenessIfNeeded];
+        
+        // TODO Might be possible to implement long transisions with this
+        // Also it could be better to remove fetch requests or deactivate them as long as this works
+    }];
 }
 
 - (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
