@@ -13,4 +13,4 @@ This can't be compiled for or run in the simulator so don't try it, it won't wor
 
 ## Troubleshooting
 
-If you find the display glitching while GammaThingy is enabled, ensure that you have disabled ```Reduce White Point``` in iOS ```Settings / General / Accessibility / Increase Contracts```
+If you find the display glitching while GammaThingy is enabled, ensure that you have disabled ```Reduce White Point``` in iOS ```Settings / General / Accessibility / Increase Contrast```

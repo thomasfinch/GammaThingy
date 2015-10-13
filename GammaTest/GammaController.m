@@ -103,11 +103,8 @@ extern void SBSUndimScreen();
     IOMobileFramebufferRef fb;
     error = IOMobileFramebufferOpen(service, selfPort, 0, &fb);
     assert(error == 0);
-#ifdef __arm64__
+
     uint32_t data[0xc0c / sizeof(uint32_t)];
-#else
-    uint32_t data[0xc00 / sizeof(uint32_t)];
-#endif
     memset(data, 0, sizeof(data));
     
     //Create the path string pointing to the temporary gamma table file
