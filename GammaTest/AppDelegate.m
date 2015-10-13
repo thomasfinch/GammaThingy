@@ -59,15 +59,15 @@ static NSString * const ShortcutDisable = @"Disable";
     [application setMinimumBackgroundFetchInterval:900]; //Wake up every 15 minutes at minimum
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-        @"enabled": @NO,
-        @"maxOrange": [NSNumber numberWithFloat:0.7],
-        @"colorChangingEnabled": @YES,
-        @"lastAutoChangeDate": [NSDate distantPast],
-        @"autoStartHour": @19,
-        @"autoStartMinute": @0,
-        @"autoEndHour": @7,
-        @"autoEndMinute": @0,
-    }];
+                                                              @"enabled": @NO,
+                                                              @"maxOrange": [NSNumber numberWithFloat:0.7],
+                                                              @"colorChangingEnabled": @YES,
+                                                              @"lastAutoChangeDate": [NSDate distantPast],
+                                                              @"autoStartHour": @19,
+                                                              @"autoStartMinute": @0,
+                                                              @"autoEndHour": @7,
+                                                              @"autoEndMinute": @0,
+                                                              }];
     
     if ([application respondsToSelector:@selector(shortcutItems)] &&
         !application.shortcutItems.count) {
@@ -130,27 +130,11 @@ static NSString * const ShortcutDisable = @"Disable";
     return dict;
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Calling enableOrangeness/disableOrangeness in -application:performActionForShortcutItem:... causes the app to crash, don't know why..
-    switch (self.action) {
-        case GammaActionEnable:
-            [GammaController enableOrangeness];
-            self.action = GammaActionNone;
-            [self updateShortCutItem];
-            [[UIApplication sharedApplication] suspend];
-            break;
-            
-        case GammaActionDisable:
-            [GammaController disableOrangeness];
-            self.action = GammaActionNone;
-            [self updateShortCutItem];
-            [[UIApplication sharedApplication] suspend];
-            break;
-            
-        default:
-            [GammaController autoChangeOrangenessIfNeeded];
-            break;
-    }
+- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
+    BOOL handledShortCutItem = [self handleShortcutItem:shortcutItem];
+    [[UIApplication sharedApplication] suspend];
+    [self updateShortCutItem];
+    completionHandler(handledShortCutItem);
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -165,13 +149,6 @@ static NSString * const ShortcutDisable = @"Disable";
         // TODO Might be possible to implement long transisions with this
         // Also it could be better to remove fetch requests or deactivate them as long as this works
     }];
-}
-
-- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
-    BOOL handledShortCutItem = [self handleShortcutItem:shortcutItem];
-    [[UIApplication sharedApplication] suspend];
-    [self updateShortCutItem];
-    completionHandler(handledShortCutItem);
 }
 
 @end
