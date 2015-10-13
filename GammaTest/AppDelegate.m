@@ -122,8 +122,8 @@ static NSString * const ShortcutDisable = @"Disable";
     
     for (NSString *pair in pairs) {
         NSArray *elements = [pair componentsSeparatedByString:@"="];
-        NSString *key = [[elements objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString *val = [[elements objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *key = [[elements objectAtIndex:0] stringByRemovingPercentEncoding];
+        NSString *val = [[elements objectAtIndex:1] stringByRemovingPercentEncoding];
         
         [dict setObject:val forKey:key];
     }

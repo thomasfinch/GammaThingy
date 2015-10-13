@@ -204,7 +204,7 @@ extern void SBSUndimScreen();
     
     NSDate* now = [NSDate date];
     
-    NSDateComponents *autoOnOffComponents = [[NSCalendar currentCalendar] components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit) fromDate:[NSDate date]];
+    NSDateComponents *autoOnOffComponents = [[NSCalendar currentCalendar] components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:[NSDate date]];
     
     autoOnOffComponents.hour = [defaults integerForKey:@"autoStartHour"];
     autoOnOffComponents.minute = [defaults integerForKey:@"autoStartMinute"];
