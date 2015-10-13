@@ -72,7 +72,8 @@ static NSString * const ShortcutDisable = @"Disable";
         @"autoEndMinute": @0,
     }];
     
-    if (!application.shortcutItems.count) {
+    if ([application respondsToSelector:@selector(shortcutItems)] &&
+        !application.shortcutItems.count) {
         [self updateShortCutItem];
     }
     
