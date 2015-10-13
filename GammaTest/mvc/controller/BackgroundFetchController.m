@@ -27,9 +27,9 @@
     printf("longitude: %f\n", longitude);
     printf("current date: %f\n", [[NSDate date] timeIntervalSince1970]);
     printf("solarAngularElevation %f\n", solarAngularElevation);
-    
+
     float maxOrangePercentage = [defaults floatForKey:@"maxOrange"] * 100;
-    float orangeness = (calculate_interpolated_value(solarAngularElevation, 100, maxOrangePercentage) / 100);
+    float orangeness = (calculate_interpolated_value(solarAngularElevation, 0, maxOrangePercentage) / 100);
     printf("orangeness %f\n", orangeness);
     
     [GammaController setGammaWithOrangeness: orangeness];
