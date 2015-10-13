@@ -10,6 +10,7 @@
 #import "GammaController.h"
 
 @interface MainViewController ()
+
 @property (weak, nonatomic) IBOutlet UISwitch *enabledSwitch;
 @property (weak, nonatomic) IBOutlet UISlider *orangeSlider;
 @property (weak, nonatomic) IBOutlet UISwitch *colorChangingEnabledSwitch;
@@ -32,19 +33,7 @@
     timeFormatter = [[NSDateFormatter alloc] init];
     timeFormatter.timeStyle = NSDateFormatterShortStyle;
     timeFormatter.dateStyle = NSDateFormatterNoStyle;
-    
-    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-    
-    self.tableView.alwaysBounceVertical = NO;
-    enabledSwitch.on = [defaults boolForKey:@"enabled"];
-    orangeSlider.value = [defaults floatForKey:@"maxOrange"];
-    colorChangingEnabledSwitch.on = [defaults boolForKey:@"colorChangingEnabled"];
-    
-    NSDate *date = [self dateForHour:[defaults integerForKey:@"autoStartHour"] andMinute:[defaults integerForKey:@"autoStartMinute"]];
-    startTimeTextField.text = [timeFormatter stringFromDate:date];
-    date = [self dateForHour:[defaults integerForKey:@"autoEndHour"] andMinute:[defaults integerForKey:@"autoEndMinute"]];
-    endTimeTextField.text = [timeFormatter stringFromDate:date];
-    
+
     timePicker = [[UIDatePicker alloc] init];
     timePicker.datePickerMode = UIDatePickerModeTime;
     [timePicker addTarget:self action:@selector(timePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
@@ -59,6 +48,14 @@
     
     endTimeTextField.delegate = self;
     startTimeTextField.delegate = self;
+
+    [self updateDisplay];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDisplay) name:@"UIApplicationWillEnterForegroundNotification" object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (IBAction)enabledSwitchChanged:(UISwitch *)sender {
@@ -136,6 +133,20 @@
     comps.hour = hour;
     comps.minute = minute;
     return [[NSCalendar currentCalendar] dateFromComponents:comps];
+}
+
+- (void)updateDisplay {
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+
+    self.tableView.alwaysBounceVertical = NO;
+    enabledSwitch.on = [defaults boolForKey:@"enabled"];
+    orangeSlider.value = [defaults floatForKey:@"maxOrange"];
+    colorChangingEnabledSwitch.on = [defaults boolForKey:@"colorChangingEnabled"];
+
+    NSDate *date = [self dateForHour:[defaults integerForKey:@"autoStartHour"] andMinute:[defaults integerForKey:@"autoStartMinute"]];
+    startTimeTextField.text = [timeFormatter stringFromDate:date];
+    date = [self dateForHour:[defaults integerForKey:@"autoEndHour"] andMinute:[defaults integerForKey:@"autoEndMinute"]];
+    endTimeTextField.text = [timeFormatter stringFromDate:date];
 }
 
 @end
