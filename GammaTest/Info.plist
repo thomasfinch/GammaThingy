@@ -35,6 +35,7 @@
 	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>voip</string>
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
@@ -46,6 +47,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>CFBundleDisplayName</key>
+	<string>Gamma Thingy</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

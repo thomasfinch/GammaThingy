@@ -155,6 +155,17 @@ static NSString * const ShortcutDisable = @"Disable";
     }
 }
 
+static int counter;
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+//    //Minimun keepAliveTimeout is 600 seconds
+//    [[UIApplication sharedApplication] setKeepAliveTimeout:605 handler:^{
+//        //do your background task
+//        counter ++;
+//        NSLog(@"Counter # %d", counter);
+//    }];
+}
+
 - (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
     BOOL handledShortCutItem = [self handleShortcutItem:shortcutItem];
     completionHandler(handledShortCutItem);
