@@ -10,6 +10,7 @@
 #import "GammaController.h"
 
 @interface MainViewController ()
+
 @property (weak, nonatomic) IBOutlet UISwitch *enabledSwitch;
 @property (weak, nonatomic) IBOutlet UISlider *orangeSlider;
 @property (weak, nonatomic) IBOutlet UISwitch *colorChangingEnabledSwitch;
