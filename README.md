@@ -14,3 +14,15 @@ This can't be compiled for or run in the simulator so don't try it, it won't wor
 ## Troubleshooting
 
 If you find the display glitching while GammaThingy is enabled, ensure that you have disabled ```Reduce White Point``` in iOS ```Settings / General / Accessibility / Increase Contrast```
+
+## URL Scheme Support
+
+GammaThingy supports URL schemes to switch the orangeness.  
+For the base URL ```gammathingy://orangeness/switch``` those (optional) parameters are available:
+* ```enable``` to toggle orangeness on / off (for values ```1```/```0```), if not provided, the orangeness is just switched
+* ```x-source``` to supply a protocol to open after switching orangeness (e.g. to switch back to another app)
+* ```close``` to make the app quit after the action was executed if its value is ```1```
+
+Examples:  
+```gammathingy://orangeness/switch?enable=1&x-source=prefs``` enables orangeness and then *attempts* to open the Preferences.app  
+```gammathingy://orangeness/switch?close=1``` switches orangeness and closes the app afterwards
