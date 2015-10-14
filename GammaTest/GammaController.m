@@ -198,6 +198,10 @@ extern void SBSUndimScreen();
 + (void)autoChangeOrangenessIfNeeded {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
+    if ([defaults boolForKey:@"enabled"]){
+        [self enableOrangeness];
+    }
+    
     if (![defaults boolForKey:@"colorChangingEnabled"]) {
         return;
     }

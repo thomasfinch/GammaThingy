@@ -74,6 +74,8 @@ static NSString * const ShortcutDisable = @"Disable";
         [self updateShortCutItem];
     }
     
+    [GammaController autoChangeOrangenessIfNeeded];
+    
     return YES;
 }
 
@@ -135,20 +137,6 @@ static NSString * const ShortcutDisable = @"Disable";
     [[UIApplication sharedApplication] suspend];
     [self updateShortCutItem];
     completionHandler(handledShortCutItem);
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    NSLog(@"applicationDidEnterBackground");
-    
-    // Timeout is set to 10 minutes this is the minimum
-    [[UIApplication sharedApplication] setKeepAliveTimeout:600 handler:^{
-        NSLog(@"App woke with keep alive timeout");
-        [GammaController autoChangeOrangenessIfNeeded];
-        
-        // TODO Might be possible to implement long transisions with this
-        // Also it could be better to remove fetch requests or deactivate them as long as this works
-    }];
 }
 
 @end

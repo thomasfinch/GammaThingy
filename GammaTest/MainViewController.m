@@ -43,6 +43,7 @@
     
     timePicker = [[UIDatePicker alloc] init];
     timePicker.datePickerMode = UIDatePickerModeTime;
+    timePicker.minuteInterval = 15;
     timePicker.backgroundColor = [UIColor whiteColor];
     [timePicker addTarget:self action:@selector(timePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
     

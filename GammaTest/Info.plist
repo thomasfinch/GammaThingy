@@ -35,7 +35,6 @@
 	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>voip</string>
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
