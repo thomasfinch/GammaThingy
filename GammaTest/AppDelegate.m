@@ -111,7 +111,11 @@ static NSString * const ShortcutDisable = @"Disable";
         //always switching back to source app if it's provided
         NSURL *sourceURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://", source]];
         [[UIApplication sharedApplication] openURL:sourceURL];
+    } else if ([[dict objectForKey:@"close"] boolValue]) {
+        //gammathingy://orangeness/switch?close=1
+        [[UIApplication sharedApplication] suspend];
     }
+    
     return YES;
 }
 
@@ -122,8 +126,8 @@ static NSString * const ShortcutDisable = @"Disable";
     
     for (NSString *pair in pairs) {
         NSArray *elements = [pair componentsSeparatedByString:@"="];
-        NSString *key = [[elements objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString *val = [[elements objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *key = [[elements objectAtIndex:0] stringByRemovingPercentEncoding];
+        NSString *val = [[elements objectAtIndex:1] stringByRemovingPercentEncoding];
         
         [dict setObject:val forKey:key];
     }
