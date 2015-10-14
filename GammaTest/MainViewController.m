@@ -43,6 +43,7 @@
     
     timePicker = [[UIDatePicker alloc] init];
     timePicker.datePickerMode = UIDatePickerModeTime;
+    timePicker.minuteInterval = 15;
     timePicker.backgroundColor = [UIColor whiteColor];
     [timePicker addTarget:self action:@selector(timePickerValueChanged:) forControlEvents:UIControlEventValueChanged];
     
@@ -81,6 +82,8 @@
 }
 
 - (IBAction)enabledSwitchChanged:(UISwitch *)sender {
+    NSLog(@"enabled: %lu",(unsigned long)sender.on);
+    
     if (sender.on)
         [GammaController setGammaWithOrangeness:[[NSUserDefaults standardUserDefaults] floatForKey:@"maxOrange"]];
     else
@@ -90,6 +93,7 @@
 }
 
 - (IBAction)maxOrangeSliderChanged:(UISlider *)sender {
+    NSLog(@"maxOrange: %f",sender.value);
     [[NSUserDefaults standardUserDefaults] setFloat:sender.value forKey:@"maxOrange"];
     
     if (enabledSwitch.on)
@@ -97,7 +101,7 @@
 }
 
 - (IBAction)colorChangingEnabledSwitchChanged:(UISwitch *)sender {
-    NSLog(@"color changing switch changed");
+    NSLog(@"colorChangingEnabled: %lu",(unsigned long)sender.on);
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"colorChangingEnabled"];
     [[NSUserDefaults standardUserDefaults] setObject:[NSDate distantPast] forKey:@"lastAutoChangeDate"];
     [GammaController autoChangeOrangenessIfNeeded];

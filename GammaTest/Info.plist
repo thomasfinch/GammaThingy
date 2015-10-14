@@ -46,6 +46,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>CFBundleDisplayName</key>
+	<string>Gamma Thingy</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

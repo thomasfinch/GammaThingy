@@ -59,20 +59,22 @@ static NSString * const ShortcutDisable = @"Disable";
     [application setMinimumBackgroundFetchInterval:900]; //Wake up every 15 minutes at minimum
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-        @"enabled": @NO,
-        @"maxOrange": [NSNumber numberWithFloat:0.7],
-        @"colorChangingEnabled": @YES,
-        @"lastAutoChangeDate": [NSDate distantPast],
-        @"autoStartHour": @19,
-        @"autoStartMinute": @0,
-        @"autoEndHour": @7,
-        @"autoEndMinute": @0,
-    }];
+                                                              @"enabled": @NO,
+                                                              @"maxOrange": [NSNumber numberWithFloat:0.7],
+                                                              @"colorChangingEnabled": @YES,
+                                                              @"lastAutoChangeDate": [NSDate distantPast],
+                                                              @"autoStartHour": @19,
+                                                              @"autoStartMinute": @0,
+                                                              @"autoEndHour": @7,
+                                                              @"autoEndMinute": @0,
+                                                              }];
     
     if ([application respondsToSelector:@selector(shortcutItems)] &&
         !application.shortcutItems.count) {
         [self updateShortCutItem];
     }
+    
+    [GammaController autoChangeOrangenessIfNeeded];
     
     return YES;
 }
