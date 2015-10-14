@@ -31,11 +31,6 @@ extern void SBSUndimScreen();
 - (BOOL)isLaterThan:(NSDate*)b;
 @end
 
-// TheClass.h
-@interface TheClass : NSObject
-+ (int)count;
-@end
-
 static BOOL firstExecution = YES;
 
 @implementation GammaController
