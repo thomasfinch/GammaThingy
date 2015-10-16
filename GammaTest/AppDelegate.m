@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import "GammaController.h"
-#import "BackgroundFetchController.h"
+
 
 typedef NS_ENUM(NSInteger, GammaAction) {
     GammaActionNone,
@@ -68,6 +68,7 @@ static NSString * const ShortcutDisable = @"Disable";
         @"autoStartMinute": @0,
         @"autoEndHour": @7,
         @"autoEndMinute": @0,
+        @"updateUI":@YES,
         @"colorChangingLocationLatitude": @0,
         @"colorChangingLocationLongitude": @0,
         @"colorChangingLocationEnabled": @NO
@@ -88,20 +89,6 @@ static NSString * const ShortcutDisable = @"Disable";
 
     
     [GammaController autoChangeOrangenessIfNeeded];
-    
-    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-    
-    if (![defaults boolForKey:@"colorChangingEnabled"] && ![defaults boolForKey:@"colorChangingLocationEnabled"]) {
-        completionHandler(UIBackgroundFetchResultNewData);
-        return;
-    }
-    
-    if ([defaults boolForKey:@"colorChangingLocationEnabled"]) {
-        [BackgroundFetchController switchScreenTemperatureBasedOnLocation: defaults];
-    } else if ([defaults boolForKey:@"colorChangingEnabled"]){
-        [BackgroundFetchController switchScreenTemperatureBasedOnTime: defaults];
-    }
-    
     
     completionHandler(UIBackgroundFetchResultNewData);
 }

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		AFD8E7281BCA6A3D00BCC80A /* brightness.c in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E7261BCA6A3D00BCC80A /* brightness.c */; settings = {ASSET_TAGS = (); }; };
 		AFD8E72C1BCA6D4000BCC80A /* solar.c in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E72A1BCA6D4000BCC80A /* solar.c */; settings = {ASSET_TAGS = (); }; };
-		AFD8E7301BCA6ECC00BCC80A /* BackgroundFetchController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E72F1BCA6ECC00BCC80A /* BackgroundFetchController.m */; settings = {ASSET_TAGS = (); }; };
 		AFD8E7331BCA711300BCC80A /* GammaController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E7321BCA711300BCC80A /* GammaController.m */; settings = {ASSET_TAGS = (); }; };
 		B92DD5F91BB33DD700DC6E8F /* BackBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B92DD5F81BB33DD700DC6E8F /* BackBoardServices.framework */; };
 		B96BB6511B38DAF500F1C3AE /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B96BB6501B38DAF500F1C3AE /* Launch Screen.xib */; };
@@ -41,10 +40,9 @@
 		AFD8E7271BCA6A3D00BCC80A /* brightness.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = brightness.h; path = libs/brightness/brightness.h; sourceTree = "<group>"; };
 		AFD8E72A1BCA6D4000BCC80A /* solar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = solar.c; path = libs/solar/solar.c; sourceTree = "<group>"; };
 		AFD8E72B1BCA6D4000BCC80A /* solar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = solar.h; path = libs/solar/solar.h; sourceTree = "<group>"; };
-		AFD8E72E1BCA6ECC00BCC80A /* BackgroundFetchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BackgroundFetchController.h; path = mvc/controller/BackgroundFetchController.h; sourceTree = "<group>"; };
-		AFD8E72F1BCA6ECC00BCC80A /* BackgroundFetchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BackgroundFetchController.m; path = mvc/controller/BackgroundFetchController.m; sourceTree = "<group>"; };
 		AFD8E7311BCA711300BCC80A /* GammaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GammaController.h; path = mvc/controller/GammaController.h; sourceTree = "<group>"; };
 		AFD8E7321BCA711300BCC80A /* GammaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GammaController.m; path = mvc/controller/GammaController.m; sourceTree = "<group>"; };
+		AFEEB5D11BD1692600F56616 /* NSDate_compare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSDate_compare.h; path = extentions/NSDate_compare.h; sourceTree = "<group>"; };
 		B92DD5F81BB33DD700DC6E8F /* BackBoardServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BackBoardServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/PrivateFrameworks/BackBoardServices.framework; sourceTree = DEVELOPER_DIR; };
 		B96BB6501B38DAF500F1C3AE /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		B96BB6531B38DDA500F1C3AE /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -103,6 +101,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AF2C35091BD168C100BBCF8F /* extentions */ = {
+			isa = PBXGroup;
+			children = (
+				AFEEB5D11BD1692600F56616 /* NSDate_compare.h */,
+			);
+			name = extentions;
+			sourceTree = "<group>";
+		};
 		AFD8E7241BCA69CC00BCC80A /* libs */ = {
 			isa = PBXGroup;
 			children = (
@@ -135,8 +141,6 @@
 			children = (
 				AFD8E7311BCA711300BCC80A /* GammaController.h */,
 				AFD8E7321BCA711300BCC80A /* GammaController.m */,
-				AFD8E72E1BCA6ECC00BCC80A /* BackgroundFetchController.h */,
-				AFD8E72F1BCA6ECC00BCC80A /* BackgroundFetchController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -173,6 +177,7 @@
 		B9E536481B38D90D0097BF90 /* GammaTest */ = {
 			isa = PBXGroup;
 			children = (
+				AF2C35091BD168C100BBCF8F /* extentions */,
 				AFD8E72D1BCA6E5600BCC80A /* controller */,
 				AFD8E7241BCA69CC00BCC80A /* libs */,
 				B9E5364C1B38D90D0097BF90 /* AppDelegate.h */,
@@ -288,7 +293,7 @@
 				TargetAttributes = {
 					B9E536451B38D90D0097BF90 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = WV4RMF773Y;
+						DevelopmentTeam = 672XA4DY73;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -335,7 +340,6 @@
 			files = (
 				B9E536511B38D90D0097BF90 /* MainViewController.m in Sources */,
 				B9E5364E1B38D90D0097BF90 /* AppDelegate.m in Sources */,
-				AFD8E7301BCA6ECC00BCC80A /* BackgroundFetchController.m in Sources */,
 				B9E5364B1B38D90D0097BF90 /* main.m in Sources */,
 				AFD8E72C1BCA6D4000BCC80A /* solar.c in Sources */,
 				AFD8E7331BCA711300BCC80A /* GammaController.m in Sources */,

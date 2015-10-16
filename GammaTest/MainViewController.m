@@ -8,7 +8,6 @@
 
 #import "MainViewController.h"
 #import "GammaController.h"
-#import "BackgroundFetchController.h"
 
 @interface MainViewController ()
 
@@ -86,6 +85,7 @@
     enabledSwitch.on = [defaults boolForKey:@"enabled"];
     orangeSlider.value = [defaults floatForKey:@"maxOrange"];
     colorChangingEnabledSwitch.on = [defaults boolForKey:@"colorChangingEnabled"];
+    colorChangingLocationBasedSwitch.on = [defaults boolForKey:@"colorChangingLocationEnabled"];
     
     NSDate *date = [self dateForHour:[defaults integerForKey:@"autoStartHour"] andMinute:[defaults integerForKey:@"autoStartMinute"]];
     startTimeTextField.text = [timeFormatter stringFromDate:date];
@@ -95,13 +95,23 @@
 
 - (IBAction)enabledSwitchChanged:(UISwitch *)sender {
     NSLog(@"enabled: %lu",(unsigned long)sender.on);
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"updateUI"];
     
-    if (sender.on)
+    if (sender.on) {
         [GammaController setGammaWithOrangeness:[[NSUserDefaults standardUserDefaults] floatForKey:@"maxOrange"]];
-    else
+    } else {
         [GammaController setGammaWithOrangeness:0];
+    }
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"colorChangingLocationEnabled"]) {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingLocationEnabled"];
+    }
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"colorChangingLocationEnabled"]) {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingEnabled"];
+    }
+    
     
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"enabled"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"updateUI"];
 }
 
 - (IBAction)maxOrangeSliderChanged:(UISlider *)sender {
@@ -114,9 +124,9 @@
 
 - (IBAction)colorChangingEnabledSwitchChanged:(UISwitch *)sender {
     NSLog(@"colorChangingEnabled: %lu",(unsigned long)sender.on);
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"updateUI"];
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"colorChangingEnabled"];
     [[NSUserDefaults standardUserDefaults] setObject:[NSDate distantPast] forKey:@"lastAutoChangeDate"];
-    [GammaController autoChangeOrangenessIfNeeded];
     NSLog(@"color changing switch changed");
     
     if(sender.on) {
@@ -130,11 +140,13 @@
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingLocationEnabled"];
         [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"colorChangingEnabled"];
     }
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"updateUI"];
+    [GammaController autoChangeOrangenessIfNeeded];
 }
 
 - (IBAction)colorChangingLocationSwitchValueChanged:(UISwitch *)sender {
-    
     if(sender.on) {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"updateUI"];
         BOOL requestedLocationAuthorization = NO;
 
         if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
@@ -144,26 +156,29 @@
                 return;
             }
         }
-        // Search for location
-        [self.locationManager startUpdatingLocation];
-        
-        // Update the user location everytime this is switched on
-        // This is only here, instead of in every background refresh, in order to prolong battery life.
-        CGFloat latitude = self.locationManager.location.coordinate.latitude;
-        CGFloat longitude = self.locationManager.location.coordinate.longitude;
-        [[NSUserDefaults standardUserDefaults] setFloat:latitude forKey:@"colorChangingLocationLatitude"];
-        [[NSUserDefaults standardUserDefaults] setFloat:longitude forKey:@"colorChangingLocationLongitude"];
         
         // Only one auto temperature change can be activated
         if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
+            // Search for location
+            [self.locationManager startUpdatingLocation];
+            
+            // Update the user location everytime this is switched on
+            // This is only here, instead of in every background refresh, in order to prolong battery life.
+            CGFloat latitude = self.locationManager.location.coordinate.latitude;
+            CGFloat longitude = self.locationManager.location.coordinate.longitude;
+            if (latitude != 0 && longitude != 0) { // make sure the location is available
+                [[NSUserDefaults standardUserDefaults] setFloat:latitude forKey:@"colorChangingLocationLatitude"];
+                [[NSUserDefaults standardUserDefaults] setFloat:longitude forKey:@"colorChangingLocationLongitude"];
+            }
+            
             [colorChangingEnabledSwitch setOn:NO animated:YES];
-            [BackgroundFetchController switchScreenTemperatureBasedOnLocation: [NSUserDefaults standardUserDefaults]];
             
             for(UITableViewCell *cell in timeBasedInputCells) 
                 [[cell contentView] setAlpha: .6];
             
-            [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"colorChangingLocationEnabled"];
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"colorChangingLocationEnabled"];
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingEnabled"];
+            
         } else if(!requestedLocationAuthorization) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No access to location"
                                                             message:@"You must enable location services in settings."
@@ -173,8 +188,11 @@
             [alert show];
             [sender setOn:NO animated:YES];
         }
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"updateUI"];
+        [GammaController autoChangeOrangenessIfNeeded];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingLocationEnabled"];
     }
-    
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
@@ -249,7 +267,8 @@
 }
 
 - (void)userDefaultsChanged:(NSNotification *)notification {
-    [self updateUI];
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"updateUI"])
+        [self updateUI];
 }
 
 @end
