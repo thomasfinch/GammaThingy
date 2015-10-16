@@ -51,6 +51,9 @@ static NSString * const ShortcutDisable = @"Disable";
 
 - (void)updateShortCutItem {
     UIApplication *application = [UIApplication sharedApplication];
+    if (![application respondsToSelector:@selector(shortcutItems)]) {
+        return;
+    }
     UIApplicationShortcutItem *shortcut = [self shortcutItemForCurrentState];
     application.shortcutItems = @[shortcut];
 }
@@ -68,11 +71,13 @@ static NSString * const ShortcutDisable = @"Disable";
                                                               @"autoEndHour": @7,
                                                               @"autoEndMinute": @0,
                                                               }];
-    
-    if ([application respondsToSelector:@selector(shortcutItems)] &&
-        !application.shortcutItems.count) {
-        [self updateShortCutItem];
-    }
+
+    [self updateShortCutItem];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userDefaultsChanged:)
+                                                 name:NSUserDefaultsDidChangeNotification
+                                               object:nil];
     
     [GammaController autoChangeOrangenessIfNeeded];
     
@@ -141,6 +146,10 @@ static NSString * const ShortcutDisable = @"Disable";
     [[UIApplication sharedApplication] suspend];
     [self updateShortCutItem];
     completionHandler(handledShortCutItem);
+}
+
+- (void)userDefaultsChanged:(NSNotification *)notification {
+    [self updateShortCutItem];
 }
 
 @end
