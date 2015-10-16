@@ -164,12 +164,15 @@ extern void SBSUndimScreen();
         red = blue = green = 0.99;
     }
     
-    [self setGammaWithRed:red green:green blue:blue];
+    // Setting the values when screen is locked will crash the app
+    // and increase battery usage.
+    if ([self wakeUpScreenIfNeeded]) {
+        [self setGammaWithRed:red green:green blue:blue];
+    }
 }
 
 + (void)enableOrangeness {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [self wakeUpScreenIfNeeded];
     [GammaController setGammaWithOrangeness:[defaults floatForKey:@"maxOrange"]];
     [defaults setObject:[NSDate date] forKey:@"lastAutoChangeDate"];
     [defaults setBool:YES forKey:@"enabled"];
@@ -178,14 +181,13 @@ extern void SBSUndimScreen();
 
 + (void)disableOrangeness {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [self wakeUpScreenIfNeeded];
     [GammaController setGammaWithOrangeness:0];
     [defaults setObject:[NSDate date] forKey:@"lastAutoChangeDate"];
     [defaults setBool:NO forKey:@"enabled"];
     [defaults synchronize];
 }
 
-+ (void)wakeUpScreenIfNeeded {
++ (bool)wakeUpScreenIfNeeded {
     //Wakes up the screen so the gamma can be changed
     mach_port_t sbsMachPort = SBSSpringBoardServerPort();
     BOOL isLocked, passcodeEnabled;
@@ -193,6 +195,7 @@ extern void SBSUndimScreen();
     NSLog(@"Lock status: %d", isLocked);
     if (isLocked)
         SBSUndimScreen();
+    return !isLocked;
 }
 
 + (void)autoChangeOrangenessIfNeeded {

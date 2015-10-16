@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AFD8E7281BCA6A3D00BCC80A /* brightness.c in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E7261BCA6A3D00BCC80A /* brightness.c */; settings = {ASSET_TAGS = (); }; };
+		AFD8E72C1BCA6D4000BCC80A /* solar.c in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E72A1BCA6D4000BCC80A /* solar.c */; settings = {ASSET_TAGS = (); }; };
+		AFD8E7301BCA6ECC00BCC80A /* BackgroundFetchController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E72F1BCA6ECC00BCC80A /* BackgroundFetchController.m */; settings = {ASSET_TAGS = (); }; };
+		AFD8E7331BCA711300BCC80A /* GammaController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E7321BCA711300BCC80A /* GammaController.m */; settings = {ASSET_TAGS = (); }; };
 		B92DD5F91BB33DD700DC6E8F /* BackBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B92DD5F81BB33DD700DC6E8F /* BackBoardServices.framework */; };
-		B96BB64F1B38D96600F1C3AE /* GammaController.m in Sources */ = {isa = PBXBuildFile; fileRef = B96BB64E1B38D96600F1C3AE /* GammaController.m */; };
 		B96BB6511B38DAF500F1C3AE /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B96BB6501B38DAF500F1C3AE /* Launch Screen.xib */; };
 		B96BB6541B38DDA500F1C3AE /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B96BB6531B38DDA500F1C3AE /* IOKit.framework */; };
 		B96BB6561B38DDB600F1C3AE /* IOMobileFramebuffer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B96BB6551B38DDB600F1C3AE /* IOMobileFramebuffer.framework */; };
@@ -34,9 +37,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AFD8E7261BCA6A3D00BCC80A /* brightness.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = brightness.c; path = libs/brightness/brightness.c; sourceTree = "<group>"; };
+		AFD8E7271BCA6A3D00BCC80A /* brightness.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = brightness.h; path = libs/brightness/brightness.h; sourceTree = "<group>"; };
+		AFD8E72A1BCA6D4000BCC80A /* solar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = solar.c; path = libs/solar/solar.c; sourceTree = "<group>"; };
+		AFD8E72B1BCA6D4000BCC80A /* solar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = solar.h; path = libs/solar/solar.h; sourceTree = "<group>"; };
+		AFD8E72E1BCA6ECC00BCC80A /* BackgroundFetchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BackgroundFetchController.h; path = mvc/controller/BackgroundFetchController.h; sourceTree = "<group>"; };
+		AFD8E72F1BCA6ECC00BCC80A /* BackgroundFetchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BackgroundFetchController.m; path = mvc/controller/BackgroundFetchController.m; sourceTree = "<group>"; };
+		AFD8E7311BCA711300BCC80A /* GammaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GammaController.h; path = mvc/controller/GammaController.h; sourceTree = "<group>"; };
+		AFD8E7321BCA711300BCC80A /* GammaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GammaController.m; path = mvc/controller/GammaController.m; sourceTree = "<group>"; };
 		B92DD5F81BB33DD700DC6E8F /* BackBoardServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BackBoardServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/PrivateFrameworks/BackBoardServices.framework; sourceTree = DEVELOPER_DIR; };
-		B96BB64D1B38D96600F1C3AE /* GammaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GammaController.h; sourceTree = "<group>"; };
-		B96BB64E1B38D96600F1C3AE /* GammaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GammaController.m; sourceTree = "<group>"; };
 		B96BB6501B38DAF500F1C3AE /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		B96BB6531B38DDA500F1C3AE /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks/IOKit.framework; sourceTree = DEVELOPER_DIR; };
 		B96BB6551B38DDB600F1C3AE /* IOMobileFramebuffer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOMobileFramebuffer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/PrivateFrameworks/IOMobileFramebuffer.framework; sourceTree = DEVELOPER_DIR; };
@@ -94,6 +103,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AFD8E7241BCA69CC00BCC80A /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				AFD8E7251BCA69D600BCC80A /* solar */,
+				AFD8E7291BCA6A4300BCC80A /* brightness */,
+			);
+			name = libs;
+			sourceTree = "<group>";
+		};
+		AFD8E7251BCA69D600BCC80A /* solar */ = {
+			isa = PBXGroup;
+			children = (
+				AFD8E72A1BCA6D4000BCC80A /* solar.c */,
+				AFD8E72B1BCA6D4000BCC80A /* solar.h */,
+			);
+			name = solar;
+			sourceTree = "<group>";
+		};
+		AFD8E7291BCA6A4300BCC80A /* brightness */ = {
+			isa = PBXGroup;
+			children = (
+				AFD8E7271BCA6A3D00BCC80A /* brightness.h */,
+				AFD8E7261BCA6A3D00BCC80A /* brightness.c */,
+			);
+			name = brightness;
+			sourceTree = "<group>";
+		};
+		AFD8E72D1BCA6E5600BCC80A /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				AFD8E7311BCA711300BCC80A /* GammaController.h */,
+				AFD8E7321BCA711300BCC80A /* GammaController.m */,
+				AFD8E72E1BCA6ECC00BCC80A /* BackgroundFetchController.h */,
+				AFD8E72F1BCA6ECC00BCC80A /* BackgroundFetchController.m */,
+			);
+			name = controller;
+			sourceTree = "<group>";
+		};
 		B96BB6571B38DE2700F1C3AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -126,12 +173,12 @@
 		B9E536481B38D90D0097BF90 /* GammaTest */ = {
 			isa = PBXGroup;
 			children = (
+				AFD8E72D1BCA6E5600BCC80A /* controller */,
+				AFD8E7241BCA69CC00BCC80A /* libs */,
 				B9E5364C1B38D90D0097BF90 /* AppDelegate.h */,
 				B9E5364D1B38D90D0097BF90 /* AppDelegate.m */,
 				B9E5364F1B38D90D0097BF90 /* MainViewController.h */,
 				B9E536501B38D90D0097BF90 /* MainViewController.m */,
-				B96BB64D1B38D96600F1C3AE /* GammaController.h */,
-				B96BB64E1B38D96600F1C3AE /* GammaController.m */,
 				B96BB6501B38DAF500F1C3AE /* Launch Screen.xib */,
 				B9B2BD391BA7B86000514B7A /* Storyboard.storyboard */,
 				B9E536551B38D90D0097BF90 /* Assets.xcassets */,
@@ -288,8 +335,11 @@
 			files = (
 				B9E536511B38D90D0097BF90 /* MainViewController.m in Sources */,
 				B9E5364E1B38D90D0097BF90 /* AppDelegate.m in Sources */,
+				AFD8E7301BCA6ECC00BCC80A /* BackgroundFetchController.m in Sources */,
 				B9E5364B1B38D90D0097BF90 /* main.m in Sources */,
-				B96BB64F1B38D96600F1C3AE /* GammaController.m in Sources */,
+				AFD8E72C1BCA6D4000BCC80A /* solar.c in Sources */,
+				AFD8E7331BCA711300BCC80A /* GammaController.m in Sources */,
+				AFD8E7281BCA6A3D00BCC80A /* brightness.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,7 +441,7 @@
 				INFOPLIST_FILE = GammaTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = me.thomasfinch.GammaTest;
+				PRODUCT_BUNDLE_IDENTIFIER = me.caspercl.GammaTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -413,7 +463,7 @@
 				INFOPLIST_FILE = GammaTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = me.thomasfinch.GammaTest;
+				PRODUCT_BUNDLE_IDENTIFIER = me.caspercl.GammaTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";

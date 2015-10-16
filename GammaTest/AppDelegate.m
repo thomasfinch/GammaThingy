@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import "GammaController.h"
+#import "BackgroundFetchController.h"
 
 typedef NS_ENUM(NSInteger, GammaAction) {
     GammaActionNone,
@@ -59,15 +60,18 @@ static NSString * const ShortcutDisable = @"Disable";
     [application setMinimumBackgroundFetchInterval:900]; //Wake up every 15 minutes at minimum
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-                                                              @"enabled": @NO,
-                                                              @"maxOrange": [NSNumber numberWithFloat:0.7],
-                                                              @"colorChangingEnabled": @YES,
-                                                              @"lastAutoChangeDate": [NSDate distantPast],
-                                                              @"autoStartHour": @19,
-                                                              @"autoStartMinute": @0,
-                                                              @"autoEndHour": @7,
-                                                              @"autoEndMinute": @0,
-                                                              }];
+        @"enabled": @NO,
+        @"maxOrange": [NSNumber numberWithFloat:0.7],
+        @"colorChangingEnabled": @YES,
+        @"lastAutoChangeDate": [NSDate distantPast],
+        @"autoStartHour": @19,
+        @"autoStartMinute": @0,
+        @"autoEndHour": @7,
+        @"autoEndMinute": @0,
+        @"colorChangingLocationLatitude": @0,
+        @"colorChangingLocationLongitude": @0,
+        @"colorChangingLocationEnabled": @NO
+    }];
     
     if ([application respondsToSelector:@selector(shortcutItems)] &&
         !application.shortcutItems.count) {
@@ -81,7 +85,24 @@ static NSString * const ShortcutDisable = @"Disable";
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
     NSLog(@"App woke with fetch request");
+
+    
     [GammaController autoChangeOrangenessIfNeeded];
+    
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    
+    if (![defaults boolForKey:@"colorChangingEnabled"] && ![defaults boolForKey:@"colorChangingLocationEnabled"]) {
+        completionHandler(UIBackgroundFetchResultNewData);
+        return;
+    }
+    
+    if ([defaults boolForKey:@"colorChangingLocationEnabled"]) {
+        [BackgroundFetchController switchScreenTemperatureBasedOnLocation: defaults];
+    } else if ([defaults boolForKey:@"colorChangingEnabled"]){
+        [BackgroundFetchController switchScreenTemperatureBasedOnTime: defaults];
+    }
+    
+    
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
