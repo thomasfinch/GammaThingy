@@ -31,6 +31,8 @@ extern void SBSUndimScreen();
 - (BOOL)isLaterThan:(NSDate*)b;
 @end
 
+static BOOL firstExecution = YES;
+
 @implementation GammaController
 
 //This function is largely the same as the one in iomfsetgamma.c from Saurik's UIKitTools package. The license is pasted below.
@@ -198,8 +200,11 @@ extern void SBSUndimScreen();
 + (void)autoChangeOrangenessIfNeeded {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    if ([defaults boolForKey:@"enabled"]){
+    // Reboot persistence code
+    if ([defaults boolForKey:@"enabled"] && firstExecution){
+        NSLog(@"First execution code was triggered");
         [self enableOrangeness];
+        firstExecution = NO;
     }
     
     if (![defaults boolForKey:@"colorChangingEnabled"]) {
