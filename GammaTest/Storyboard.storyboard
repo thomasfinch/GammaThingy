@@ -39,7 +39,7 @@
                                         <rect key="frame" x="0.0" y="99" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zs9-8L-hUf" id="snd-z7-AzZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="NcL-B3-6n9">
@@ -78,7 +78,7 @@
                                         <rect key="frame" x="0.0" y="193" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7VE-VY-qs7" id="8Wt-5u-Fxf">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="5MF-0c-fvX">
@@ -101,13 +101,13 @@
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Automatic Color Changing" id="ywG-jw-Vjt">
-                                <string key="footerTitle">Automatic color changing uses the background fetch feature to turn on or off orangeness. It doesn't happen immediately when the start or end times are passed, and won't work if background app refresh is disabled or iOS 9 low power mode is on. If your device's screen turns on randomly, that's the app making sure the screen is on before changing the color.</string>
+                                <string key="footerTitle">Automatic color changing uses the background fetch feature to turn on or off orangeness. It doesn't happen immediately when the start or end times are passed, and won't work if background app refresh is disabled or iOS 9 low power mode is on. If your device's screen turns on randomly, that's the app making sure the screen is on before changing the color.  IMPORTANT: If you find the display glitching while GammaThingy is enabled, ensure that you have turned OFF 'Reduce White Point' in: Settings / General / Accessibility / Increase Contrast</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="99n-2q-Sjq">
                                         <rect key="frame" x="0.0" y="287" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="99n-2q-Sjq" id="yoE-IK-jwS">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Of2-4s-WYp">
