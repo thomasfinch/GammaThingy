@@ -10,6 +10,7 @@
 #import "MainViewController.h"
 #import "GammaController.h"
 
+
 typedef NS_ENUM(NSInteger, GammaAction) {
     GammaActionNone,
     GammaActionEnable,
@@ -59,15 +60,19 @@ static NSString * const ShortcutDisable = @"Disable";
     [application setMinimumBackgroundFetchInterval:900]; //Wake up every 15 minutes at minimum
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-                                                              @"enabled": @NO,
-                                                              @"maxOrange": [NSNumber numberWithFloat:0.7],
-                                                              @"colorChangingEnabled": @YES,
-                                                              @"lastAutoChangeDate": [NSDate distantPast],
-                                                              @"autoStartHour": @19,
-                                                              @"autoStartMinute": @0,
-                                                              @"autoEndHour": @7,
-                                                              @"autoEndMinute": @0,
-                                                              }];
+        @"enabled": @NO,
+        @"maxOrange": [NSNumber numberWithFloat:0.7],
+        @"colorChangingEnabled": @YES,
+        @"lastAutoChangeDate": [NSDate distantPast],
+        @"autoStartHour": @19,
+        @"autoStartMinute": @0,
+        @"autoEndHour": @7,
+        @"autoEndMinute": @0,
+        @"updateUI":@YES,
+        @"colorChangingLocationLatitude": @0,
+        @"colorChangingLocationLongitude": @0,
+        @"colorChangingLocationEnabled": @NO
+    }];
     
     if ([application respondsToSelector:@selector(shortcutItems)] &&
         !application.shortcutItems.count) {
@@ -81,7 +86,10 @@ static NSString * const ShortcutDisable = @"Disable";
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
     NSLog(@"App woke with fetch request");
+
+    
     [GammaController autoChangeOrangenessIfNeeded];
+    
     completionHandler(UIBackgroundFetchResultNewData);
 }
 

@@ -14,8 +14,12 @@
 @property (weak, nonatomic) IBOutlet UISwitch *enabledSwitch;
 @property (weak, nonatomic) IBOutlet UISlider *orangeSlider;
 @property (weak, nonatomic) IBOutlet UISwitch *colorChangingEnabledSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *colorChangingLocationBasedSwitch;
 @property (weak, nonatomic) IBOutlet UITextField *startTimeTextField;
 @property (weak, nonatomic) IBOutlet UITextField *endTimeTextField;
+@property (strong, nonatomic) IBOutletCollection(UITableViewCell) NSArray *timeBasedInputCells;
+
+@property CLLocationManager * locationManager;
 
 @end
 
@@ -24,8 +28,10 @@
 @synthesize enabledSwitch;
 @synthesize orangeSlider;
 @synthesize colorChangingEnabledSwitch;
+@synthesize colorChangingLocationBasedSwitch;
 @synthesize startTimeTextField;
 @synthesize endTimeTextField;
+@synthesize timeBasedInputCells;
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     if (self = [super initWithCoder:aDecoder]) {
@@ -57,6 +63,11 @@
     endTimeTextField.inputAccessoryView = timePickerToolbar;
     startTimeTextField.inputAccessoryView = timePickerToolbar;
     
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    self.locationManager.distanceFilter = kCLDistanceFilterNone;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers;
+    
     endTimeTextField.delegate = self;
     startTimeTextField.delegate = self;
     
@@ -74,6 +85,7 @@
     enabledSwitch.on = [defaults boolForKey:@"enabled"];
     orangeSlider.value = [defaults floatForKey:@"maxOrange"];
     colorChangingEnabledSwitch.on = [defaults boolForKey:@"colorChangingEnabled"];
+    colorChangingLocationBasedSwitch.on = [defaults boolForKey:@"colorChangingLocationEnabled"];
     
     NSDate *date = [self dateForHour:[defaults integerForKey:@"autoStartHour"] andMinute:[defaults integerForKey:@"autoStartMinute"]];
     startTimeTextField.text = [timeFormatter stringFromDate:date];
@@ -83,13 +95,23 @@
 
 - (IBAction)enabledSwitchChanged:(UISwitch *)sender {
     NSLog(@"enabled: %lu",(unsigned long)sender.on);
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"updateUI"];
     
-    if (sender.on)
+    if (sender.on) {
         [GammaController setGammaWithOrangeness:[[NSUserDefaults standardUserDefaults] floatForKey:@"maxOrange"]];
-    else
+    } else {
         [GammaController setGammaWithOrangeness:0];
+    }
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"colorChangingLocationEnabled"]) {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingLocationEnabled"];
+    }
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"colorChangingLocationEnabled"]) {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingEnabled"];
+    }
+    
     
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"enabled"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"updateUI"];
 }
 
 - (IBAction)maxOrangeSliderChanged:(UISlider *)sender {
@@ -102,10 +124,88 @@
 
 - (IBAction)colorChangingEnabledSwitchChanged:(UISwitch *)sender {
     NSLog(@"colorChangingEnabled: %lu",(unsigned long)sender.on);
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"updateUI"];
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"colorChangingEnabled"];
     [[NSUserDefaults standardUserDefaults] setObject:[NSDate distantPast] forKey:@"lastAutoChangeDate"];
+    NSLog(@"color changing switch changed");
+    
+    if(sender.on) {
+        // Only one auto temperature change can be activated
+        if (colorChangingLocationBasedSwitch.on) {
+            [colorChangingLocationBasedSwitch setOn:NO animated:YES];
+        }
+        // Make the time fields full opacity.
+        for(UITableViewCell *cell in timeBasedInputCells)
+            [[cell contentView] setAlpha: 1];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingLocationEnabled"];
+        [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"colorChangingEnabled"];
+    }
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"updateUI"];
     [GammaController autoChangeOrangenessIfNeeded];
 }
+
+- (IBAction)colorChangingLocationSwitchValueChanged:(UISwitch *)sender {
+    if(sender.on) {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"updateUI"];
+        BOOL requestedLocationAuthorization = NO;
+
+        if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
+            if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0) {
+                [self.locationManager requestWhenInUseAuthorization];
+                // Let the location manager delegate take it from here.
+                return;
+            }
+        }
+        
+        // Only one auto temperature change can be activated
+        if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse) {
+            // Search for location
+            [self.locationManager startUpdatingLocation];
+            
+            // Update the user location everytime this is switched on
+            // This is only here, instead of in every background refresh, in order to prolong battery life.
+            CGFloat latitude = self.locationManager.location.coordinate.latitude;
+            CGFloat longitude = self.locationManager.location.coordinate.longitude;
+            if (latitude != 0 && longitude != 0) { // make sure the location is available
+                [[NSUserDefaults standardUserDefaults] setFloat:latitude forKey:@"colorChangingLocationLatitude"];
+                [[NSUserDefaults standardUserDefaults] setFloat:longitude forKey:@"colorChangingLocationLongitude"];
+            }
+            
+            [colorChangingEnabledSwitch setOn:NO animated:YES];
+            
+            for(UITableViewCell *cell in timeBasedInputCells) 
+                [[cell contentView] setAlpha: .6];
+            
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"colorChangingLocationEnabled"];
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingEnabled"];
+            
+        } else if(!requestedLocationAuthorization) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No access to location"
+                                                            message:@"You must enable location services in settings."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            [sender setOn:NO animated:YES];
+        }
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"updateUI"];
+        [GammaController autoChangeOrangenessIfNeeded];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingLocationEnabled"];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    if (status == kCLAuthorizationStatusDenied) {
+        [colorChangingLocationBasedSwitch setOn:NO animated:YES];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingLocationEnabled"];
+    } else if (status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        // revaluate the UISwitch status
+        [self colorChangingLocationSwitchValueChanged: colorChangingLocationBasedSwitch];
+    }
+}
+
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 2 && indexPath.row == 1) { //Start time cell
@@ -167,7 +267,8 @@
 }
 
 - (void)userDefaultsChanged:(NSNotification *)notification {
-    [self updateUI];
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"updateUI"])
+        [self updateUI];
 }
 
 @end

@@ -16,6 +16,10 @@
 #include <assert.h>
 #include <dlfcn.h>
 
+#import "solar.h"
+#import "brightness.h"
+#import "NSDate_compare.h"
+
 typedef void *IOMobileFramebufferRef;
 
 kern_return_t IOMobileFramebufferOpen(io_service_t, mach_port_t, void *, IOMobileFramebufferRef *);
@@ -25,11 +29,6 @@ kern_return_t (*IOMobileFramebufferGetGammaTable)(IOMobileFramebufferRef, void *
 extern mach_port_t SBSSpringBoardServerPort();
 extern void SBGetScreenLockStatus(mach_port_t port, BOOL *lockStatus, BOOL *passcodeEnabled);
 extern void SBSUndimScreen();
-
-@interface NSDate (e)
-- (BOOL)isEarlierThan:(NSDate*)b;
-- (BOOL)isLaterThan:(NSDate*)b;
-@end
 
 @implementation GammaController
 
@@ -164,6 +163,8 @@ extern void SBSUndimScreen();
         red = blue = green = 0.99;
     }
     
+    // Setting the values when screen is locked will crash the app
+    // and increase battery usage.
     [self setGammaWithRed:red green:green blue:blue];
 }
 
@@ -185,7 +186,7 @@ extern void SBSUndimScreen();
     [defaults synchronize];
 }
 
-+ (void)wakeUpScreenIfNeeded {
++ (bool)wakeUpScreenIfNeeded {
     //Wakes up the screen so the gamma can be changed
     mach_port_t sbsMachPort = SBSSpringBoardServerPort();
     BOOL isLocked, passcodeEnabled;
@@ -193,19 +194,50 @@ extern void SBSUndimScreen();
     NSLog(@"Lock status: %d", isLocked);
     if (isLocked)
         SBSUndimScreen();
+    return !isLocked;
 }
 
-+ (void)autoChangeOrangenessIfNeeded {
+
++ (void) autoChangeOrangenessIfNeeded {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    if ([defaults boolForKey:@"enabled"]){
-        [self enableOrangeness];
-    }
-    
-    if (![defaults boolForKey:@"colorChangingEnabled"]) {
+    if (![defaults boolForKey:@"colorChangingEnabled"] && ![defaults boolForKey:@"colorChangingLocationEnabled"]) {
         return;
     }
     
+    if ([defaults boolForKey:@"colorChangingLocationEnabled"]) {
+        [GammaController switchScreenTemperatureBasedOnLocation: defaults];
+    } else if ([defaults boolForKey:@"colorChangingEnabled"]){
+        [GammaController switchScreenTemperatureBasedOnTime: defaults];
+    }
+}
+
++ (void)switchScreenTemperatureBasedOnLocation:(NSUserDefaults*)defaults {
+    float latitude = [defaults floatForKey:@"colorChangingLocationLatitude"];
+    float longitude = [defaults floatForKey:@"colorChangingLocationLongitude"];
+    
+    double solarAngularElevation = solar_elevation([[NSDate date] timeIntervalSince1970], latitude, longitude);
+    
+    NSLog(@"latitude: %f\n", latitude);
+    NSLog(@"longitude: %f\n", longitude);
+    NSLog(@"current date: %f\n", [[NSDate date] timeIntervalSince1970]);
+    NSLog(@"solarAngularElevation %f\n", solarAngularElevation);
+    
+    float maxOrangePercentage = [defaults floatForKey:@"maxOrange"] * 100;
+    float orangeness = (calculate_interpolated_value(solarAngularElevation, 0, maxOrangePercentage) / 100);
+    NSLog(@"orangeness %f\n", orangeness);
+    
+    if(orangeness > 0) {
+        [defaults setBool:YES forKey:@"enabled"];
+    } else if (orangeness <= 0) {
+        [defaults setBool:NO forKey:@"enabled"];
+    }
+    
+    [GammaController setGammaWithOrangeness: orangeness];
+}
+
+
++ (void)switchScreenTemperatureBasedOnTime:(NSUserDefaults*)defaults {
     NSDate* now = [NSDate date];
     
     NSDateComponents *autoOnOffComponents = [[NSCalendar currentCalendar] components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:[NSDate date]];
@@ -269,13 +301,3 @@ extern void SBSUndimScreen();
 
 @end
 
-
-@implementation NSDate (e)
-- (BOOL)isEarlierThan:(NSDate*)b{
-    return [self earlierDate:b] == self;
-}
-
-- (BOOL)isLaterThan:(NSDate*)b{
-    return [self laterDate:b] == self;
-}
-@end
