@@ -199,17 +199,19 @@ static BOOL firstExecution = YES;
     return !isLocked;
 }
 
-
 + (void) autoChangeOrangenessIfNeeded {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
     // Reboot persistence check
-    if ([defaults boolForKey:@"enabled"] && firstExecution){
-        NSLog(@"First execution code was triggered");
-        [self enableOrangeness];
+    if (firstExecution) {
+        if ([defaults boolForKey:@"enabled"]){
+            NSLog(@"First execution activation was triggered");
+            [self enableOrangeness];
+        }
+    } else {
+        NSLog(@"First execution activation was NOT triggered");
+        firstExecution = NO;
     }
-    
-    firstExecution = NO;
     
     // Automatic changing check
     if (![defaults boolForKey:@"colorChangingEnabled"] && ![defaults boolForKey:@"colorChangingLocationEnabled"]) {
