@@ -207,8 +207,9 @@ static BOOL firstExecution = YES;
     if ([defaults boolForKey:@"enabled"] && firstExecution){
         NSLog(@"First execution code was triggered");
         [self enableOrangeness];
-        firstExecution = NO;
     }
+    
+    firstExecution = NO;
     
     // Automatic changing check
     if (![defaults boolForKey:@"colorChangingEnabled"] && ![defaults boolForKey:@"colorChangingLocationEnabled"]) {
