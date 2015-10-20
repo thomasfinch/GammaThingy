@@ -168,10 +168,34 @@ extern void SBSUndimScreen();
     [self setGammaWithRed:red green:green blue:blue];
 }
 
+// This method creates a transistion from one gamma value to another
++ (void)setGammaWithTransitionFrom:(float)oldPercentOrange to:(float)newPercentOrange {
+    
+    
+    
+    float delay = 0.02; // The animation delay
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (newPercentOrange > oldPercentOrange) {
+            for (float i = oldPercentOrange; i <= newPercentOrange; i = i + 0.01) {
+                [NSThread sleepForTimeInterval:delay];
+                [self setGammaWithOrangeness:i];
+                NSLog(@"%f",i);
+            }
+        } else {
+            for (float i = oldPercentOrange; i >= newPercentOrange; i = i - 0.01) {
+                [NSThread sleepForTimeInterval:delay];
+                [self setGammaWithOrangeness:i];
+                NSLog(@"%f",i);
+            }
+        }
+    });
+}
+
 + (void)enableOrangeness {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [self wakeUpScreenIfNeeded];
-    [GammaController setGammaWithOrangeness:[defaults floatForKey:@"maxOrange"]];
+    [GammaController setGammaWithTransitionFrom:0 to:[defaults floatForKey:@"maxOrange"]];
     [defaults setObject:[NSDate date] forKey:@"lastAutoChangeDate"];
     [defaults setBool:YES forKey:@"enabled"];
     [defaults synchronize];
@@ -180,7 +204,7 @@ extern void SBSUndimScreen();
 + (void)disableOrangeness {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [self wakeUpScreenIfNeeded];
-    [GammaController setGammaWithOrangeness:0];
+    [GammaController setGammaWithTransitionFrom:[defaults floatForKey:@"maxOrange"] to:0];
     [defaults setObject:[NSDate date] forKey:@"lastAutoChangeDate"];
     [defaults setBool:NO forKey:@"enabled"];
     [defaults synchronize];

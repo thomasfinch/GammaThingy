@@ -98,9 +98,9 @@
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"updateUI"];
     
     if (sender.on) {
-        [GammaController setGammaWithOrangeness:[[NSUserDefaults standardUserDefaults] floatForKey:@"maxOrange"]];
+        [GammaController setGammaWithTransitionFrom:0 to:[[NSUserDefaults standardUserDefaults] floatForKey:@"maxOrange"]];
     } else {
-        [GammaController setGammaWithOrangeness:0];
+        [GammaController setGammaWithTransitionFrom:[[NSUserDefaults standardUserDefaults] floatForKey:@"maxOrange"] to:0];
     }
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"colorChangingLocationEnabled"]) {
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"colorChangingLocationEnabled"];
