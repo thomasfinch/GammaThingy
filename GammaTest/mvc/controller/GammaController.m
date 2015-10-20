@@ -192,8 +192,12 @@ extern void SBSUndimScreen();
 
 + (void)enableOrangeness {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [self wakeUpScreenIfNeeded];
-    [GammaController setGammaWithTransitionFrom:0 to:[defaults floatForKey:@"maxOrange"]];
+    
+    if(![defaults boolForKey:@"enabled"]){
+        [self wakeUpScreenIfNeeded];
+        [GammaController setGammaWithTransitionFrom:0 to:[defaults floatForKey:@"maxOrange"]];
+    }
+    
     [defaults setObject:[NSDate date] forKey:@"lastAutoChangeDate"];
     [defaults setBool:YES forKey:@"enabled"];
     [defaults synchronize];
@@ -201,8 +205,12 @@ extern void SBSUndimScreen();
 
 + (void)disableOrangeness {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [self wakeUpScreenIfNeeded];
-    [GammaController setGammaWithTransitionFrom:[defaults floatForKey:@"maxOrange"] to:0];
+    
+    if([defaults boolForKey:@"enabled"]){
+        [self wakeUpScreenIfNeeded];
+        [GammaController setGammaWithTransitionFrom:[defaults floatForKey:@"maxOrange"] to:0];
+    }
+
     [defaults setObject:[NSDate date] forKey:@"lastAutoChangeDate"];
     [defaults setBool:NO forKey:@"enabled"];
     [defaults synchronize];
@@ -218,7 +226,6 @@ extern void SBSUndimScreen();
         SBSUndimScreen();
     return !isLocked;
 }
-
 
 + (void) autoChangeOrangenessIfNeeded {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -250,14 +257,10 @@ extern void SBSUndimScreen();
     NSLog(@"orangeness %f\n", orangeness);
     
     if(orangeness > 0) {
-        [defaults setBool:YES forKey:@"enabled"];
-        [GammaController setGammaWithTransitionFrom:0 to:[defaults floatForKey:@"maxOrange"]];
-    } else if (orangeness <= 0 && [defaults boolForKey:@"enabled"]) {
-        [defaults setBool:NO forKey:@"enabled"];
-        [GammaController setGammaWithTransitionFrom:[defaults floatForKey:@"maxOrange"] to:0];
+        [GammaController enableOrangeness];
+    } else if (orangeness <= 0) {
+        [GammaController disableOrangeness];
     }
-    
-    //[GammaController setGammaWithOrangeness: orangeness];
 }
 
 + (void)switchScreenTemperatureBasedOnTime:(NSUserDefaults*)defaults {
