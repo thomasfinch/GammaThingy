@@ -182,6 +182,7 @@ extern void SBSUndimScreen();
             }
         } else {
             for (float i = oldPercentOrange; i >= newPercentOrange; i = i - 0.01) {
+                if (i < 0.01){i=0;} // Making sure the filter is removed entirely
                 [NSThread sleepForTimeInterval:delay];
                 [self setGammaWithOrangeness:i];
                 NSLog(@"%f",i);
@@ -193,6 +194,7 @@ extern void SBSUndimScreen();
 + (void)enableOrangeness {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
+    // Making sure orangeness is not enabled
     if(![defaults boolForKey:@"enabled"]){
         [self wakeUpScreenIfNeeded];
         [GammaController setGammaWithTransitionFrom:0 to:[defaults floatForKey:@"maxOrange"]];
@@ -206,6 +208,7 @@ extern void SBSUndimScreen();
 + (void)disableOrangeness {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
+    // Making sure orangeness is not disabled
     if([defaults boolForKey:@"enabled"]){
         [self wakeUpScreenIfNeeded];
         [GammaController setGammaWithTransitionFrom:[defaults floatForKey:@"maxOrange"] to:0];
