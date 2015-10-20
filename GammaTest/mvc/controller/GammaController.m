@@ -171,8 +171,6 @@ extern void SBSUndimScreen();
 // This method creates a transistion from one gamma value to another
 + (void)setGammaWithTransitionFrom:(float)oldPercentOrange to:(float)newPercentOrange {
     
-    
-    
     float delay = 0.02; // The animation delay
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -253,13 +251,14 @@ extern void SBSUndimScreen();
     
     if(orangeness > 0) {
         [defaults setBool:YES forKey:@"enabled"];
-    } else if (orangeness <= 0) {
+        [GammaController setGammaWithTransitionFrom:0 to:[defaults floatForKey:@"maxOrange"]];
+    } else if (orangeness <= 0 && [defaults boolForKey:@"enabled"]) {
         [defaults setBool:NO forKey:@"enabled"];
+        [GammaController setGammaWithTransitionFrom:[defaults floatForKey:@"maxOrange"] to:0];
     }
     
-    [GammaController setGammaWithOrangeness: orangeness];
+    //[GammaController setGammaWithOrangeness: orangeness];
 }
-
 
 + (void)switchScreenTemperatureBasedOnTime:(NSUserDefaults*)defaults {
     NSDate* now = [NSDate date];
