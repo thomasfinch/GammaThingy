@@ -79,7 +79,7 @@ static NSString * const ShortcutDisable = @"Disable";
         [self updateShortCutItem];
     }
     
-    [GammaController autoChangeOrangenessIfNeeded];
+    [GammaController autoChangeOrangenessIfNeeded]; // This is needed for reboot persistence
     
     return YES;
 }

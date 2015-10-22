@@ -30,6 +30,8 @@ extern mach_port_t SBSSpringBoardServerPort();
 extern void SBGetScreenLockStatus(mach_port_t port, BOOL *lockStatus, BOOL *passcodeEnabled);
 extern void SBSUndimScreen();
 
+static BOOL firstExecution = YES;
+
 @implementation GammaController
 
 //This function is largely the same as the one in iomfsetgamma.c from Saurik's UIKitTools package. The license is pasted below.
@@ -232,7 +234,19 @@ extern void SBSUndimScreen();
 
 + (void) autoChangeOrangenessIfNeeded {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+    // Reboot persistence check
+    if (firstExecution) {
+        if ([defaults boolForKey:@"enabled"]){
+            NSLog(@"First execution activation was triggered");
+            [self enableOrangeness];
+        } else {
+            NSLog(@"First execution activation was NOT triggered");
+        }
+        firstExecution = NO;
+    }
     
+    // Automatic changing check
     if (![defaults boolForKey:@"colorChangingEnabled"] && ![defaults boolForKey:@"colorChangingLocationEnabled"]) {
         return;
     }
