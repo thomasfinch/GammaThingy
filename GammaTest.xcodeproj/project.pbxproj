@@ -64,6 +64,8 @@
 		0024BBAC1BDF6B19007A5FA1 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
 		0024BBAF1BDF6B19007A5FA1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		0024BBB11BDF6B19007A5FA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		003B30461BE0C96700BFF1E6 /* GammaTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GammaTest.entitlements; sourceTree = "<group>"; };
+		003B30471BE0C9B700BFF1E6 /* GammaWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GammaWidget.entitlements; sourceTree = "<group>"; };
 		AFD8E7261BCA6A3D00BCC80A /* brightness.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = brightness.c; path = libs/brightness/brightness.c; sourceTree = "<group>"; };
 		AFD8E7271BCA6A3D00BCC80A /* brightness.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = brightness.h; path = libs/brightness/brightness.h; sourceTree = "<group>"; };
 		AFD8E72A1BCA6D4000BCC80A /* solar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = solar.c; path = libs/solar/solar.c; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				0024BBAC1BDF6B19007A5FA1 /* TodayViewController.m */,
 				0024BBAE1BDF6B19007A5FA1 /* MainInterface.storyboard */,
 				0024BBB11BDF6B19007A5FA1 /* Info.plist */,
+				003B30471BE0C9B700BFF1E6 /* GammaWidget.entitlements */,
 			);
 			path = GammaWidget;
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 				B9B2BD391BA7B86000514B7A /* Storyboard.storyboard */,
 				B9E536551B38D90D0097BF90 /* Assets.xcassets */,
 				B9E5365A1B38D90D0097BF90 /* Info.plist */,
+				003B30461BE0C96700BFF1E6 /* GammaTest.entitlements */,
 				B9E536601B38D92C0097BF90 /* IOKit Headers */,
 				B9E536491B38D90D0097BF90 /* Supporting Files */,
 			);
@@ -374,11 +378,19 @@
 					0024BBA51BDF6B18007A5FA1 = {
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = HN76YBFY6K;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					B9E536451B38D90D0097BF90 = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = HN76YBFY6K;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
@@ -476,6 +488,7 @@
 		0024BBB61BDF6B19007A5FA1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GammaWidget/GammaWidget.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -489,6 +502,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.ahammer.GammaTest.GammaWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -496,6 +510,7 @@
 		0024BBB71BDF6B19007A5FA1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GammaWidget/GammaWidget.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -509,6 +524,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = me.ahammer.GammaTest.GammaWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -517,6 +533,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APP_GROUP_IDENTIFIER = group.ahammer.me.GammaTest;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -560,6 +577,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APP_GROUP_IDENTIFIER = group.ahammer.me.GammaTest;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -597,6 +615,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GammaTest/GammaTest.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -618,6 +637,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GammaTest/GammaTest.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
