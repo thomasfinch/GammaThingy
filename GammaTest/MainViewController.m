@@ -96,38 +96,44 @@
 
 - (IBAction)enabledSwitchChanged:(UISwitch *)sender {
     NSLog(@"enabled: %lu",(unsigned long)sender.on);
-    [[NSUserDefaults groupDefaults] setBool:NO forKey:@"updateUI"];
+    NSUserDefaults* defaults = [NSUserDefaults groupDefaults];
+    [defaults setBool:NO forKey:@"updateUI"];
     
     if (sender.on) {
         [GammaController setGammaWithTransitionFrom:0 to:[[NSUserDefaults groupDefaults] floatForKey:@"maxOrange"]];
     } else {
         [GammaController setGammaWithTransitionFrom:[[NSUserDefaults groupDefaults] floatForKey:@"maxOrange"] to:0];
     }
-    if ([[NSUserDefaults groupDefaults] boolForKey:@"colorChangingLocationEnabled"]) {
-        [[NSUserDefaults groupDefaults] setBool:NO forKey:@"colorChangingLocationEnabled"];
+    if ([defaults boolForKey:@"colorChangingLocationEnabled"]) {
+        [defaults setBool:NO forKey:@"colorChangingLocationEnabled"];
     }
-    if ([[NSUserDefaults groupDefaults] boolForKey:@"colorChangingLocationEnabled"]) {
-        [[NSUserDefaults groupDefaults] setBool:NO forKey:@"colorChangingEnabled"];
+    if ([defaults boolForKey:@"colorChangingLocationEnabled"]) {
+        [defaults setBool:NO forKey:@"colorChangingEnabled"];
     }
     
-    
-    [[NSUserDefaults groupDefaults] setBool:sender.on forKey:@"enabled"];
-    [[NSUserDefaults groupDefaults] setBool:YES forKey:@"updateUI"];
+    [defaults setBool:sender.on forKey:@"enabled"];
+    [defaults setBool:YES forKey:@"updateUI"];
+    [defaults synchronize];
 }
 
 - (IBAction)maxOrangeSliderChanged:(UISlider *)sender {
     NSLog(@"maxOrange: %f",sender.value);
-    [[NSUserDefaults groupDefaults] setFloat:sender.value forKey:@"maxOrange"];
+    NSUserDefaults *defaults = [NSUserDefaults groupDefaults];
+    [defaults setFloat:sender.value forKey:@"maxOrange"];
     
-    if (enabledSwitch.on)
+    if (enabledSwitch.on) {
         [GammaController setGammaWithOrangeness:sender.value];
+    }
+    
+    [defaults synchronize];
 }
 
 - (IBAction)colorChangingEnabledSwitchChanged:(UISwitch *)sender {
     NSLog(@"colorChangingEnabled: %lu",(unsigned long)sender.on);
-    [[NSUserDefaults groupDefaults] setBool:NO forKey:@"updateUI"];
-    [[NSUserDefaults groupDefaults] setBool:sender.on forKey:@"colorChangingEnabled"];
-    [[NSUserDefaults groupDefaults] setObject:[NSDate distantPast] forKey:@"lastAutoChangeDate"];
+    NSUserDefaults *defaults = [NSUserDefaults groupDefaults];
+    [defaults setBool:NO forKey:@"updateUI"];
+    [defaults setBool:sender.on forKey:@"colorChangingEnabled"];
+    [defaults setObject:[NSDate distantPast] forKey:@"lastAutoChangeDate"];
     NSLog(@"color changing switch changed");
     
     if(sender.on) {
@@ -138,16 +144,20 @@
         // Make the time fields full opacity.
         for(UITableViewCell *cell in timeBasedInputCells)
             [[cell contentView] setAlpha: 1];
-        [[NSUserDefaults groupDefaults] setBool:NO forKey:@"colorChangingLocationEnabled"];
-        [[NSUserDefaults groupDefaults] setBool:sender.on forKey:@"colorChangingEnabled"];
+        [defaults setBool:NO forKey:@"colorChangingLocationEnabled"];
+        [defaults setBool:sender.on forKey:@"colorChangingEnabled"];
     }
-    [[NSUserDefaults groupDefaults] setBool:YES forKey:@"updateUI"];
+    
+    [defaults setBool:YES forKey:@"updateUI"];
+    [defaults synchronize];
     [GammaController autoChangeOrangenessIfNeeded];
 }
 
 - (IBAction)colorChangingLocationSwitchValueChanged:(UISwitch *)sender {
+    NSUserDefaults *defaults = [NSUserDefaults groupDefaults];
+    
     if(sender.on) {
-        [[NSUserDefaults groupDefaults] setBool:NO forKey:@"updateUI"];
+        [defaults setBool:NO forKey:@"updateUI"];
         BOOL requestedLocationAuthorization = NO;
 
         if([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
@@ -168,8 +178,8 @@
             CGFloat latitude = self.locationManager.location.coordinate.latitude;
             CGFloat longitude = self.locationManager.location.coordinate.longitude;
             if (latitude != 0 && longitude != 0) { // make sure the location is available
-                [[NSUserDefaults groupDefaults] setFloat:latitude forKey:@"colorChangingLocationLatitude"];
-                [[NSUserDefaults groupDefaults] setFloat:longitude forKey:@"colorChangingLocationLongitude"];
+                [defaults setFloat:latitude forKey:@"colorChangingLocationLatitude"];
+                [defaults setFloat:longitude forKey:@"colorChangingLocationLongitude"];
             }
             
             [colorChangingEnabledSwitch setOn:NO animated:YES];
@@ -177,8 +187,8 @@
             for(UITableViewCell *cell in timeBasedInputCells) 
                 [[cell contentView] setAlpha: .6];
             
-            [[NSUserDefaults groupDefaults] setBool:YES forKey:@"colorChangingLocationEnabled"];
-            [[NSUserDefaults groupDefaults] setBool:NO forKey:@"colorChangingEnabled"];
+            [defaults setBool:YES forKey:@"colorChangingLocationEnabled"];
+            [defaults setBool:NO forKey:@"colorChangingEnabled"];
             
         } else if(!requestedLocationAuthorization) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No access to location"
@@ -189,17 +199,21 @@
             [alert show];
             [sender setOn:NO animated:YES];
         }
-        [[NSUserDefaults groupDefaults] setBool:YES forKey:@"updateUI"];
+        [defaults setBool:YES forKey:@"updateUI"];
         [GammaController autoChangeOrangenessIfNeeded];
     } else {
-        [[NSUserDefaults groupDefaults] setBool:NO forKey:@"colorChangingLocationEnabled"];
+        [defaults setBool:NO forKey:@"colorChangingLocationEnabled"];
     }
+    
+    [defaults synchronize];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     if (status == kCLAuthorizationStatusDenied) {
         [colorChangingLocationBasedSwitch setOn:NO animated:YES];
-        [[NSUserDefaults groupDefaults] setBool:NO forKey:@"colorChangingLocationEnabled"];
+        NSUserDefaults *defaults = [NSUserDefaults groupDefaults];
+        [defaults setBool:NO forKey:@"colorChangingLocationEnabled"];
+        [defaults synchronize];
     } else if (status == kCLAuthorizationStatusAuthorizedWhenInUse) {
         // revaluate the UISwitch status
         [self colorChangingLocationSwitchValueChanged: colorChangingLocationBasedSwitch];
@@ -244,6 +258,7 @@
     [defaults setInteger:components.minute forKey:[defaultsKeyPrefix stringByAppendingString:@"Minute"]];
     
     [defaults setObject:[NSDate distantPast] forKey:@"lastAutoChangeDate"];
+    [defaults synchronize];
     [GammaController autoChangeOrangenessIfNeeded];
 }
 
@@ -268,8 +283,9 @@
 }
 
 - (void)userDefaultsChanged:(NSNotification *)notification {
-    if([[NSUserDefaults groupDefaults] boolForKey:@"updateUI"])
+    if ([[NSUserDefaults groupDefaults] boolForKey:@"updateUI"]) {
         [self updateUI];
+    }
 }
 
 @end

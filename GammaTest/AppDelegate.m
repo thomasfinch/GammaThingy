@@ -84,6 +84,10 @@ static NSString * const ShortcutDisable = @"Disable";
     return YES;
 }
 
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    [[NSUserDefaults groupDefaults] setBool:YES forKey:@"updateUI"];
+}
+
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
     NSLog(@"App woke with fetch request");
 

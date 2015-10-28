@@ -336,6 +336,7 @@ static BOOL firstExecution = YES;
     }
     
     [defaults setObject:[NSDate date] forKey:@"lastAutoChangeDate"];
+    [defaults synchronize];
 }
 	
 + (BOOL)enabled {
