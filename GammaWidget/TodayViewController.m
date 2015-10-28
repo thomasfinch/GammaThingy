@@ -15,6 +15,10 @@
 @property IBOutlet UIButton *toggleButton;
 @property IBOutlet UIButton *increaseButton;
 @property IBOutlet UIButton *decreaseButton;
+
+@property IBOutlet UIVisualEffectView *toggleView;
+@property IBOutlet UIVisualEffectView *increaseView;
+@property IBOutlet UIVisualEffectView *decreaseView;
 @end
 
 @implementation TodayViewController
@@ -23,6 +27,15 @@ float increaseOrangenessBy = 0.1f;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.preferredContentSize = CGSizeMake(0, 33);
+    
+    self.toggleView.layer.cornerRadius = 5;
+    self.increaseView.layer.cornerRadius = 5;
+    self.decreaseView.layer.cornerRadius = 5;
+    
+    self.toggleView.clipsToBounds = YES;
+    self.increaseView.clipsToBounds = YES;
+    self.decreaseView.clipsToBounds = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -35,6 +48,10 @@ float increaseOrangenessBy = 0.1f;
     self.toggleButton.selected = enabled;
     self.increaseButton.enabled = enabled;
     self.decreaseButton.enabled = enabled;
+}
+
+- (UIEdgeInsets)widgetMarginInsetsForProposedMarginInsets:(UIEdgeInsets)defaultMarginInsets {
+    return UIEdgeInsetsMake(10, defaultMarginInsets.left, 10, defaultMarginInsets.right);
 }
 
 - (IBAction)toggle:(id)sender {
