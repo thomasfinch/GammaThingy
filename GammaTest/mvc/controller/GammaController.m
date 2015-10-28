@@ -19,6 +19,7 @@
 #import "solar.h"
 #import "brightness.h"
 #import "NSDate_compare.h"
+#import "NSUserDefaults+Group.h"
 
 typedef void *IOMobileFramebufferRef;
 
@@ -194,7 +195,7 @@ static BOOL firstExecution = YES;
 }
 
 + (void)enableOrangeness {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [NSUserDefaults groupDefaults];
     
     // Making sure orangeness is not enabled
     if(![defaults boolForKey:@"enabled"]){
@@ -208,7 +209,7 @@ static BOOL firstExecution = YES;
 }
 
 + (void)disableOrangeness {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [NSUserDefaults groupDefaults];
     
     // Making sure orangeness is not disabled
     if([defaults boolForKey:@"enabled"]){
@@ -233,7 +234,7 @@ static BOOL firstExecution = YES;
 }
 
 + (void) autoChangeOrangenessIfNeeded {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [NSUserDefaults groupDefaults];
 
     // Reboot persistence check
     if (firstExecution) {
@@ -338,7 +339,7 @@ static BOOL firstExecution = YES;
 }
 	
 + (BOOL)enabled {
-    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults* defaults = [NSUserDefaults groupDefaults];
     return [defaults boolForKey:@"enabled"];
 }
 

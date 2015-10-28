@@ -18,6 +18,8 @@
 		0024BBCC1BDF6E85007A5FA1 /* GammaController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E7321BCA711300BCC80A /* GammaController.m */; };
 		0024BBCD1BDF6E95007A5FA1 /* solar.c in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E72A1BCA6D4000BCC80A /* solar.c */; };
 		0024BBCE1BDF6E9A007A5FA1 /* brightness.c in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E7261BCA6A3D00BCC80A /* brightness.c */; };
+		003B304A1BE0CB7000BFF1E6 /* NSUserDefaults+Group.m in Sources */ = {isa = PBXBuildFile; fileRef = 003B30491BE0CB7000BFF1E6 /* NSUserDefaults+Group.m */; };
+		003B304B1BE0CBCA00BFF1E6 /* NSUserDefaults+Group.m in Sources */ = {isa = PBXBuildFile; fileRef = 003B30491BE0CB7000BFF1E6 /* NSUserDefaults+Group.m */; };
 		AFD8E7281BCA6A3D00BCC80A /* brightness.c in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E7261BCA6A3D00BCC80A /* brightness.c */; };
 		AFD8E72C1BCA6D4000BCC80A /* solar.c in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E72A1BCA6D4000BCC80A /* solar.c */; };
 		AFD8E7331BCA711300BCC80A /* GammaController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E7321BCA711300BCC80A /* GammaController.m */; };
@@ -66,6 +68,8 @@
 		0024BBB11BDF6B19007A5FA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		003B30461BE0C96700BFF1E6 /* GammaTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GammaTest.entitlements; sourceTree = "<group>"; };
 		003B30471BE0C9B700BFF1E6 /* GammaWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GammaWidget.entitlements; sourceTree = "<group>"; };
+		003B30481BE0CB7000BFF1E6 /* NSUserDefaults+Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSUserDefaults+Group.h"; path = "extentions/NSUserDefaults+Group.h"; sourceTree = "<group>"; };
+		003B30491BE0CB7000BFF1E6 /* NSUserDefaults+Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSUserDefaults+Group.m"; path = "extentions/NSUserDefaults+Group.m"; sourceTree = "<group>"; };
 		AFD8E7261BCA6A3D00BCC80A /* brightness.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = brightness.c; path = libs/brightness/brightness.c; sourceTree = "<group>"; };
 		AFD8E7271BCA6A3D00BCC80A /* brightness.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = brightness.h; path = libs/brightness/brightness.h; sourceTree = "<group>"; };
 		AFD8E72A1BCA6D4000BCC80A /* solar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = solar.c; path = libs/solar/solar.c; sourceTree = "<group>"; };
@@ -163,12 +167,14 @@
 			path = GammaWidget;
 			sourceTree = "<group>";
 		};
-		AF2C35091BD168C100BBCF8F /* extentions */ = {
+		AF2C35091BD168C100BBCF8F /* extensions */ = {
 			isa = PBXGroup;
 			children = (
 				AFEEB5D11BD1692600F56616 /* NSDate_compare.h */,
+				003B30481BE0CB7000BFF1E6 /* NSUserDefaults+Group.h */,
+				003B30491BE0CB7000BFF1E6 /* NSUserDefaults+Group.m */,
 			);
-			name = extentions;
+			name = extensions;
 			sourceTree = "<group>";
 		};
 		AFD8E7241BCA69CC00BCC80A /* libs */ = {
@@ -242,7 +248,7 @@
 		B9E536481B38D90D0097BF90 /* GammaTest */ = {
 			isa = PBXGroup;
 			children = (
-				AF2C35091BD168C100BBCF8F /* extentions */,
+				AF2C35091BD168C100BBCF8F /* extensions */,
 				AFD8E72D1BCA6E5600BCC80A /* controller */,
 				AFD8E7241BCA69CC00BCC80A /* libs */,
 				B9E5364C1B38D90D0097BF90 /* AppDelegate.h */,
@@ -447,6 +453,7 @@
 				0024BBAD1BDF6B19007A5FA1 /* TodayViewController.m in Sources */,
 				0024BBCE1BDF6E9A007A5FA1 /* brightness.c in Sources */,
 				0024BBCC1BDF6E85007A5FA1 /* GammaController.m in Sources */,
+				003B304B1BE0CBCA00BFF1E6 /* NSUserDefaults+Group.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -460,6 +467,7 @@
 				AFD8E72C1BCA6D4000BCC80A /* solar.c in Sources */,
 				AFD8E7331BCA711300BCC80A /* GammaController.m in Sources */,
 				AFD8E7281BCA6A3D00BCC80A /* brightness.c in Sources */,
+				003B304A1BE0CB7000BFF1E6 /* NSUserDefaults+Group.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

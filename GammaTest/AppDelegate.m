@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import "GammaController.h"
-
+#import "NSUserDefaults+Group.h"
 
 typedef NS_ENUM(NSInteger, GammaAction) {
     GammaActionNone,
@@ -59,7 +59,7 @@ static NSString * const ShortcutDisable = @"Disable";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [application setMinimumBackgroundFetchInterval:900]; //Wake up every 15 minutes at minimum
     
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{
+    [[NSUserDefaults groupDefaults] registerDefaults:@{
         @"enabled": @NO,
         @"maxOrange": [NSNumber numberWithFloat:0.7],
         @"colorChangingEnabled": @YES,
@@ -108,7 +108,7 @@ static NSString * const ShortcutDisable = @"Disable";
             }
         } else {
             //gammathingy://orangeness/switch
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"enabled"]) {
+            if ([[NSUserDefaults groupDefaults] boolForKey:@"enabled"]) {
                 [GammaController disableOrangeness];
             } else {
                 [GammaController enableOrangeness];
