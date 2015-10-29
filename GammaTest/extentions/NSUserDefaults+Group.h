@@ -11,7 +11,7 @@
 @interface NSUserDefaults (Group)
 
 // Returns a new NSUserDefaults object for app groups to share defaults in multiple targets.
-// The suit name is the bundles' "App Group Identifier" key.
+// The suit name is the bundles' "AppGroupIdentifier" key.
 //
 // (Note: For now, this returns a new instance on every call.)
 + (NSUserDefaults *)groupDefaults;

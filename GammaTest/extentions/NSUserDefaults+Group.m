@@ -11,7 +11,7 @@
 @implementation NSUserDefaults (Group)
 
 + (NSUserDefaults *)groupDefaults {
-    NSString *suitName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"App Group Identifier"];
+    NSString *suitName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"AppGroupIdentifier"];
     return [[NSUserDefaults alloc] initWithSuiteName:suitName];
 }
 

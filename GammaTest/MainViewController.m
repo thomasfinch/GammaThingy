@@ -100,9 +100,9 @@
     [defaults setBool:NO forKey:@"updateUI"];
     
     if (sender.on) {
-        [GammaController setGammaWithTransitionFrom:0 to:[[NSUserDefaults groupDefaults] floatForKey:@"maxOrange"]];
+        [GammaController enableOrangeness];
     } else {
-        [GammaController setGammaWithTransitionFrom:[[NSUserDefaults groupDefaults] floatForKey:@"maxOrange"] to:0];
+        [GammaController disableOrangeness];
     }
     if ([defaults boolForKey:@"colorChangingLocationEnabled"]) {
         [defaults setBool:NO forKey:@"colorChangingLocationEnabled"];
@@ -111,7 +111,6 @@
         [defaults setBool:NO forKey:@"colorChangingEnabled"];
     }
     
-    [defaults setBool:sender.on forKey:@"enabled"];
     [defaults setBool:YES forKey:@"updateUI"];
     [defaults synchronize];
 }
@@ -149,8 +148,8 @@
     }
     
     [defaults setBool:YES forKey:@"updateUI"];
-    [defaults synchronize];
     [GammaController autoChangeOrangenessIfNeeded];
+    [defaults synchronize];
 }
 
 - (IBAction)colorChangingLocationSwitchValueChanged:(UISwitch *)sender {
@@ -258,8 +257,8 @@
     [defaults setInteger:components.minute forKey:[defaultsKeyPrefix stringByAppendingString:@"Minute"]];
     
     [defaults setObject:[NSDate distantPast] forKey:@"lastAutoChangeDate"];
-    [defaults synchronize];
     [GammaController autoChangeOrangenessIfNeeded];
+    [defaults synchronize];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
