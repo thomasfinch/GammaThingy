@@ -36,6 +36,9 @@ float increaseOrangenessBy = 0.1f;
     self.toggleView.clipsToBounds = YES;
     self.increaseView.clipsToBounds = YES;
     self.decreaseView.clipsToBounds = YES;
+    NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"];
+    NSDictionary *appDefaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
+    [[NSUserDefaults groupDefaults] registerDefaults:appDefaults];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

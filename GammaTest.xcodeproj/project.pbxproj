@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		001E848A1BE20544002871BD /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 001E84891BE20544002871BD /* Defaults.plist */; };
+		001E848B1BE20544002871BD /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 001E84891BE20544002871BD /* Defaults.plist */; };
 		0024BBA91BDF6B18007A5FA1 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0024BBA81BDF6B18007A5FA1 /* NotificationCenter.framework */; };
 		0024BBAD1BDF6B19007A5FA1 /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0024BBAC1BDF6B19007A5FA1 /* TodayViewController.m */; };
 		0024BBB01BDF6B19007A5FA1 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0024BBAE1BDF6B19007A5FA1 /* MainInterface.storyboard */; };
@@ -60,6 +62,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		001E84891BE20544002871BD /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Defaults.plist; sourceTree = "<group>"; };
 		0024BBA61BDF6B18007A5FA1 /* GammaWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = GammaWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0024BBA81BDF6B18007A5FA1 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		0024BBAB1BDF6B19007A5FA1 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
@@ -259,6 +262,7 @@
 				B9B2BD391BA7B86000514B7A /* Storyboard.storyboard */,
 				B9E536551B38D90D0097BF90 /* Assets.xcassets */,
 				B9E5365A1B38D90D0097BF90 /* Info.plist */,
+				001E84891BE20544002871BD /* Defaults.plist */,
 				003B30461BE0C96700BFF1E6 /* GammaTest.entitlements */,
 				B9E536601B38D92C0097BF90 /* IOKit Headers */,
 				B9E536491B38D90D0097BF90 /* Supporting Files */,
@@ -428,6 +432,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				001E848B1BE20544002871BD /* Defaults.plist in Resources */,
 				0024BBB01BDF6B19007A5FA1 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -436,6 +441,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				001E848A1BE20544002871BD /* Defaults.plist in Resources */,
 				B9E536561B38D90D0097BF90 /* Assets.xcassets in Resources */,
 				B96BB6511B38DAF500F1C3AE /* Launch Screen.xib in Resources */,
 				B9B2BD3A1BA7B86000514B7A /* Storyboard.storyboard in Resources */,

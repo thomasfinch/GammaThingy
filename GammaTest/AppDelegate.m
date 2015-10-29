@@ -59,20 +59,9 @@ static NSString * const ShortcutDisable = @"Disable";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [application setMinimumBackgroundFetchInterval:900]; //Wake up every 15 minutes at minimum
     
-    [[NSUserDefaults groupDefaults] registerDefaults:@{
-        @"enabled": @NO,
-        @"maxOrange": [NSNumber numberWithFloat:0.7],
-        @"colorChangingEnabled": @YES,
-        @"lastAutoChangeDate": [NSDate distantPast],
-        @"autoStartHour": @19,
-        @"autoStartMinute": @0,
-        @"autoEndHour": @7,
-        @"autoEndMinute": @0,
-        @"updateUI":@YES,
-        @"colorChangingLocationLatitude": @0,
-        @"colorChangingLocationLongitude": @0,
-        @"colorChangingLocationEnabled": @NO
-    }];
+    NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"];
+    NSDictionary *appDefaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
+    [[NSUserDefaults groupDefaults] registerDefaults:appDefaults];
     
     if ([application respondsToSelector:@selector(shortcutItems)] &&
         !application.shortcutItems.count) {
