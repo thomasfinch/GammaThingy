@@ -19,6 +19,7 @@
 #import "solar.h"
 #import "brightness.h"
 #import "NSDate_compare.h"
+#import "NSUserDefaults+Group.h"
 
 typedef void *IOMobileFramebufferRef;
 
@@ -108,10 +109,23 @@ static BOOL firstExecution = YES;
     uint32_t data[0xc0c / sizeof(uint32_t)];
     memset(data, 0, sizeof(data));
     
+    // Hack to share a single gammatable.dat file between host app and Today widget.
+    // Otherwise, it can happen that the widget initializes its gammatable.dat with the existing gamma
+    // from the host app instead of the default screen values (or vice versa). In that case, the widget
+    // won't be able to fully turn off gamma.
+    //
+    // Issues:
+    //   - Not thread-safe. The file is written only once, but still.
+    //   - Tying the GammaController to app group logic makes it less general.
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSString *suitName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"AppGroupIdentifier"];
+    NSURL* containerURL = [fileManager containerURLForSecurityApplicationGroupIdentifier:suitName];
+    NSString* filePath = [[containerURL path] stringByAppendingString:@"/gammatable.dat"];
+
     //Create the path string pointing to the temporary gamma table file
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *filePath = [documentsDirectory stringByAppendingString:@"/gammatable.dat"];
+    //NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    //NSString *documentsDirectory = [paths objectAtIndex:0];
+    //NSString *filePath = [documentsDirectory stringByAppendingString:@"/gammatable.dat"];
     FILE *file = fopen([filePath UTF8String], "rb");
     
     if (file == NULL) {
@@ -194,7 +208,7 @@ static BOOL firstExecution = YES;
 }
 
 + (void)enableOrangeness {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [NSUserDefaults groupDefaults];
     
     // Making sure orangeness is not enabled
     if(![defaults boolForKey:@"enabled"]){
@@ -208,7 +222,7 @@ static BOOL firstExecution = YES;
 }
 
 + (void)disableOrangeness {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [NSUserDefaults groupDefaults];
     
     // Making sure orangeness is not disabled
     if([defaults boolForKey:@"enabled"]){
@@ -233,7 +247,7 @@ static BOOL firstExecution = YES;
 }
 
 + (void) autoChangeOrangenessIfNeeded {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [NSUserDefaults groupDefaults];
 
     // Reboot persistence check
     if (firstExecution) {
@@ -335,10 +349,11 @@ static BOOL firstExecution = YES;
     }
     
     [defaults setObject:[NSDate date] forKey:@"lastAutoChangeDate"];
+    [defaults synchronize];
 }
 	
 + (BOOL)enabled {
-    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults* defaults = [NSUserDefaults groupDefaults];
     return [defaults boolForKey:@"enabled"];
 }
 

@@ -7,20 +7,45 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AFD8E7281BCA6A3D00BCC80A /* brightness.c in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E7261BCA6A3D00BCC80A /* brightness.c */; settings = {ASSET_TAGS = (); }; };
-		AFD8E72C1BCA6D4000BCC80A /* solar.c in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E72A1BCA6D4000BCC80A /* solar.c */; settings = {ASSET_TAGS = (); }; };
-		AFD8E7331BCA711300BCC80A /* GammaController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E7321BCA711300BCC80A /* GammaController.m */; settings = {ASSET_TAGS = (); }; };
+		001E848A1BE20544002871BD /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 001E84891BE20544002871BD /* Defaults.plist */; };
+		001E848B1BE20544002871BD /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 001E84891BE20544002871BD /* Defaults.plist */; };
+		0024BBA91BDF6B18007A5FA1 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0024BBA81BDF6B18007A5FA1 /* NotificationCenter.framework */; };
+		0024BBAD1BDF6B19007A5FA1 /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0024BBAC1BDF6B19007A5FA1 /* TodayViewController.m */; };
+		0024BBB01BDF6B19007A5FA1 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0024BBAE1BDF6B19007A5FA1 /* MainInterface.storyboard */; };
+		0024BBB41BDF6B19007A5FA1 /* GammaWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0024BBA61BDF6B18007A5FA1 /* GammaWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		0024BBC81BDF6E2D007A5FA1 /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9DCA8871BBDF65900C449B0 /* SpringBoardServices.framework */; };
+		0024BBC91BDF6E7C007A5FA1 /* BackBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B92DD5F81BB33DD700DC6E8F /* BackBoardServices.framework */; };
+		0024BBCA1BDF6E7E007A5FA1 /* IOMobileFramebuffer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B96BB6551B38DDB600F1C3AE /* IOMobileFramebuffer.framework */; };
+		0024BBCB1BDF6E80007A5FA1 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B96BB6531B38DDA500F1C3AE /* IOKit.framework */; };
+		0024BBCC1BDF6E85007A5FA1 /* GammaController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E7321BCA711300BCC80A /* GammaController.m */; };
+		0024BBCD1BDF6E95007A5FA1 /* solar.c in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E72A1BCA6D4000BCC80A /* solar.c */; };
+		0024BBCE1BDF6E9A007A5FA1 /* brightness.c in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E7261BCA6A3D00BCC80A /* brightness.c */; };
+		003B304A1BE0CB7000BFF1E6 /* NSUserDefaults+Group.m in Sources */ = {isa = PBXBuildFile; fileRef = 003B30491BE0CB7000BFF1E6 /* NSUserDefaults+Group.m */; };
+		003B304B1BE0CBCA00BFF1E6 /* NSUserDefaults+Group.m in Sources */ = {isa = PBXBuildFile; fileRef = 003B30491BE0CB7000BFF1E6 /* NSUserDefaults+Group.m */; };
+		AFD8E7281BCA6A3D00BCC80A /* brightness.c in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E7261BCA6A3D00BCC80A /* brightness.c */; };
+		AFD8E72C1BCA6D4000BCC80A /* solar.c in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E72A1BCA6D4000BCC80A /* solar.c */; };
+		AFD8E7331BCA711300BCC80A /* GammaController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E7321BCA711300BCC80A /* GammaController.m */; };
 		B92DD5F91BB33DD700DC6E8F /* BackBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B92DD5F81BB33DD700DC6E8F /* BackBoardServices.framework */; };
 		B96BB6511B38DAF500F1C3AE /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B96BB6501B38DAF500F1C3AE /* Launch Screen.xib */; };
 		B96BB6541B38DDA500F1C3AE /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B96BB6531B38DDA500F1C3AE /* IOKit.framework */; };
 		B96BB6561B38DDB600F1C3AE /* IOMobileFramebuffer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B96BB6551B38DDB600F1C3AE /* IOMobileFramebuffer.framework */; };
-		B9B2BD3A1BA7B86000514B7A /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B2BD391BA7B86000514B7A /* Storyboard.storyboard */; settings = {ASSET_TAGS = (); }; };
+		B9B2BD3A1BA7B86000514B7A /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B2BD391BA7B86000514B7A /* Storyboard.storyboard */; };
 		B9DCA8881BBDF65900C449B0 /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9DCA8871BBDF65900C449B0 /* SpringBoardServices.framework */; };
 		B9E5364B1B38D90D0097BF90 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E5364A1B38D90D0097BF90 /* main.m */; };
 		B9E5364E1B38D90D0097BF90 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E5364D1B38D90D0097BF90 /* AppDelegate.m */; };
 		B9E536511B38D90D0097BF90 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E536501B38D90D0097BF90 /* MainViewController.m */; };
 		B9E536561B38D90D0097BF90 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9E536551B38D90D0097BF90 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0024BBB21BDF6B19007A5FA1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B9E5363E1B38D90D0097BF90 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0024BBA51BDF6B18007A5FA1;
+			remoteInfo = GammaWidget;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		B9B6D3161BA636DA00A8E999 /* Embed App Extensions */ = {
@@ -29,6 +54,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				0024BBB41BDF6B19007A5FA1 /* GammaWidget.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -36,6 +62,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		001E84891BE20544002871BD /* Defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Defaults.plist; sourceTree = "<group>"; };
+		0024BBA61BDF6B18007A5FA1 /* GammaWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = GammaWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		0024BBA81BDF6B18007A5FA1 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		0024BBAB1BDF6B19007A5FA1 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
+		0024BBAC1BDF6B19007A5FA1 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
+		0024BBAF1BDF6B19007A5FA1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		0024BBB11BDF6B19007A5FA1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		003B30461BE0C96700BFF1E6 /* GammaTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GammaTest.entitlements; sourceTree = "<group>"; };
+		003B30471BE0C9B700BFF1E6 /* GammaWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = GammaWidget.entitlements; sourceTree = "<group>"; };
+		003B30481BE0CB7000BFF1E6 /* NSUserDefaults+Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSUserDefaults+Group.h"; path = "extentions/NSUserDefaults+Group.h"; sourceTree = "<group>"; };
+		003B30491BE0CB7000BFF1E6 /* NSUserDefaults+Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSUserDefaults+Group.m"; path = "extentions/NSUserDefaults+Group.m"; sourceTree = "<group>"; };
 		AFD8E7261BCA6A3D00BCC80A /* brightness.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = brightness.c; path = libs/brightness/brightness.c; sourceTree = "<group>"; };
 		AFD8E7271BCA6A3D00BCC80A /* brightness.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = brightness.h; path = libs/brightness/brightness.h; sourceTree = "<group>"; };
 		AFD8E72A1BCA6D4000BCC80A /* solar.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = solar.c; path = libs/solar/solar.c; sourceTree = "<group>"; };
@@ -87,6 +124,18 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0024BBA31BDF6B18007A5FA1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0024BBC81BDF6E2D007A5FA1 /* SpringBoardServices.framework in Frameworks */,
+				0024BBC91BDF6E7C007A5FA1 /* BackBoardServices.framework in Frameworks */,
+				0024BBCA1BDF6E7E007A5FA1 /* IOMobileFramebuffer.framework in Frameworks */,
+				0024BBCB1BDF6E80007A5FA1 /* IOKit.framework in Frameworks */,
+				0024BBA91BDF6B18007A5FA1 /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B9E536431B38D90D0097BF90 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -101,12 +150,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AF2C35091BD168C100BBCF8F /* extentions */ = {
+		0024BBA71BDF6B18007A5FA1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0024BBA81BDF6B18007A5FA1 /* NotificationCenter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0024BBAA1BDF6B19007A5FA1 /* GammaWidget */ = {
+			isa = PBXGroup;
+			children = (
+				0024BBAB1BDF6B19007A5FA1 /* TodayViewController.h */,
+				0024BBAC1BDF6B19007A5FA1 /* TodayViewController.m */,
+				0024BBAE1BDF6B19007A5FA1 /* MainInterface.storyboard */,
+				0024BBB11BDF6B19007A5FA1 /* Info.plist */,
+				003B30471BE0C9B700BFF1E6 /* GammaWidget.entitlements */,
+			);
+			path = GammaWidget;
+			sourceTree = "<group>";
+		};
+		AF2C35091BD168C100BBCF8F /* extensions */ = {
 			isa = PBXGroup;
 			children = (
 				AFEEB5D11BD1692600F56616 /* NSDate_compare.h */,
+				003B30481BE0CB7000BFF1E6 /* NSUserDefaults+Group.h */,
+				003B30491BE0CB7000BFF1E6 /* NSUserDefaults+Group.m */,
 			);
-			name = extentions;
+			name = extensions;
 			sourceTree = "<group>";
 		};
 		AFD8E7241BCA69CC00BCC80A /* libs */ = {
@@ -162,6 +233,8 @@
 			isa = PBXGroup;
 			children = (
 				B9E536481B38D90D0097BF90 /* GammaTest */,
+				0024BBAA1BDF6B19007A5FA1 /* GammaWidget */,
+				0024BBA71BDF6B18007A5FA1 /* Frameworks */,
 				B9E536471B38D90D0097BF90 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -170,6 +243,7 @@
 			isa = PBXGroup;
 			children = (
 				B9E536461B38D90D0097BF90 /* GammaTest.app */,
+				0024BBA61BDF6B18007A5FA1 /* GammaWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -177,7 +251,7 @@
 		B9E536481B38D90D0097BF90 /* GammaTest */ = {
 			isa = PBXGroup;
 			children = (
-				AF2C35091BD168C100BBCF8F /* extentions */,
+				AF2C35091BD168C100BBCF8F /* extensions */,
 				AFD8E72D1BCA6E5600BCC80A /* controller */,
 				AFD8E7241BCA69CC00BCC80A /* libs */,
 				B9E5364C1B38D90D0097BF90 /* AppDelegate.h */,
@@ -188,6 +262,8 @@
 				B9B2BD391BA7B86000514B7A /* Storyboard.storyboard */,
 				B9E536551B38D90D0097BF90 /* Assets.xcassets */,
 				B9E5365A1B38D90D0097BF90 /* Info.plist */,
+				001E84891BE20544002871BD /* Defaults.plist */,
+				003B30461BE0C96700BFF1E6 /* GammaTest.entitlements */,
 				B9E536601B38D92C0097BF90 /* IOKit Headers */,
 				B9E536491B38D90D0097BF90 /* Supporting Files */,
 			);
@@ -264,6 +340,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0024BBA51BDF6B18007A5FA1 /* GammaWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0024BBB51BDF6B19007A5FA1 /* Build configuration list for PBXNativeTarget "GammaWidget" */;
+			buildPhases = (
+				0024BBA21BDF6B18007A5FA1 /* Sources */,
+				0024BBA31BDF6B18007A5FA1 /* Frameworks */,
+				0024BBA41BDF6B18007A5FA1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GammaWidget;
+			productName = GammaWidget;
+			productReference = 0024BBA61BDF6B18007A5FA1 /* GammaWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		B9E536451B38D90D0097BF90 /* GammaTest */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B9E5365D1B38D90D0097BF90 /* Build configuration list for PBXNativeTarget "GammaTest" */;
@@ -276,6 +369,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				0024BBB31BDF6B19007A5FA1 /* PBXTargetDependency */,
 			);
 			name = GammaTest;
 			productName = GammaTest;
@@ -288,13 +382,25 @@
 		B9E5363E1B38D90D0097BF90 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Thomas Finch";
 				TargetAttributes = {
+					0024BBA51BDF6B18007A5FA1 = {
+						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = HN76YBFY6K;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
 					B9E536451B38D90D0097BF90 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = WV4RMF773Y;
+						DevelopmentTeam = HN76YBFY6K;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
@@ -316,15 +422,26 @@
 			projectRoot = "";
 			targets = (
 				B9E536451B38D90D0097BF90 /* GammaTest */,
+				0024BBA51BDF6B18007A5FA1 /* GammaWidget */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0024BBA41BDF6B18007A5FA1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				001E848B1BE20544002871BD /* Defaults.plist in Resources */,
+				0024BBB01BDF6B19007A5FA1 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B9E536441B38D90D0097BF90 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				001E848A1BE20544002871BD /* Defaults.plist in Resources */,
 				B9E536561B38D90D0097BF90 /* Assets.xcassets in Resources */,
 				B96BB6511B38DAF500F1C3AE /* Launch Screen.xib in Resources */,
 				B9B2BD3A1BA7B86000514B7A /* Storyboard.storyboard in Resources */,
@@ -334,6 +451,18 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0024BBA21BDF6B18007A5FA1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0024BBCD1BDF6E95007A5FA1 /* solar.c in Sources */,
+				0024BBAD1BDF6B19007A5FA1 /* TodayViewController.m in Sources */,
+				0024BBCE1BDF6E9A007A5FA1 /* brightness.c in Sources */,
+				0024BBCC1BDF6E85007A5FA1 /* GammaController.m in Sources */,
+				003B304B1BE0CBCA00BFF1E6 /* NSUserDefaults+Group.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B9E536421B38D90D0097BF90 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -344,16 +473,81 @@
 				AFD8E72C1BCA6D4000BCC80A /* solar.c in Sources */,
 				AFD8E7331BCA711300BCC80A /* GammaController.m in Sources */,
 				AFD8E7281BCA6A3D00BCC80A /* brightness.c in Sources */,
+				003B304A1BE0CB7000BFF1E6 /* NSUserDefaults+Group.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		0024BBB31BDF6B19007A5FA1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0024BBA51BDF6B18007A5FA1 /* GammaWidget */;
+			targetProxy = 0024BBB21BDF6B19007A5FA1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		0024BBAE1BDF6B19007A5FA1 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0024BBAF1BDF6B19007A5FA1 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		0024BBB61BDF6B19007A5FA1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GammaWidget/GammaWidget.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/GammaWidget",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/PrivateFrameworks",
+				);
+				INFOPLIST_FILE = GammaWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.ahammer.GammaTest.GammaWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		0024BBB71BDF6B19007A5FA1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = GammaWidget/GammaWidget.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/GammaWidget",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/Frameworks",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/System/Library/PrivateFrameworks",
+				);
+				INFOPLIST_FILE = GammaWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = me.ahammer.GammaTest.GammaWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		B9E5365B1B38D90D0097BF90 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APP_GROUP_IDENTIFIER = group.me.ahammer.GammaTest;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -397,6 +591,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APP_GROUP_IDENTIFIER = group.me.ahammer.GammaTest;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -433,8 +628,8 @@
 		B9E5365E1B38D90D0097BF90 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GammaTest/GammaTest.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -445,7 +640,7 @@
 				INFOPLIST_FILE = GammaTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = me.caspercl.GammaTest;
+				PRODUCT_BUNDLE_IDENTIFIER = me.ahammer.GammaTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -455,8 +650,8 @@
 		B9E5365F1B38D90D0097BF90 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GammaTest/GammaTest.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -467,7 +662,7 @@
 				INFOPLIST_FILE = GammaTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = me.caspercl.GammaTest;
+				PRODUCT_BUNDLE_IDENTIFIER = me.ahammer.GammaTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -477,6 +672,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0024BBB51BDF6B19007A5FA1 /* Build configuration list for PBXNativeTarget "GammaWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0024BBB61BDF6B19007A5FA1 /* Debug */,
+				0024BBB71BDF6B19007A5FA1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B9E536411B38D90D0097BF90 /* Build configuration list for PBXProject "GammaTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

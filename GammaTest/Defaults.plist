@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>enabled</key>
+	<false/>
+	<key>maxOrange</key>
+	<real>0.7</real>
+	<key>colorChangingEnabled</key>
+	<false/>
+	<key>lastAutoChangeDate</key>
+	<date>1-01-01T00:07:33Z</date>
+	<key>autoStartHour</key>
+	<integer>19</integer>
+	<key>autoStartMinute</key>
+	<integer>0</integer>
+	<key>autoEndHour</key>
+	<integer>7</integer>
+	<key>autoEndMinute</key>
+	<integer>0</integer>
+	<key>updateUI</key>
+	<true/>
+	<key>colorChangingLocationLatitude</key>
+	<integer>0</integer>
+	<key>colorChangingLocationLongitude</key>
+	<integer>0</integer>
+	<key>colorChangingLocationEnabled</key>
+	<false/>
+</dict>
+</plist>

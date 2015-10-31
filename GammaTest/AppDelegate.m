@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import "GammaController.h"
-
+#import "NSUserDefaults+Group.h"
 
 typedef NS_ENUM(NSInteger, GammaAction) {
     GammaActionNone,
@@ -59,20 +59,9 @@ static NSString * const ShortcutDisable = @"Disable";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [application setMinimumBackgroundFetchInterval:900]; //Wake up every 15 minutes at minimum
     
-    [[NSUserDefaults standardUserDefaults] registerDefaults:@{
-        @"enabled": @NO,
-        @"maxOrange": [NSNumber numberWithFloat:0.7],
-        @"colorChangingEnabled": @YES,
-        @"lastAutoChangeDate": [NSDate distantPast],
-        @"autoStartHour": @19,
-        @"autoStartMinute": @0,
-        @"autoEndHour": @7,
-        @"autoEndMinute": @0,
-        @"updateUI":@YES,
-        @"colorChangingLocationLatitude": @0,
-        @"colorChangingLocationLongitude": @0,
-        @"colorChangingLocationEnabled": @NO
-    }];
+    NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"];
+    NSDictionary *appDefaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
+    [[NSUserDefaults groupDefaults] registerDefaults:appDefaults];
     
     if ([application respondsToSelector:@selector(shortcutItems)] &&
         !application.shortcutItems.count) {
@@ -82,6 +71,10 @@ static NSString * const ShortcutDisable = @"Disable";
     [GammaController autoChangeOrangenessIfNeeded]; // This is needed for reboot persistence
     
     return YES;
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    [[NSUserDefaults groupDefaults] setBool:YES forKey:@"updateUI"];
 }
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
@@ -108,7 +101,7 @@ static NSString * const ShortcutDisable = @"Disable";
             }
         } else {
             //gammathingy://orangeness/switch
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"enabled"]) {
+            if ([[NSUserDefaults groupDefaults] boolForKey:@"enabled"]) {
                 [GammaController disableOrangeness];
             } else {
                 [GammaController enableOrangeness];
