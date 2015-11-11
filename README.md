@@ -1,6 +1,15 @@
 # GammaThingy
 Changes screen gamma on iOS, no jailbreak required
 
+# Super duper deprecated
+Use the official f.lux for non-jailbroken iOS from https://justgetflux.com/sideload/ instead.
+
+
+
+
+
+
+
 ## Important Information
 This project is in no way associated with f.lux.
 
