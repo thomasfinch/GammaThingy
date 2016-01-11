@@ -3,6 +3,8 @@ Changes screen gamma on iOS, no jailbreak required
 
 RIP official sideload f.lux (https://justgetflux.com/sideload/) 😢
 
+With the new Night Shift feature on iOS 9.3, this is pretty much obsolete.
+
 ## Important Information
 This project is in no way associated with f.lux.
 
