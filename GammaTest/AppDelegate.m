@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import "GammaController.h"
-#import "NSUserDefaults+Group.h"
 
 typedef NS_ENUM(NSInteger, GammaAction) {
     GammaActionNone,
@@ -17,106 +16,54 @@ typedef NS_ENUM(NSInteger, GammaAction) {
     GammaActionDisable
 };
 
-@interface UIApplication ()
-
--(void)suspend;
-
-@end
-
-@interface AppDelegate ()
-
-@end
-
-static NSString * const ShortcutType = @"ShortcutTypeToggleEnable";
-static NSString * const ShortcutEnable = @"Enable";
-static NSString * const ShortcutDisable = @"Disable";
-
 @implementation AppDelegate
 
-- (BOOL)handleShortcutItem:(UIApplicationShortcutItem *)shortcutItem {
-    if ([shortcutItem.type isEqualToString:ShortcutType]) {
-        if ([GammaController enabled]) {
-            [GammaController disableOrangeness];
-        } else {
-            [GammaController enableOrangeness];
-        }
-    }
-    return NO;
-}
-
-- (UIApplicationShortcutItem *)shortcutItemForCurrentState {
-    NSString *title = [GammaController enabled] ? ShortcutDisable : ShortcutEnable;
-    UIMutableApplicationShortcutItem *shortcut = [[UIMutableApplicationShortcutItem alloc] initWithType:ShortcutType localizedTitle:title localizedSubtitle:nil icon:nil userInfo:nil];
-    return shortcut;
-}
-
-- (void)updateShortCutItem {
-    UIApplication *application = [UIApplication sharedApplication];
-    UIApplicationShortcutItem *shortcut = [self shortcutItemForCurrentState];
-    application.shortcutItems = @[shortcut];
-}
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     [application setMinimumBackgroundFetchInterval:900]; //Wake up every 15 minutes at minimum
     
-    NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:@"Defaults" ofType:@"plist"];
-    NSDictionary *appDefaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
-    [[NSUserDefaults groupDefaults] registerDefaults:appDefaults];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{
+        @"enabled": @YES,
+        @"maxOrange": [NSNumber numberWithFloat:0.5],
+        @"autoChangeEnabled": @NO,
+        @"lastAutoChangeDate": [NSDate distantPast],
+        @"autoStartHour": [NSNumber numberWithInteger:20],
+        @"autoStartMinute": [NSNumber numberWithInteger:0],
+        @"autoEndHour": [NSNumber numberWithInteger:7],
+        @"autoEndMinute": [NSNumber numberWithInteger:0]
+    }];
     
-    if ([application respondsToSelector:@selector(shortcutItems)] &&
-        !application.shortcutItems.count) {
-        [self updateShortCutItem];
-    }
-    
-    [GammaController autoChangeOrangenessIfNeeded]; // This is needed for reboot persistence
+    if ([application respondsToSelector:@selector(shortcutItems)] && application.shortcutItems.count == 0)
+        [self updateShortcutItem];
     
     return YES;
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    [[NSUserDefaults groupDefaults] setBool:YES forKey:@"updateUI"];
-}
-
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
-    NSLog(@"App woke with fetch request");
-
-    
     [GammaController autoChangeOrangenessIfNeeded];
-    
-    completionHandler(UIBackgroundFetchResultNewData);
+    completionHandler(UIBackgroundFetchResultNewData); //Always return "new data" result so iOS doesn't launch for fetches less often
 }
 
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
-    NSLog(@"handling url");
     NSDictionary *dict = [self parseQueryString:[url query]];
+    
     if ([[url host] isEqualToString:@"orangeness"] && [[url path] isEqualToString:@"/switch"]) {
-        id enable = nil;
-        if ((enable = [dict objectForKey:@"enable"])) {
-            if ([enable boolValue]) {
-                //gammathingy://orangeness/switch?enable=1
-                [GammaController enableOrangeness];
-            } else {
-                //gammathingy://orangeness/switch?enable=0
-                [GammaController disableOrangeness];
-            }
-        } else {
-            //gammathingy://orangeness/switch
-            if ([[NSUserDefaults groupDefaults] boolForKey:@"enabled"]) {
-                [GammaController disableOrangeness];
-            } else {
-                [GammaController enableOrangeness];
-            }
+        if ([dict objectForKey:@"enable"]) {
+            // gammathingy://orangeness/switch?enable=1
+            [GammaController setEnabled:[[dict objectForKey:@"enable"] boolValue]];
+        }
+        else {
+            // gammathingy://orangeness/switch
+            [GammaController setEnabled:![[NSUserDefaults standardUserDefaults] boolForKey:@"enabled"]];
         }
     }
+    
     NSString *source = [dict objectForKey:@"x-source"];
     if (source) {
         //gammathingy://orangeness/switch?x-source=prefs
         //always switching back to source app if it's provided
         NSURL *sourceURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://", source]];
         [[UIApplication sharedApplication] openURL:sourceURL];
-    } else if ([[dict objectForKey:@"close"] boolValue]) {
-        //gammathingy://orangeness/switch?close=1
-        [[UIApplication sharedApplication] suspend];
     }
     
     return YES;
@@ -138,10 +85,15 @@ static NSString * const ShortcutDisable = @"Disable";
 }
 
 - (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL))completionHandler {
-    BOOL handledShortCutItem = [self handleShortcutItem:shortcutItem];
-    [[UIApplication sharedApplication] suspend];
-    [self updateShortCutItem];
-    completionHandler(handledShortCutItem);
+    [GammaController setEnabled:![[NSUserDefaults standardUserDefaults] boolForKey:@"enabled"]];
+    [self updateShortcutItem];
+    completionHandler(YES);
+}
+
+- (void)updateShortcutItem {
+    NSString *newShortcutTitle = [[NSUserDefaults standardUserDefaults] boolForKey:@"enabled"] ? @"Disable" : @"Enable";
+    UIMutableApplicationShortcutItem *newShortcutItem = [[UIMutableApplicationShortcutItem alloc] initWithType:@"GammaThingyShortcut" localizedTitle:newShortcutTitle localizedSubtitle:nil icon:nil userInfo:nil];
+    [UIApplication sharedApplication].shortcutItems = @[newShortcutItem];
 }
 
 @end

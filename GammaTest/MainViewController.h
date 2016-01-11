@@ -7,13 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CoreLocation/CoreLocation.h>
 
-@interface MainViewController : UITableViewController <UITextFieldDelegate, CLLocationManagerDelegate> {
+@interface MainViewController : UITableViewController <UITextFieldDelegate> {
     UIDatePicker *timePicker;
     UIToolbar *timePickerToolbar;
 	NSDateFormatter *timeFormatter;
 }
+@property (weak, nonatomic) IBOutlet UISwitch *enabledSwitch;
+@property (weak, nonatomic) IBOutlet UISlider *maxOrangeSlider;
+@property (weak, nonatomic) IBOutlet UISwitch *autoChangeSwitch;
+@property (weak, nonatomic) IBOutlet UITextField *startTimeTextField;
+@property (weak, nonatomic) IBOutlet UITextField *endTimeTextField;
 
 @end
 
