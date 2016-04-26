@@ -3,7 +3,7 @@ Changes screen gamma on iOS, no jailbreak required
 
 RIP official sideload f.lux (https://justgetflux.com/sideload/) 😢
 
-With the new Night Shift feature on iOS 9.3, this is pretty much obsolete.
+With the new Night Shift feature on iOS 9.3, this is pretty much obsolete. Unfortunately 32-bit devices can't use Night Shift, so this project might still be useful to some.
 
 ## Important Information
 This project is in no way associated with f.lux.
@@ -14,7 +14,7 @@ I talked with Britta Gustafson about this idea/project at jailbreakcon 2015, and
 I don't know which license matches this so I'm going to write it out. You can do what you want with the code, but do not distribute compiled copies of the app, especially on mass download sites.
 
 ## Compiling
-This can't be compiled for or run in the simulator so don't try it, it won't work. If you get errors make sure all frameworks are linked correctly, especially IOKit and IOMobileFramebuffer.
+This can't be compiled for or run in the simulator so don't try it, it won't work. 
 
 ## Troubleshooting
 
