@@ -9,12 +9,8 @@
 /* Begin PBXBuildFile section */
 		001E848A1BE20544002871BD /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 001E84891BE20544002871BD /* Defaults.plist */; };
 		AFD8E7331BCA711300BCC80A /* GammaController.m in Sources */ = {isa = PBXBuildFile; fileRef = AFD8E7321BCA711300BCC80A /* GammaController.m */; };
-		B92DD5F91BB33DD700DC6E8F /* BackBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B92DD5F81BB33DD700DC6E8F /* BackBoardServices.framework */; };
 		B96BB6511B38DAF500F1C3AE /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B96BB6501B38DAF500F1C3AE /* Launch Screen.xib */; };
-		B96BB6541B38DDA500F1C3AE /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B96BB6531B38DDA500F1C3AE /* IOKit.framework */; };
-		B9951BDC1C2CBF120020E77B /* IOMobileFramebuffer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B96BB6551B38DDB600F1C3AE /* IOMobileFramebuffer.framework */; };
 		B9B2BD3A1BA7B86000514B7A /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B2BD391BA7B86000514B7A /* Storyboard.storyboard */; };
-		B9DCA8881BBDF65900C449B0 /* SpringBoardServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9DCA8871BBDF65900C449B0 /* SpringBoardServices.framework */; };
 		B9E5364B1B38D90D0097BF90 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E5364A1B38D90D0097BF90 /* main.m */; };
 		B9E5364E1B38D90D0097BF90 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E5364D1B38D90D0097BF90 /* AppDelegate.m */; };
 		B9E536511B38D90D0097BF90 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E536501B38D90D0097BF90 /* MainViewController.m */; };
@@ -86,10 +82,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9951BDC1C2CBF120020E77B /* IOMobileFramebuffer.framework in Frameworks */,
-				B9DCA8881BBDF65900C449B0 /* SpringBoardServices.framework in Frameworks */,
-				B92DD5F91BB33DD700DC6E8F /* BackBoardServices.framework in Frameworks */,
-				B96BB6541B38DDA500F1C3AE /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
