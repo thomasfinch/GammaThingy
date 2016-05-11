@@ -1,13 +1,19 @@
 # GammaThingy
-Changes screen gamma on iOS, no jailbreak required
+Changes screen gamma on iOS, no jailbreak required.
+
+## Installing
+Follow the instructions here (uses GammaThingy as an example):   
+http://www.idownloadblog.com/2015/10/12/how-to-sideload-apps-on-iphone-ipad-ios-9/  
+
 
 RIP official sideload f.lux (https://justgetflux.com/sideload/) 😢
 
 With the new Night Shift feature on iOS 9.3, this is pretty much obsolete. Unfortunately 32-bit devices can't use Night Shift, so this project might still be useful to some.
 
 ## Important Information
-This project is in no way associated with f.lux.
 
+This project is in no way associated with f.lux.
+ 
 I talked with Britta Gustafson about this idea/project at jailbreakcon 2015, and she felt that I should contact the developers of f.lux before publicly releasing anything to do with changing the screen temperature. I know they don't have a monopoly on it, but they care very deeply about what they work on and have poured their lives into a piece of software which they feels improves the lives of others (which it does). Aside from that, f.lux has a home on practically every jailbroken phone, and I wouldn't want to hurt the feelings of anyone so important to the jailbreaking community by making a cheap knockoff of their work just for fun. Besides all that, this is not nearly as complex or well-designed as the actual f.lux application and most likely will never come close. The developers of f.lux have spent a lot of time perfecting what they do.
 
 ## License
